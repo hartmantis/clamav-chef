@@ -29,7 +29,8 @@ when "debian"
 end
 
 # Options - freshclam.conf
-default["clamav"]["freshclam"]["update_log_file"] = "/var/log/clamav/freshclam.log"
+default["clamav"]["freshclam"]["update_log_file"] = "/var/log/clamav/" +
+  "freshclam.log"
 default["clamav"]["freshclam"]["logrotate_frequency"] = "daily"
 default["clamav"]["freshclam"]["logrotate_rotations"] = 7
 default["clamav"]["freshclam"]["log_file_max_size"] = "1M"
@@ -39,7 +40,7 @@ default["clamav"]["freshclam"]["log_syslog"] = "no"
 default["clamav"]["freshclam"]["log_facility"] = nil
 default["clamav"]["freshclam"]["pid_file"] = "/var/run/clamav/freshclam.pid"
 default["clamav"]["freshclam"]["dns_database_info"] = "current.cvd.clamav.net"
-default["clamav"]["freshclam"]["database_mirrors"] = [ "database.clamav.net" ]
+default["clamav"]["freshclam"]["database_mirrors"] = ["database.clamav.net"]
 default["clamav"]["freshclam"]["max_attempts"] = "3"
 default["clamav"]["freshclam"]["scripted_updates"] = "yes"
 default["clamav"]["freshclam"]["compress_local_database"] = "no"

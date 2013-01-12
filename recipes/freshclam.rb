@@ -19,6 +19,12 @@
 
 service node["clamav"]["freshclam"]["service"]
 
+supp_groups = node["clamav"]["allow_supplementary_groups"]
+if node["clamav"]["clamd"]["enabled"]
+  notify = File.expand_path("#{node["clamav"]["conf_dir"]}/clamd.conf")
+else
+  notify = nil
+end
 template "#{node["clamav"]["conf_dir"]}/freshclam.conf" do
   owner node["clamav"]["user"]
   group node["clamav"]["group"]
@@ -29,10 +35,8 @@ template "#{node["clamav"]["conf_dir"]}/freshclam.conf" do
     :freshclam => node["clamav"]["freshclam"],
     :database_directory => node["clamav"]["database_directory"],
     :database_owner => node["clamav"]["user"],
-    :allow_supplementary_groups =>
-      node["clamav"]["allow_supplementary_groups"],
-    :notify_clamd => node["clamav"]["clamd"]["enabled"] ?
-      File.expand_path("#{node["clamav"]["conf_dir"]}/clamd.conf") : nil,
+    :allow_supplementary_groups => supp_groups,
+    :notify_clamd => notify,
     :bytecode => node["clamav"]["bytecode"]
   )
   if node["clamav"]["freshclam"]["enabled"]

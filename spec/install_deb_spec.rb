@@ -30,10 +30,11 @@ describe "clamav::install_deb" do
     end
 
     it "should clean up files left behind by the packages" do
-      %w{
+      files = %w{
         /etc/logrotate.d/clamav-daemon
         /etc/logrotate.d/clamav-freshclam
-      }.each do |f|
+      }
+      files.each do |f|
         chef_run.should delete_file f
       end
     end

@@ -54,7 +54,7 @@ describe "clamav::default" do
 
     it "should raise an unsupported exception" do
       Chef::Formatters::Base.any_instance.stub(:file_load_failed)
-      expect {chef_run.converge @rcp}.to raise_error(
+      expect { chef_run.converge @rcp }.to raise_error(
         Chef::Exceptions::UnsupportedAction,
         "Cookbook does not support Windows XP platform")
     end

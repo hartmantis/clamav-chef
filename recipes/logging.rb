@@ -24,7 +24,7 @@ include_recipe "logrotate"
 log_files = [node["clamav"]["clamd"]["log_file"],
   node["clamav"]["freshclam"]["update_log_file"]].uniq
 
-log_files.map {|x| File.dirname(x)}.uniq.each do |d|
+log_files.map { |x| File.dirname(x) }.uniq.each do |d|
   directory d do
     owner node["clamav"]["user"]
     group node["clamav"]["group"]
@@ -38,17 +38,10 @@ log_files.each do |f|
     owner node["clamav"]["user"]
     group node["clamav"]["group"]
     action :create
-    not_if do
-      File.exist?(f) and
-        Etc.getpwuid(File.stat(f).uid).name ==
-          node["clamav"]["user"] and
-        Etc.getgrgid(File.stat(f).gid).name == node["clamav"]["group"]
-    end
   end
 end
 
-node["clamav"]["clamd"]["log_file"] and
-    logrotate_app "clamav" do
+node["clamav"]["clamd"]["log_file"] and logrotate_app "clamav" do
   cookbook "logrotate"
   path node["clamav"]["clamd"]["log_file"]
   frequency node["clamav"]["clamd"]["logrotate_frequency"]
@@ -56,8 +49,7 @@ node["clamav"]["clamd"]["log_file"] and
   create "644 #{node["clamav"]["user"]} #{node["clamav"]["group"]}"
 end
 
-node["clamav"]["freshclam"]["update_log_file"] and
-    logrotate_app "freshclam" do
+node["clamav"]["freshclam"]["update_log_file"] and logrotate_app "freshclam" do
   cookbook "logrotate"
   path node["clamav"]["freshclam"]["update_log_file"]
   frequency node["clamav"]["freshclam"]["logrotate_frequency"]

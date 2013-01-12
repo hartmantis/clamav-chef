@@ -17,8 +17,6 @@
 # limitations under the License.
 #
 
-# Need to plant the recipes in the run_list individually, or minitest-handler
-# won't trace all of them
 include_recipe "clamav::default"
 case node["platform_family"]
 when "rhel"

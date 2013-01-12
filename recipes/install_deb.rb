@@ -42,8 +42,8 @@ package "clamav-daemon" do
   end
 end
 
-["/etc/logrotate.d/clamav-daemon",
-  "/etc/logrotate.d/clamav-freshclam"].each do |f|
+files = %w{/etc/logrotate.d/clamav-daemon /etc/logrotate.d/clamav-freshclam}
+files.each do |f|
   file f do
     action :delete
   end

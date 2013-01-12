@@ -19,6 +19,7 @@
 
 service node["clamav"]["clamd"]["service"]
 
+supp_groups = node["clamav"]["allow_supplementary_groups"]
 template "#{node["clamav"]["conf_dir"]}/clamd.conf" do
   owner node["clamav"]["user"]
   group node["clamav"]["group"]
@@ -29,8 +30,7 @@ template "#{node["clamav"]["conf_dir"]}/clamd.conf" do
     :clamd => node["clamav"]["clamd"],
     :database_directory => node["clamav"]["database_directory"],
     :user => node["clamav"]["user"],
-    :allow_supplementary_groups =>
-      node["clamav"]["allow_supplementary_groups"],
+    :allow_supplementary_groups => supp_groups,
     :bytecode  => node["clamav"]["bytecode"]
   )
   if node["clamav"]["clamd"]["enabled"]

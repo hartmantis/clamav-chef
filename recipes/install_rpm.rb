@@ -26,8 +26,9 @@ service node["clamav"]["freshclam"]["service"]
   package pkg do
     action :install
     version node["clamav"]["version"] if node["clamav"]["version"]
-    options "--disablerepo=rpmforge" if 
-      File.exist?("/etc/yum.repos.d/rpmforge.repo")
+    if File.exist?("/etc/yum.repos.d/rpmforge.repo")
+      options "--disablerepo=rpmforge"
+    end
     if node["clamav"]["clamd"]["enabled"]
       notifies :restart,
         "service[#{node["clamav"]["clamd"]["service"]}]"
@@ -63,7 +64,7 @@ end
 
 user "clam" do
   action :remove
-  not_if {node["clamav"]["user"] == "clam"}
+  not_if { node["clamav"]["user"] == "clam" }
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

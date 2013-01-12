@@ -1,34 +1,24 @@
 # -*- mode: ruby -*-
-# vi: set ft=ruby :
 
 cookbook "clamav" do
   configuration "default"
-  configuration "install_rpm"
-  configuration "install_deb"
-  configuration "users"
-  configuration "logging"
-  configuration "clamd"
-  configuration "freshclam"
-  configuration "clamd_service"
-  configuration "freshclam_service"
+#  configuration "install_rpm"
+#  configuration "install_deb"
+#  configuration "users"
+#  configuration "logging"
+#  configuration "clamd"
+#  configuration "freshclam"
+#  configuration "clamd_service"
+#  configuration "freshclam_service"
 #  configuration "enabled"
 #  configuration "syslog"
-  exclude :platform => "ubuntu"
 
-  preflight_command "knife cookbook test -c knife.rb -o .. clamav " +
-    "&& rm -rf test/kitchen/.kitchen/tmp/etsy-rules "+
-    "&& rm -rf test/kitchen/.kitchen/tmp/customink-rules " +
-    "&& knife cookbook test -o ../ clamav " +
-    "&& git clone git://github.com/etsy/foodcritic-rules.git " +
-      "test/kitchen/.kitchen/tmp/etsy-rules " +
-    "&& git clone git://github.com/customink-webops/foodcritic-rules.git "+
-      "test/kitchen/.kitchen/tmp/customink-rules " +
-    "&& foodcritic -f any " +
-      "-I test/kitchen/.kitchen/tmp/etsy-rules/rules.rb " +
-      "-I test/kitchen/.kitchen/tmp/customink-rules/rules.rb . " +
-    "&& rm -rf test/kitchen/.kitchen/tmp/etsy-rules "+
-    "&& rm -rf test/kitchen/.kitchen/tmp/customink-rules " +
-    "&& rspec"
+  preflight_command <<-END.gsub(/^ +/, "")
+    knife cookbook test -o .. clamav &&
+    tailor */*.rb &&
+    foodcritic -f any . &&
+    rspec
+  END
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

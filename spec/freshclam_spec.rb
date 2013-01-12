@@ -25,7 +25,7 @@ describe "clamav::freshclam" do
         chef_run.template(@conf).should_not notify(@svc, :restart)
       end
 
-      [
+      attrs = [
         # {{{ Default attributes
         "DatabaseDirectory /var/lib/clamav",
         "UpdateLogFile /var/log/clamav/freshclam.log",
@@ -66,7 +66,8 @@ describe "clamav::freshclam" do
         "#Bytecode yes"
         #"ExtraDatabase"
         # }}}
-      ].each do |attr|
+      ]
+      attrs.each do |attr|
         it "should write the default #{attr} attribute in freshclam.conf" do
           chef_run.should create_file_with_content(@conf, attr)
         end

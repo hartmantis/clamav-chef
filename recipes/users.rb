@@ -27,7 +27,7 @@ end
 group node["clamav"]["group"] do
   members [node["clamav"]["user"]]
   system true
-  only_if {node["clamav"]["user"] != node["clamav"]["group"]}
+  only_if { node["clamav"]["user"] != node["clamav"]["group"] }
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

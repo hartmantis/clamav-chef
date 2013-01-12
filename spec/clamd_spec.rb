@@ -25,7 +25,7 @@ describe "clamav::clamd" do
         chef_run.template(@conf).should_not notify(@svc, :restart)
       end
 
-      [
+      attrs = [
         # {{{ Default attributes
         "LogFile /var/log/clamav/clamd.log",
         "LogFileUnlock no",
@@ -112,7 +112,8 @@ describe "clamav::clamd" do
         "BytecodeSecurity TrustSigned",
         "BytecodeTimeout 5000"
         # }}}
-      ].each do |attr|
+      ]
+      attrs.each do |attr|
         it "should write the default #{attr} attribute in clamd.conf" do
           chef_run.should create_file_with_content(@conf, attr)
         end
@@ -126,8 +127,7 @@ describe "clamav::clamd" do
       end
 
       it "should notify clamd to restart" do
-        chef_run.template(@conf).should
-          notify(@svc, :restart)
+        chef_run.template(@conf).should notify(@svc, :restart)
       end
     end
   end

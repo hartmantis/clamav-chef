@@ -43,7 +43,7 @@ describe 'clamav::logging' do
         chef_run.should create_directory d
         chef_run.directory(d).should be_owned_by("clamav", "clamav")
       end
-   end
+    end
 
     it "should fix the ownership on the ClamAV log files" do
       @log_files.each do |f|
