@@ -1,0 +1,11 @@
+language: ruby
+gemfile:
+    - test/support/Gemfile
+rvm:
+    - 1.8.7
+    - 1.9.2
+    - 1.9.3
+
+script: bundle exec rake foodcritic
+
+# vim:et:fdm=marker:sts=4:sw=4:ts=4:

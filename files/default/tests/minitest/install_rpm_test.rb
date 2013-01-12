@@ -1,0 +1,53 @@
+#
+# Cookbook Name:: clamav
+# Spec:: install_rpm
+#
+# Copyright 2012-2013, Jonathan Hartman
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#   http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+
+require "minitest/spec"
+require File.expand_path("../support/helpers.rb", __FILE__)
+
+describe_recipe "clamav::install_rpm" do
+  include Helpers::ClamAV
+
+  it "should install the required packages from EPEL" do
+    ["clamav", "clamav-db", "clamd"].each do |p|
+      package(p).must_be_installed
+      if node["clamav"]["version"]
+        package(p).must_be_installed_with(:version,
+          node["clamav"]["version"])
+      end
+      %x{rpm -q --qf '%{VENDOR}' #{p}}.should == "Fedora Project"
+    end
+  end
+
+  it "should create the the init scripts" do
+    [
+      "/etc/init.d/#{node["clamav"]["clamd"]["service"]}",
+      "/etc/init.d/#{node["clamav"]["freshclam"]["service"]}"
+    ].each do |f|
+      file(f).must_exist_with(:mode, "0755").and(:owner, "root").
+        and(:group, "root")
+    end
+  end
+
+  it "should delete the RPM's user if it will be unused" do
+    node["clamav"]["user"] != "clam" and
+      user("clam").wont_exist
+  end
+end
+
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

@@ -1,0 +1,12 @@
+# Ignore .swp files
+*.swp
+
+# Ignore Vagrant temp files
+.vagrant
+
+# Ignore Test Kitchen temp files
+test/kitchen/.kitchen/
+
+# Ignore Berkshelf temp files
+Berksfile.lock
+.berkshelf/

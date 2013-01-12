@@ -1,0 +1,88 @@
+#!/bin/sh
+#
+# freshclam    Init Script to start/ttop the freshclam daemon.
+#
+# chkconfig: 2345 70 41
+# description: freshclam is an update daemon for Clam AV database.
+#
+# processname: freshclam
+# config: <%= @freshclam_conf %>
+# pidfile: <%= @freshclam_pid %>
+
+# Source function library
+. /etc/init.d/functions
+
+# Get network config
+. /etc/sysconfig/network
+
+prog="freshclam"
+progdir="<%= @freshclam_bin_dir %>"
+conf="<%= @freshclam_conf %>"
+pid="<%= @freshclam_pid %>"
+
+test -f $conf || exit 1
+
+# Source configuration
+if [ -f /etc/sysconfig/$prog ]; then
+    . /etc/sysconfig/$prog
+fi
+
+start() {
+	echo -n $"Starting $prog: "
+	daemon $progdir/$prog -d -p $pid
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && touch $pid && success || failure
+    echo
+	return $RETVAL
+}
+
+stop() {
+	echo -n $"Stopping $prog: "
+	killproc $prog
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && rm -f $pid && success || failure
+    echo
+	return $RETVAL
+}	
+
+restart() {
+  	stop
+	start
+}	
+
+reload() {
+	echo -n $"Reloading DB: "
+	killproc freshclam -ALRM
+	RETVAL=$?
+	[ $RETVAL -eq 0 ] && success || failure
+    echo
+	return $RETVAL
+}
+
+
+case "$1" in
+  start)
+  	start
+	;;
+  stop)
+  	stop
+	;;
+  status)
+	status $prog
+	;;
+  restart)
+  	restart
+	;;
+  condrestart)
+  	[ -f $pid ] && restart || :
+	;;
+  reload)
+	reload
+	;;
+  *)
+	echo $"Usage: $0 {start|stop|status|restart|condrestart|reload}"
+	exit 1
+esac
+
+exit $?
+
