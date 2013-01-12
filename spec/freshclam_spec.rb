@@ -63,7 +63,7 @@ describe "clamav::freshclam" do
         "#DetectionStatsCountry country-code",
         "#DetectionStatsHostID unique-id",
         "#SafeBrowsing yes",
-        "#Bytecode yes"
+        "Bytecode yes"
         #"ExtraDatabase"
         # }}}
       ]
