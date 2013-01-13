@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: clamav_test
-# Recipe:: enabled
+# Spec:: enabled
 #
 # Copyright 2012-2013, Jonathan Hartman
 #
@@ -17,9 +17,21 @@
 # limitations under the License.
 #
 
-node.set["clamav"]["clamd"]["enabled"] = true
-node.set["clamav"]["freshclam"]["enabled"] = true
+require "minitest/spec"
+require File.expand_path("../support/helpers.rb", __FILE__)
 
-include_recipe "#{@cookbook_name}::default"
+describe_recipe "clamav_test::enabled" do
+  include Helpers::ClamAV
+
+  it "should enable clamd" do
+    service(node["clamav"]["clamd"]["service"]).must_be_running
+    service(node["clamav"]["clamd"]["service"]).must_be_enabled
+  end
+
+  it "should enable freshclam" do
+    service(node["clamav"]["freshclam"]["service"]).must_be_running
+    service(node["clamav"]["freshclam"]["service"]).must_be_enabled
+  end
+end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

@@ -1,21 +1,24 @@
 # -*- mode: ruby -*-
 
 cookbook "clamav" do
+  # Base recipes
   configuration "default"
-#  configuration "install_rpm"
-#  configuration "install_deb"
-#  configuration "users"
-#  configuration "logging"
-#  configuration "clamd"
-#  configuration "freshclam"
-#  configuration "clamd_service"
-#  configuration "freshclam_service"
-#  configuration "enabled"
-#  configuration "syslog"
+  configuration "install_rpm"
+  configuration "install_deb"
+  configuration "users"
+  configuration "logging"
+  configuration "clamd"
+  configuration "freshclam"
+  configuration "clamd_service"
+  configuration "freshclam_service"
+
+  # Non-default common configurations
+  configuration "enabled"
+  configuration "syslog"
 
   preflight_command <<-END.gsub(/^ +/, "")
     knife cookbook test -o .. clamav &&
-    tailor */*.rb &&
+    tailor `find . -name '*.rb' -and ! -path '*/\.kitchen/*'` &&
     foodcritic -f any . &&
     rspec
   END

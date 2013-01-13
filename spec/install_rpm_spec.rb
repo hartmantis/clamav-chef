@@ -22,14 +22,14 @@ describe "clamav::install_rpm" do
 
     it "should install the pertinent packages" do
       @pkgs.each do |p|
-        chef_run.should install_package p
+        chef_run.yum_package(p).should be
       end
     end
 
     it "should not send any restart notifications" do
       @svcs.each do |s|
         @pkgs.each do |p|
-          chef_run.package(p).should_not notify("service[#{s}]", :restart)
+          chef_run.yum_package(p).should_not notify("service[#{s}]", :restart)
         end
       end
     end
@@ -53,7 +53,7 @@ describe "clamav::install_rpm" do
 
     it "should install the packages at the specified version" do
       @pkgs.each do |p|
-        chef_run.should install_package_at_version(p, "42.42.42")
+        chef_run.yum_package(p).version.should == "42.42.42"
       end
     end
   end
@@ -68,7 +68,7 @@ describe "clamav::install_rpm" do
     it "should send restart notifications to the services" do
       @svcs.each do |s|
         @pkgs.each do |p|
-          chef_run.package(p).should notify("service[#{s}]", :restart)
+          chef_run.yum_package(p).should notify("service[#{s}]", :restart)
         end
       end
     end

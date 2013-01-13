@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: clamav_test
-# Recipe:: enabled
+# Spec:: syslog
 #
 # Copyright 2012-2013, Jonathan Hartman
 #
@@ -17,9 +17,16 @@
 # limitations under the License.
 #
 
-node.set["clamav"]["clamd"]["enabled"] = true
-node.set["clamav"]["freshclam"]["enabled"] = true
+require "minitest/spec"
+require File.expand_path("../support/helpers.rb", __FILE__)
 
-include_recipe "#{@cookbook_name}::default"
+describe_recipe "clamav_test::syslog" do
+  include Helpers::ClamAV
+
+  it "is logging to /var/log/messages via syslog" do
+    f = "/var/log/messages"
+    file(f).must_include "clamav"
+  end
+end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

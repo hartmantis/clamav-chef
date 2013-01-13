@@ -18,17 +18,5 @@
 #
 
 include_recipe "clamav::default"
-case node["platform_family"]
-when "rhel"
-  include_recipe "clamav::install_rpm"
-when "debian"
-  include_recipe "clamav::install_deb"
-end
-include_recipe "clamav::users"
-include_recipe "clamav::logging"
-include_recipe "clamav::clamd"
-include_recipe "clamav::freshclam"
-include_recipe "clamav::clamd_service"
-include_recipe "clamav::freshclam_service"
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

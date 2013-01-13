@@ -24,15 +24,17 @@ describe_recipe "clamav::freshclam_service" do
   include Helpers::ClamAV
 
   it "should enable freshclam if it's enabled" do
-    node["clamav"]["freshclam"]["enabled"] and
-      service(node["clamav"]["freshclam"]["service"]).must_be_running and
+    if node["clamav"]["freshclam"]["enabled"]
+      service(node["clamav"]["freshclam"]["service"]).must_be_running
       service(node["clamav"]["freshclam"]["service"]).must_be_enabled
+    end
   end
 
   it "should disable freshclam if it's not enabled" do
-    !node["clamav"]["freshclam"]["enabled"] and
-      service(node["clamav"]["freshclam"]["service"]).wont_be_running and
+    if !node["clamav"]["freshclam"]["enabled"]
+      service(node["clamav"]["freshclam"]["service"]).wont_be_running
       service(node["clamav"]["freshclam"]["service"]).wont_be_enabled
+    end
   end
 end
 

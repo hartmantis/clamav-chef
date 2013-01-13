@@ -22,13 +22,14 @@ include_recipe "yum::epel"
 service node["clamav"]["clamd"]["service"]
 service node["clamav"]["freshclam"]["service"]
 
-["clamav", "clamav-db", "clamd"].each do |pkg|
-  package pkg do
+%w{clamav clamav-db clamd}.each do |pkg|
+  yum_package pkg do
     action :install
     version node["clamav"]["version"] if node["clamav"]["version"]
     if File.exist?("/etc/yum.repos.d/rpmforge.repo")
       options "--disablerepo=rpmforge"
     end
+    arch node["kernel"]["machine"]
     if node["clamav"]["clamd"]["enabled"]
       notifies :restart,
         "service[#{node["clamav"]["clamd"]["service"]}]"

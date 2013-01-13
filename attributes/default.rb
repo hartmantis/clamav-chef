@@ -17,14 +17,14 @@
 # limitations under the License.
 #
 
-# Install-Time Options
-default["clamav"]["version"] = nil
-
 # Shared and OS-Specific Options
 case node["platform_family"]
 when "rhel"
+  major_ver = node["platform_version"].split(".")[0]
+  default["clamav"]["version"] = "0.97.6-1.el#{major_ver}"
   default["clamav"]["conf_dir"] = "/etc"
 when "debian"
+  default["clamav"]["version"] = "0.97.6"
   default["clamav"]["conf_dir"] = "/etc/clamav"
 end
 default["clamav"]["database_directory"] = "/var/lib/clamav"

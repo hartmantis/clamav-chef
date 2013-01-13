@@ -17,15 +17,15 @@
 # limitations under the License.
 #
 
-node.override["clamav"]["clamd"]["enabled"] = true
-node.override["clamav"]["clamd"]["log_file"] = nil
-node.override["clamav"]["clamd"]["log_syslog"] = "yes"
-node.override["clamav"]["clamd"]["syslog_facility"] = "local7"
+node.set["clamav"]["clamd"]["enabled"] = true
+node.set["clamav"]["clamd"]["log_file"] = nil
+node.set["clamav"]["clamd"]["log_syslog"] = "yes"
+node.set["clamav"]["clamd"]["syslog_facility"] = "local7"
 
-node.override["clamav"]["freshclam"]["enabled"] = true
-node.override["clamav"]["freshclam"]["update_log_file"] = nil
-node.override["clamav"]["freshclam"]["log_syslog"] = "yes"
-node.override["clamav"]["freshclam"]["syslog_facility"] = "local7"
+node.set["clamav"]["freshclam"]["enabled"] = true
+node.set["clamav"]["freshclam"]["update_log_file"] = nil
+node.set["clamav"]["freshclam"]["log_syslog"] = "yes"
+node.set["clamav"]["freshclam"]["syslog_facility"] = "local7"
 
 include_recipe "#{@cookbook_name}::default"
 

@@ -24,20 +24,21 @@ describe_recipe "clamav::install_deb" do
   include Helpers::ClamAV
 
   it "should install clamav and clamav-daemon" do
-    ["clamav", "clamav-daemon"].each do |p|
+    %w{clamav clamav-daemon}.each do |p|
       package(p).must_be_installed
       if node["clamav"]["version"]
-        package(p).must_be_installed.with(:version,
-          node["clamav"]["version"])
+        package(p).must_be_installed
+        package(p).must_have(:version, node["clamav"]["version"])
       end
     end
   end
 
   it "should delete the default logrotate files" do
-    [
-      "/etc/logrotate.d/clamav-daemon",
-      "/etc/logrotate.d/clamav-freshclam"
-    ].each do |f|
+    logrots = %w{
+      /etc/logrotate.d/clamav-daemon
+      /etc/logrotate.d/clamav-freshclam
+    }
+    logrots.each do |f|
       file(f).wont_exist
     end
   end

@@ -25,9 +25,10 @@ describe_recipe "clamav::clamd" do
 
   it "should create clamd.conf" do
     f = "#{node["clamav"]["conf_dir"]}/clamd.conf"
-    file(f).must_exist_with(:mode, "0644").
-      and(:owner, node["clamav"]["user"]).
-      and(:group, node["clamav"]["group"])
+    file(f).must_exist
+    file(f).must_have(:mode, "0644")
+    file(f).must_have(:owner, node["clamav"]["user"])
+    file(f).must_have(:group, node["clamav"]["group"])
   end
 end
 

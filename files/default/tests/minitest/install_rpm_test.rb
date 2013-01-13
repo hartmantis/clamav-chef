@@ -24,29 +24,30 @@ describe_recipe "clamav::install_rpm" do
   include Helpers::ClamAV
 
   it "should install the required packages from EPEL" do
-    ["clamav", "clamav-db", "clamd"].each do |p|
+    %w{clamav clamav-db clamd}.each do |p|
       package(p).must_be_installed
       if node["clamav"]["version"]
-        package(p).must_be_installed_with(:version,
-          node["clamav"]["version"])
+        package(p).must_be_installed
+        package(p).must_have(:version, node["clamav"]["version"])
       end
-      %x{rpm -q --qf '%{VENDOR}' #{p}}.should == "Fedora Project"
+      %x{rpm -q --qf '%{VENDOR}' #{p}}.must_equal "Fedora Project"
     end
   end
 
   it "should create the the init scripts" do
-    [
-      "/etc/init.d/#{node["clamav"]["clamd"]["service"]}",
-      "/etc/init.d/#{node["clamav"]["freshclam"]["service"]}"
-    ].each do |f|
-      file(f).must_exist_with(:mode, "0755").and(:owner, "root").
-        and(:group, "root")
+    inits = %w{
+      /etc/rc.d/init.d/#{node["clamav"]["clamd"]["service"]}
+      /etc/rc.d/init.d/#{node["clamav"]["freshclam"]["service"]}
+    }
+    inits.each do |f|
+      file(f).must_exist
+      file(f).must_have(:mode, "0755")
+      file(f).must_have(:owner, "root").and(:group, "root")
     end
   end
 
   it "should delete the RPM's user if it will be unused" do
-    node["clamav"]["user"] != "clam" and
-      user("clam").wont_exist
+    node["clamav"]["user"] != "clam" and user("clam").wont_exist
   end
 end
 

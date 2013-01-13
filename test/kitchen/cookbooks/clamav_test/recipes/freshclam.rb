@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: clamav_test
-# Recipe:: enabled
+# Recipe:: freshclam
 #
 # Copyright 2012-2013, Jonathan Hartman
 #
@@ -17,9 +17,6 @@
 # limitations under the License.
 #
 
-node.set["clamav"]["clamd"]["enabled"] = true
-node.set["clamav"]["freshclam"]["enabled"] = true
-
-include_recipe "#{@cookbook_name}::default"
+include_recipe "clamav::freshclam"
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

@@ -17,16 +17,9 @@
 # limitations under the License.
 #
 
-require "minitest/spec"
-require File.expand_path("../support/helpers.rb", __FILE__)
+#require "minitest/spec"
+#require File.expand_path("../support/helpers.rb", __FILE__)
 
-describe_recipe "clamav::default" do
-  include Helpers::ClamAV
-  # All it does right now is include other recipes, which is tested during
-  # the ChefSpec phase
-  it "Does nothing now" do
-    skip("Not wearing pants")
-  end
-end
+# All the operations are in the recipes included by default.rb
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

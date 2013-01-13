@@ -24,15 +24,17 @@ describe_recipe "clamav::clamd_service" do
   include Helpers::ClamAV
 
   it "should enable clamd if it's enabled" do
-    node["clamav"]["clamd"]["enabled"] and
-      service(node["clamav"]["clamd"]["service"]).must_be_running and
+    if node["clamav"]["clamd"]["enabled"]
+      service(node["clamav"]["clamd"]["service"]).must_be_running
       service(node["clamav"]["clamd"]["service"]).must_be_enabled
+    end
   end
 
   it "should disable clamd if it's not enabled" do
-    !node["clamav"]["clamd"]["enabled"] and
-      service(node["clamav"]["clamd"]["service"]).wont_be_running and
+    if !node["clamav"]["clamd"]["enabled"]
+      service(node["clamav"]["clamd"]["service"]).wont_be_running
       service(node["clamav"]["clamd"]["service"]).wont_be_enabled
+    end
   end
 end
 
