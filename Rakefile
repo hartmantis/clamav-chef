@@ -36,10 +36,10 @@ task :converge do
   puts "Running Convergence tests..."
   %x{echo "cookbook 'minitest-handler'" >> Berksfile}
 
+  ENV["CHEF_VERSION"] and %x{gem install chef -v #{ENV["CHEF_VERSION"]}}
   puts %x{bundle exec berks install --path /tmp/berkshelf}
   $?.exitstatus == 0 or fail "Convergence failed!"
 
-  ENV["CHEF_VERSION"] and %x{gem install chef -v #{ENV["CHEF_VERSION"]}}
   solo_rb = <<-EOH.gsub(/^ +/, "")
     file_cache_path "/tmp"
     cookbook_path [
