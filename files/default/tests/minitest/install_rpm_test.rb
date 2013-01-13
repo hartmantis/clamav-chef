@@ -35,13 +35,13 @@ describe_recipe "clamav::install_rpm" do
   end
 
   it "should create the the init scripts" do
-    inits = %w{
-      /etc/rc.d/init.d/#{node["clamav"]["clamd"]["service"]}
-      /etc/rc.d/init.d/#{node["clamav"]["freshclam"]["service"]}
+    inits = %W{
+      /etc/init.d/#{node["clamav"]["clamd"]["service"]}
+      /etc/init.d/#{node["clamav"]["freshclam"]["service"]}
     }
     inits.each do |f|
       file(f).must_exist
-      file(f).must_have(:mode, "0755")
+      file(f).must_have(:mode, "755")
       file(f).must_have(:owner, "root").and(:group, "root")
     end
   end

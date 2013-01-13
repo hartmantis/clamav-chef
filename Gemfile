@@ -3,13 +3,15 @@
 
 source :rubygems
 
-gem "chef", ">= 10.14.4"
-gem "test-kitchen", ">= 0.6.1"
+gem "chef", ENV.fetch("CHEF_VERSION", ">= 10.14.4")
+gem "test-kitchen"
 gem "rake"
+gem "tailor"
 gem "foodcritic"
-gem "rspec", ">= 2.11.3"
 gem "chefspec"
+gem "rspec"
 gem "minitest-chef-handler"
 gem "berkshelf"
+gem "cucumber"
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

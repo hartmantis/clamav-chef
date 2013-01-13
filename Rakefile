@@ -87,6 +87,9 @@ task :converge do
 
   puts %x{sudo chef-solo -c /tmp/solo.rb -j /tmp/dna.json}
   $?.exitstatus == 0 or fail "Convergence failed!"
+
+  puts %x{cucumber test/features}
+  $?.exitstatus == 0 or fail "Cucumber tests failed!"
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

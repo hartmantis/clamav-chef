@@ -26,7 +26,7 @@ describe_recipe "clamav::freshclam" do
   it "should create freshclam.conf" do
     f = "#{node["clamav"]["conf_dir"]}/freshclam.conf"
     file(f).must_exist
-    file(f).must_have(:mode, "0644")
+    file(f).must_have(:mode, "644")
     file(f).must_have(:owner, node["clamav"]["user"])
     file(f).must_have(:group, node["clamav"]["group"])
   end

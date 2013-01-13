@@ -12,6 +12,9 @@ cookbook "clamav" do
   configuration "clamd_service"
   configuration "freshclam_service"
 
+  exclude :platform => "ubuntu", :configuration => "install_rpm"
+  exclude :platform => "centos", :configuration => "install_deb"
+
   # Non-default common configurations
   configuration "enabled"
   configuration "syslog"

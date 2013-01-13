@@ -24,10 +24,10 @@ describe_recipe "clamav::logging" do
   include Helpers::ClamAV
 
   it "create the log files with proper ownership" do
-    files = %w{
-      node["clamav"]["clamd"]["log_file"]
+    files = [
+      node["clamav"]["clamd"]["log_file"],
       node["clamav"]["freshclam"]["update_log_file"]
-    }.uniq
+    ].uniq
     files.map { |f| File.dirname(f) }.uniq.each do |d|
       directory(d).must_exist
       directory(d).must_have(:owner, node["clamav"]["user"])
@@ -41,15 +41,12 @@ describe_recipe "clamav::logging" do
   end
 
   it "creates the logrotate configs for those log files" do
-    logrots = {
-      "/etc/logrotate.d/clamav" => node["clamav"]["clamd"]["log_file"],
-      "/etc/logrotate.d/freshclam" =>
-        node["clamav"]["freshclam"]["update_log_file"]
-    }
-    logrots.each do |f, l|
-      file(f).must_exist
-      file(f).must_include "#{l} {"
-    end
+    clamd = "#{node["clamav"]["clamd"]["log_file"]} {"
+    freshclam = "#{node["clamav"]["freshclam"]["update_log_file"]} {"
+    file("/etc/logrotate.d/clamav").must_exist
+    file("/etc/logrotate.d/clamav").must_include(clamd)
+    file("/etc/logrotate.d/freshclam").must_exist
+    file("/etc/logrotate.d/freshclam").must_include(freshclam)
   end
 end
 
