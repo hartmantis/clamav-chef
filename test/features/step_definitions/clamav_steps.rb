@@ -19,7 +19,7 @@ When /^I manually scan a (\w+) file$/ do |file_type|
   end
   @f.close
   File.chmod(0777, @f)
-  @res = %x{clamscan #{@f.path}}
+  @res = %x{clamscan #{@f.path}}.to_s
   @f.unlink
 end
 
@@ -34,7 +34,7 @@ When /^I scan a (\w+) file via clamd$/ do |file_type|
   end
   @f.close
   File.chmod(0777, @f)
-  @res = %x{clamdscan #{@f.path}}
+  @res = %x{clamdscan #{@f.path}}.to_s
   @f.unlink
 end
 
