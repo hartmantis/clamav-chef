@@ -19,7 +19,7 @@ When /^I manually scan a (\w+) file$/ do |file_type|
   end
   @f.close
   File.chmod(0777, @f)
-  @res = %x{clamscan #{@f.path}}.to_s
+  @res = %x{clamscan #{@f.path}}
   @f.unlink
 end
 
@@ -34,18 +34,18 @@ When /^I scan a (\w+) file via clamd$/ do |file_type|
   end
   @f.close
   File.chmod(0777, @f)
-  @res = %x{clamdscan #{@f.path}}.to_s
+  @res = %x{clamdscan #{@f.path}}
   @f.unlink
 end
 
 Then "ClamAV should detect nothing" do
-  @res.should contain "#{@f.path}: OK"
-  @res.should contain "\nInfected Files: 0\n"
+  @res.must_include "#{@f.path}: OK"
+  @res.must_include "\nInfected Files: 0\n"
 end
 
 Then "ClamAV should detect a virus" do
-  @res.should contain "#{@f.path}: Eicar-Test-Signature FOUND\n"
-  @res.should contain "\nInfected Files: 1\n"
+  @res.must_include "#{@f.path}: Eicar-Test-Signature FOUND\n"
+  @res.must_include "\nInfected Files: 1\n"
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
