@@ -24,7 +24,7 @@ describe_recipe "clamav::freshclam_service" do
   include Helpers::ClamAV
 
   it "should create the dir for the PID file" do
-    d = File.directory(node["clamav"]["freshclam"]["pid_file"])
+    d = File.dirname(node["clamav"]["freshclam"]["pid_file"])
     u = node["clamav"]["user"]
     g = node["clamav"]["group"]
     directory(d).must_exist
