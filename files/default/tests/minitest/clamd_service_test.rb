@@ -27,14 +27,14 @@ describe_recipe "clamav::clamd_service" do
     if node["clamav"]["clamd"]["enabled"]
       # Minitest uses process names, not init script service names
       service("clamd").must_be_running
-      service("clamd").must_be_enabled
+      service(node["clamav"]["clamd"]["service"]).must_be_enabled
     end
   end
 
   it "should disable clamd if it's not enabled" do
     if !node["clamav"]["clamd"]["enabled"]
       service("clamd").wont_be_running
-      service("clamd").wont_be_enabled
+      service(node["clamav"]["clamd"]["service"]).wont_be_enabled
     end
   end
 end

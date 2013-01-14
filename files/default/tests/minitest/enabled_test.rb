@@ -24,12 +24,12 @@ describe_recipe "clamav_test::enabled" do
   include Helpers::ClamAV
 
   it "should enable clamd" do
-    service(node["clamav"]["clamd"]["service"]).must_be_running
+    service("clamd").must_be_running
     service(node["clamav"]["clamd"]["service"]).must_be_enabled
   end
 
   it "should enable freshclam" do
-    service(node["clamav"]["freshclam"]["service"]).must_be_running
+    service("freshclam").must_be_running
     service(node["clamav"]["freshclam"]["service"]).must_be_enabled
   end
 end

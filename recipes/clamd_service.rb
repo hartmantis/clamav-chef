@@ -19,7 +19,7 @@
 
 service node["clamav"]["clamd"]["service"] do
   action node["clamav"]["clamd"]["enabled"] ? [:enable, :start] :
-    [:disable, :stop]
+    [:stop, :disable]
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
