@@ -2,13 +2,13 @@
 
 cookbook "clamav" do
   # Base recipes
-  configuration "default"
-  configuration "install_rpm"
-  configuration "install_deb"
-  configuration "users"
-  configuration "logging"
-  configuration "clamd"
-  configuration "freshclam"
+#  configuration "default"
+#  configuration "install_rpm"
+#  configuration "install_deb"
+#  configuration "users"
+#  configuration "logging"
+#  configuration "clamd"
+#  configuration "freshclam"
   configuration "clamd_service"
   configuration "freshclam_service"
 

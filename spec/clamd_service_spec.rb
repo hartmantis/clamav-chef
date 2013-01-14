@@ -18,6 +18,12 @@ describe "clamav::clamd_service" do
         chef_run.converge @rcp
       end
 
+      it "should create the dir for the PID files" do
+        d = "/var/run/clamav"
+        chef_run.should create_directory d
+        chef_run.directory(d).should be_owned_by("clamav", "clamav")
+      end
+
       it "should disable clamd" do
         chef_run.should_not set_service_to_start_on_boot @svc
         chef_run.should stop_service @svc

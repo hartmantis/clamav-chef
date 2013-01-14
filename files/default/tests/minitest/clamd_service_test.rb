@@ -23,6 +23,14 @@ require File.expand_path("../support/helpers.rb", __FILE__)
 describe_recipe "clamav::clamd_service" do
   include Helpers::ClamAV
 
+  it "should create the dir for the PID file" do
+    d = File.directory(node["clamav"]["clamd"]["pid_file"]
+    u = node["clamav"]["user"]
+    g = node["clamav"]["group"]
+    directory(d).must_exist
+    directory(d).must_have(:owner, u).and(:group, g)
+  end
+
   it "should enable clamd if it's enabled" do
     if node["clamav"]["clamd"]["enabled"]
       # Minitest uses process names, not init script service names

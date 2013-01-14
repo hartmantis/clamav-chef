@@ -17,7 +17,15 @@
 # limitations under the License.
 #
 
+directory File.dirname(node["clamav"]["freshclam"]["pid_file"]) do
+  owner node["clamav"]["user"]
+  group node["clamav"]["group"]
+  recursive true
+  action :create
+end
+
 service node["clamav"]["freshclam"]["service"] do
+  supports :status => true, :restart => true
   action node["clamav"]["freshclam"]["enabled"] ? [:enable, :start] :
     [:stop, :disable]
 end
