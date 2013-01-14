@@ -80,7 +80,8 @@ task :converge do
   File.open("/tmp/solo.rb", "w") { |f| f.write(solo_rb) }
   File.open("/tmp/dna.json", "w") { |f| f.write(dna_json) }
 
-  puts %x{bundle exec sudo chef-solo -c /tmp/solo.rb -j /tmp/dna.json}
+  puts %x{sudo gem install chef -v #{ENV["CHEF_VERSION"]}}
+  puts %x{sudo chef-solo -c /tmp/solo.rb -j /tmp/dna.json}
   $?.exitstatus == 0 or fail "Convergence failed!"
 
   puts %x{cucumber test/features}
