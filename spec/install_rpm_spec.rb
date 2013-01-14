@@ -45,6 +45,17 @@ describe "clamav::install_rpm" do
     end
   end
 
+  context "a node with the dev package enabled" do
+    before :each do
+      chef_run.node.set["clamav"]["dev_package"] = true
+      chef_run.converge @rcp
+    end
+
+    it "should install the ClamAV dev package" do
+      chef_run.yum_package("clamav-devel").should be
+    end
+  end
+
   context "a node with the package versions overridden" do
     before :each do
       chef_run.node.set["clamav"]["version"] = "42.42.42"

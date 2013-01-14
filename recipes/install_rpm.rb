@@ -41,6 +41,12 @@ service node["clamav"]["freshclam"]["service"]
   end
 end
 
+yum_package "clamav-devel" do
+  action :install
+  version node["clamav"]["version"] if node["clamav"]["version"]
+  only_if { node["clamav"]["dev_package"] }
+end
+
 template "/etc/init.d/#{node["clamav"]["clamd"]["service"]}" do
   source "clamd.init.rhel.erb"
   mode "0755"

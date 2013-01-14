@@ -17,8 +17,20 @@
 # limitations under the License.
 #
 
+include_recipe "apt"
+
 service node["clamav"]["clamd"]["service"]
 service node["clamav"]["freshclam"]["service"]
+
+apt_repository "clamav-repo" do
+  uri "http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu"
+  distribution node['lsb']['codename']
+  components ["main"]
+  keyserver "keyserver.ubuntu.com"
+  key "5ADC2037"
+  only_if { node["platform"] == "ubuntu" }
+  notifies :run, "execute[apt-get update]", :immediately
+end
 
 package "clamav" do
   action :install
@@ -40,6 +52,12 @@ package "clamav-daemon" do
     notifies :restart,
       "service[#{node["clamav"]["clamd"]["service"]}]"
   end
+end
+
+package "libclamav-dev" do
+  action :install
+  version node["clamav"]["version"] if node["clamav"]["version"]
+  only_if { node["clamav"]["dev_package"] }
 end
 
 files = %w{/etc/logrotate.d/clamav-daemon /etc/logrotate.d/clamav-freshclam}

@@ -16,6 +16,7 @@ cookbook "clamav" do
   exclude :platform => "centos", :configuration => "install_deb"
 
   # Non-default common configurations
+  configuration "dev_package"
   configuration "enabled"
   configuration "syslog"
 

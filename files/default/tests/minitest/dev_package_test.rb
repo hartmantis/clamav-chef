@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: clamav_test
-# Spec:: syslog
+# Spec:: dev_package
 #
 # Copyright 2012-2013, Jonathan Hartman
 #
@@ -20,18 +20,20 @@
 require "minitest/spec"
 require File.expand_path("../support/helpers.rb", __FILE__)
 
-describe_recipe "clamav_test::syslog" do
+describe_recipe "clamav::install_rpm" do
   include Helpers::ClamAV
 
-  it "is logging to the system log (presumably via syslog)" do
+  it "should install the optional ClamAV dev package" do
     case node["platform_family"]
     when "rhel"
-      f = "/var/log/messages"
+      pkg = "clamav-devel"
     when "debian"
-      f = "/var/log/syslog"
+      pkg = "libclamav-dev"
     end
-    file(f).must_include " clamav["
-    file(f).must_include " freshclam["
+    package(p).must_be_installed
+    if node["clamav"]["version"]
+      package(p).must_have(:version, node["clamav"]["version"])
+    end
   end
 end
 

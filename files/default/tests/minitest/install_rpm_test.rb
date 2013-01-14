@@ -23,6 +23,10 @@ require File.expand_path("../support/helpers.rb", __FILE__)
 describe_recipe "clamav::install_rpm" do
   include Helpers::ClamAV
 
+  it "should install the EPEL repo" do
+    file("/etc/yum.repos.d/epel.repo").must_exist
+  end
+
   it "should install the required packages from EPEL" do
     %w{clamav clamav-db clamd}.each do |p|
       package(p).must_be_installed
@@ -31,6 +35,16 @@ describe_recipe "clamav::install_rpm" do
         package(p).must_have(:version, node["clamav"]["version"])
       end
       %x{rpm -q --qf '%{VENDOR}' #{p}}.must_equal "Fedora Project"
+    end
+  end
+
+  it "should install the optional dev package if enabled" do
+    p = "clamav-devel"
+    if node["clamav"]["dev_package"]
+      package(p).must_be_installed
+      if node["clamav"]["version"]
+        package(p).must_have(:version, node["clamav"]["version"])
+      end
     end
   end
 

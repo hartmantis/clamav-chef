@@ -23,11 +23,26 @@ require File.expand_path("../support/helpers.rb", __FILE__)
 describe_recipe "clamav::install_deb" do
   include Helpers::ClamAV
 
+  it "should install the ClamAV APT repo under Ubuntu" do
+    if node["platform"] == "ubuntu"
+      file("/etc/apt/sources.list.d/clamav-repo.list").must_exist
+    end
+  end
+
   it "should install clamav and clamav-daemon" do
     %w{clamav clamav-daemon}.each do |p|
       package(p).must_be_installed
       if node["clamav"]["version"]
-        package(p).must_be_installed
+        package(p).must_have(:version, node["clamav"]["version"])
+      end
+    end
+  end
+
+  it "should install the optional dev package if enabled" do
+    p = "libclamav-dev"
+    if node["clamav"]["dev_package"]
+      package(p).must_be_installed
+      if node["clamav"]["version"]
         package(p).must_have(:version, node["clamav"]["version"])
       end
     end

@@ -8,11 +8,19 @@ describe "clamav::install_deb" do
     @pkgs = %w{clamav clamav-daemon}
     @svcs = %w{clamav-daemon clamav-freshclam}
     chef_run.node.automatic_attrs["platform_family"] = "debian"
+    chef_run.node.automatic_attrs["platform"] = "ubuntu"
+    chef_run.node.run_state[:seen_recipes]["apt"] = true
+    Chef::Recipe.any_instance.should_receive(:apt_repository).
+      with("clamav-repo")
   end
 
   context "an entirely default node" do
     before :each do
       chef_run.converge @rcp
+    end
+
+    it "should set up the ClamAV APT repo" do
+      chef_run.should include_recipe "apt"
     end
 
     it "should install the pertinent packages" do
@@ -37,6 +45,17 @@ describe "clamav::install_deb" do
       files.each do |f|
         chef_run.should delete_file f
       end
+    end
+  end
+
+  context "a node with the dev package enabled" do
+    before :each do
+      chef_run.node.set["clamav"]["dev_package"] = true
+      chef_run.converge @rcp
+    end
+
+    it "should install the ClamAV dev package" do
+      chef_run.should install_package "libclamav-dev"
     end
   end
 

@@ -18,15 +18,28 @@
 #
 
 # Shared and OS-Specific Options
+base_ver = "0.97.6"
 case node["platform_family"]
 when "rhel"
   major_ver = node["platform_version"].split(".")[0]
-  default["clamav"]["version"] = "0.97.6-1.el#{major_ver}"
+  default["clamav"]["version"] = "#{base_ver}-1.el#{major_ver}"
   default["clamav"]["conf_dir"] = "/etc"
 when "debian"
-  default["clamav"]["version"] = "0.97.6"
+  if node["platform"] == "ubuntu"
+    case node["platform_version"]
+    when "10.04"
+      default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0.11.04.1~" +
+        "10.04.1~ppa1"
+    else
+      default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0." +
+        "#{node["platform_version"]}.1~ppa1"
+    end
+  else
+    default["clamav"]["version"] = base_ver
+  end
   default["clamav"]["conf_dir"] = "/etc/clamav"
 end
+default["clamav"]["dev_package"] = false
 default["clamav"]["database_directory"] = "/var/lib/clamav"
 default["clamav"]["user"] = "clamav"
 default["clamav"]["group"] = "clamav"

@@ -23,6 +23,10 @@ Whether or not the ClamAV daemons should be running
 
 The version of the ClamAV packages to install
 
+    default["clamav"]["dev_package"] = false
+
+Whether to install the appropriate ClamAV development package
+
     default["clamav"]["clamd"]["log_file"] = "/var/log/clamav/clamd.log"
     default["clamav"]["clamd"]["logrotate_frequency"] = "daily"
     default["clamav"]["clamd"]["logrotate_rotations"] = 7 
