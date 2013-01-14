@@ -82,11 +82,7 @@ task :converge do
 
   puts %x{sudo gem install chef -v #{ENV["CHEF_VERSION"]}}
   puts %x{sudo chef-solo -c /tmp/solo.rb -j /tmp/dna.json}
-#  $?.exitstatus == 0 or fail "Convergence failed!"
-  puts "clamav package: "
-  puts %x{apt-cache showpkg clamav}
-  puts "clamav-daemon package: "
-  puts %x{apt-cache showpkg clamav-daemon}
+  $?.exitstatus == 0 or fail "Convergence failed!"
 
   puts %x{cucumber test/features}
   $?.exitstatus == 0 or fail "Cucumber tests failed!"

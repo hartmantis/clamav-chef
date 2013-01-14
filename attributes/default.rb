@@ -29,10 +29,10 @@ when "debian"
     case node["platform_version"]
     when "10.04"
       default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0.11.04.1~" +
-        "10.04.1~ppa1"
+        "10.04.1"
     else
       default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0." +
-        "#{node["platform_version"]}.1~ppa1"
+        "#{node["platform_version"]}.1"
     end
   else
     default["clamav"]["version"] = base_ver
