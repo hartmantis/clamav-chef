@@ -7,10 +7,10 @@ describe "clamav::default" do
     @includes = %w{
       clamav::users
       clamav::logging 
-      clamav::clamd 
       clamav::freshclam
-      clamav::clamd_service
+      clamav::clamd 
       clamav::freshclam_service
+      clamav::clamd_service
     }
     (@includes + %w{clamav::install_rpm clamav::install_deb}).each do |i|
       chef_run.node.run_state.seen_recipes[i] = true
