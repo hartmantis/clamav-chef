@@ -14,8 +14,8 @@ When /^I manually scan a (\w+) file$/ do |file_type|
   when "clean"
     @f.write("This file is clean")
   when "virus"
-    @f.write("X5O!P%@AP[4\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-TEST-" +
-      "FILE!$H+H*")
+    @f.write("X5O!P%@AP[4\\PZX54(P^)7CC)7}$EICAR-STANDARD-ANTIVIRUS-" +
+      "TEST-FILE!$H+H*")
   end
   @f.rewind
   @f.close
