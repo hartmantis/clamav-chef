@@ -24,12 +24,17 @@ describe_recipe "clamav_test::enabled" do
   include Helpers::ClamAV
 
   it "should enable clamd" do
-    service("clamd").must_be_running
+    # The service checks in Minitest don't quite work
+    #service("clamd").must_be_running
+    res = %x{/etc/init.d/#{node["clamav"]["clamd"]["service"]} status}
+    $?.exitstatus.must_equal 0
     service(node["clamav"]["clamd"]["service"]).must_be_enabled
   end
 
   it "should enable freshclam" do
-    service("freshclam").must_be_running
+    #service("freshclam").must_be_running
+    res = %x{/etc/init.d/#{node["clamav"]["freshclam"]["service"]} status}
+    $?.exitstatus.must_equal 0
     service(node["clamav"]["freshclam"]["service"]).must_be_enabled
   end
 end
