@@ -4,7 +4,7 @@ maintainer_email  "j@p4nt5.com"
 license           "Apache v2.0"
 description       "Installs/configures clamav"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version           "0.0.2"
+version           "0.2.0"
 
 depends           "logrotate", "= 1.0.2"
 depends           "yum", "= 2.1.0"
