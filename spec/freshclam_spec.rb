@@ -85,6 +85,10 @@ describe "clamav::freshclam" do
         chef_run.template(@conf).should be_owned_by("clamav", "clamav")
         chef_run.template(@conf).should notify(@svc, :restart)
       end
+
+      it "should call freshclam on initial install" do
+        chef_run.should execute_command "freshclam"
+      end
     end
 
     context "a node with the clamd service enabled" do

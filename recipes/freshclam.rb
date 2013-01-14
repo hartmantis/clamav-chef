@@ -39,10 +39,16 @@ template "#{node["clamav"]["conf_dir"]}/freshclam.conf" do
     :notify_clamd => notify,
     :bytecode => node["clamav"]["bytecode"]
   )
+  notifies :run, "execute[freshclam]", :immediately
   if node["clamav"]["freshclam"]["enabled"]
     notifies :restart, "service[#{node["clamav"]["freshclam"]["service"]}]",
       :delayed
   end
+end
+
+execute "freshclam" do
+  command "freshclam"
+  action :nothing
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
