@@ -25,15 +25,15 @@ describe_recipe "clamav::freshclam_service" do
 
   it "should enable freshclam if it's enabled" do
     if node["clamav"]["freshclam"]["enabled"]
-      service(node["clamav"]["freshclam"]["service"]).must_be_running
-      service(node["clamav"]["freshclam"]["service"]).must_be_enabled
+      service("freshclam").must_be_running
+      service("freshclam").must_be_enabled
     end
   end
 
   it "should disable freshclam if it's not enabled" do
     if !node["clamav"]["freshclam"]["enabled"]
-      service(node["clamav"]["freshclam"]["service"]).wont_be_running
-      service(node["clamav"]["freshclam"]["service"]).wont_be_enabled
+      service("freshclam").wont_be_running
+      service("freshclam").wont_be_enabled
     end
   end
 end
