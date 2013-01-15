@@ -29,6 +29,7 @@ service node["clamav"]["freshclam"]["service"]
     if File.exist?("/etc/yum.repos.d/rpmforge.repo")
       options "--disablerepo=rpmforge"
     end
+    # Give it an arch or YUM will try to install both i386 and x86_64 versions
     arch node["kernel"]["machine"]
     if node["clamav"]["clamd"]["enabled"]
       notifies :restart,
@@ -44,6 +45,7 @@ end
 yum_package "clamav-devel" do
   action :install
   version node["clamav"]["version"] if node["clamav"]["version"]
+  arch node["kernel"]["machine"]
   only_if { node["clamav"]["dev_package"] }
 end
 
