@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: clamav_test
-# Spec:: syslog
+# Recipe:: features
 #
 # Copyright 2012-2013, Jonathan Hartman
 #
@@ -17,22 +17,18 @@
 # limitations under the License.
 #
 
-require "minitest/spec"
-require File.expand_path("../support/helpers.rb", __FILE__)
-
-describe_recipe "clamav_test::syslog" do
-  include Helpers::ClamAV
-
-  it "is logging to the system log (presumably via syslog)" do
-    case node["platform_family"]
-    when "rhel"
-      f = "/var/log/messages"
-    when "debian"
-      f = "/var/log/syslog"
-    end
-    file(f).must_include " clamav["
-    file(f).must_include " freshclam["
+%w{chefspec minitest-chef-handler cucumber}.each do |g|
+  chef_gem g do
+    action :install
   end
+end
+
+cuke_path = Gem.bin_path("cucumber", "cucumber")
+feat_path = "/test-kitchen/source/test/features"
+
+execute "cucumber" do
+  command "#{cuke_path} #{feat_path}"
+  action :run
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker

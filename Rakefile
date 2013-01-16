@@ -5,7 +5,7 @@ task :default => [:cookbook_test, :tailor, :foodcritic, :chefspec]
 
 desc "Run knife cookbook syntax test"
 task :cookbook_test do
-  puts "Running knife cookbook syntax test..."
+  puts "Running cookbook syntax checks..."
   puts %x{knife cookbook test -o .. clamav}
   $?.exitstatus == 0 or fail "Cookbook syntax check failed!"
 end
