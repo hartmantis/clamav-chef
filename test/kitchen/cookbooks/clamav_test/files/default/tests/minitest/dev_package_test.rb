@@ -20,7 +20,7 @@
 require "minitest/spec"
 require File.expand_path("../support/helpers.rb", __FILE__)
 
-describe_recipe "clamav::install_rpm" do
+describe_recipe "clamav_test::dev_package" do
   include Helpers::ClamAV
 
   it "should install the optional ClamAV dev package" do
@@ -30,9 +30,9 @@ describe_recipe "clamav::install_rpm" do
     when "debian"
       pkg = "libclamav-dev"
     end
-    package(p).must_be_installed
+    package(pkg).must_be_installed
     if node["clamav"]["version"]
-      package(p).must_have(:version, node["clamav"]["version"])
+      package(pkg).must_have(:version, node["clamav"]["version"])
     end
   end
 end

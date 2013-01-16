@@ -67,10 +67,10 @@ of tools.
 
 * [Vagrant](http://vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) for creating virtual environments
 * [Berkshelf](http://berkshelf.com/) for retrieving cookbook dependencies
-    * The way this project uses Berkshelf requires patches that, as of 10/25/12, aren't included in the latest stable release, and require at least 0.6.0.beta2.
 * [FoodCritic](http://acrmp.github.com/foodcritic/) for lint tests
 * [ChefSpec](https://github.com/acrmp/chefspec/) for the cookbook tests
 * [Minitest Chef Handler](https://github.com/calavera/minitest-chef-handler) for the full-on Chef run tests
+* [Cucumber](http://cukes.info/) for high-level behavior tests
 * [Test Kitchen](https://github.com/opscode/test-kitchen) to tie all the tests together
 
 To run the Foodcritic tests only, run:
@@ -89,12 +89,6 @@ To do a full-on run of all tests on every supported platform:
 
     kitchen test
 
-
 To Do
 =====
-* On a RHEL install from EPEL, should the default "clam" user be left behind,
-in case of collisions with something else?
-* Re-examine some of the default attributes used. Which ones does it make sense
-to keep at ClamAV's defaults vs using attributes that might make more sense?
 * Use Fauxhai for some of the spec tests
-* Run Freshclam during the initial install to save outsized updates later

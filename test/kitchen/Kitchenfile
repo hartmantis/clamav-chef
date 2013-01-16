@@ -20,10 +20,16 @@ cookbook "clamav" do
   configuration "enabled"
   configuration "syslog"
 
+  configuration "features"
+
   preflight_command <<-END.gsub(/^ +/, "")
+    echo "Running cookbook syntax checks..." &&
     knife cookbook test -o .. clamav &&
+    echo "Running Tailor lint tests..." &&
     tailor `find . -name '*.rb' -and ! -path '*/\.kitchen/*'` &&
+    echo "Running Foodcritic lint tests..." &&
     foodcritic -f any . &&
+    echo "Running ChefSpec unit tests..." &&
     rspec
   END
 end
