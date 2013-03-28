@@ -9,7 +9,7 @@ rvm:
 
 env:
 #  - CHEF_VERSION=10.14.4
-  - CHEF_VERSION=10.16.6
+#  - CHEF_VERSION=10.24.0
 
 before_install: echo "cookbook 'minitest-handler'" >> Berksfile
 
