@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
-source :rubygems
+source "https://rubygems.org"
 
 gem "chef", ENV.fetch("CHEF_VERSION", ">= 10.14.4")
 gem "test-kitchen"

@@ -80,7 +80,7 @@ task :converge do
   File.open("/tmp/solo.rb", "w") { |f| f.write(solo_rb) }
   File.open("/tmp/dna.json", "w") { |f| f.write(dna_json) }
 
-  puts %x{sudo gem install chef -v #{ENV["CHEF_VERSION"]}}
+  puts %x{curl -L https://www.opscode.com/chef/install.sh | sudo bash}
   puts %x{sudo chef-solo -c /tmp/solo.rb -j /tmp/dna.json}
   $?.exitstatus == 0 or fail "Convergence failed!"
   
