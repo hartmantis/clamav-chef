@@ -30,6 +30,8 @@ when "debian"
     when "10.04"
       default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0.11.04.1~" +
         "10.04.1~ppa1"
+    when "12.04"
+      default["clamav"]["version"] = nil
     else
       default["clamav"]["version"] = "#{base_ver}+dfsg-1ubuntu0." +
         "#{node["platform_version"]}.1"
