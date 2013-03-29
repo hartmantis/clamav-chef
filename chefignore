@@ -1,0 +1,112 @@
+# Put files/directories that should be ignored in this file when uploading
+# or sharing to the community site
+ 
+# Compiled source #
+###################
+*.com
+*.class
+*.dll
+*.exe
+*.o
+*.so
+*/rdoc/
+ 
+# Packages #
+############
+# it's better to unpack these files and commit the raw source
+# git has its own built in compression methods
+*.7z
+*.dmg
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+ 
+# Logs and databases #
+######################
+*.log
+*.sql
+*.sqlite
+ 
+# OS generated files #
+######################
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+ 
+# SASS #
+########
+.sass-cache
+ 
+# Bundler #
+###########
+.bundle
+ 
+# POW #
+#######
+.pow
+.powrc
+.powenv
+ 
+# Other Stuff #
+###############
+.project
+.settings
+ 
+# Editor #
+##########
+*~
+*.sw[a-z]
+ 
+# Subversion #
+##############
+.svn
+*/.svn
+ 
+# Git #
+#######
+.git
+*/.git
+.gitignore
+.gitmodules
+.gitconfig
+.gitattributes
+ 
+# Spec #
+########
+.rspec
+spec/
+ 
+# Ruby #
+########
+.rvmrc
+.rbenv-version
+Gemfile*
+Gemfile.lock
+Rakefile
+
+# Vagrant #
+###########
+Vagrantfile
+
+# Travis #
+##########
+.travis.yml
+
+# Testing #
+###########
+test/
+ 
+# Cookbook #
+############
+CONTRIBUTING*
+CHANGELOG*
+Colanderfile
+Berksfile
+Berksfile.lock
+.colander
+tmp
+knife.rb

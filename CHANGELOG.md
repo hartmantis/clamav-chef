@@ -1,6 +1,7 @@
 ## 0.4.0:
 
-* Default versions to nil for now to make life easier
+* Default package versions to nil for now to make life easier
+* Loosen the cookbook dependencies a little
 
 ## 0.0.2:
 
