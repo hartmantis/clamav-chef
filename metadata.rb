@@ -6,9 +6,9 @@ description       "Installs/configures clamav"
 long_description  IO.read(File.join(File.dirname(__FILE__), 'README.md'))
 version           "0.4.0"
 
-depends           "logrotate", "~> 1.0"
-depends           "yum", "~> 2.1"
-depends           "apt", "~> 1.8"
+depends           "logrotate", ">= 1.0"
+depends           "yum", ">= 2.1"
+depends           "apt", ">= 1.8"
 
 supports          "ubuntu"
 supports          "debian"
