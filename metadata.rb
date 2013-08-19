@@ -8,7 +8,7 @@ version           "0.4.1"
 
 depends           "logrotate", "~> 1.0"
 depends           "yum", "~> 2.1"
-depends           "apt", "~> 2.1", "~> 1.8"
+depends           "apt", "~> 2.1"
 
 supports          "ubuntu"
 supports          "debian"
