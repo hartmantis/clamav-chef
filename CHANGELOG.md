@@ -1,3 +1,7 @@
+## 0.4.1:
+
+* Bump dependency cookbook versions
+
 ## 0.4.0:
 
 * Default package versions to nil for now to make life easier
