@@ -39,10 +39,11 @@ template "#{node["clamav"]["conf_dir"]}/freshclam.conf" do
     :notify_clamd => notify,
     :bytecode => node["clamav"]["bytecode"]
   )
-  notifies :run, "execute[freshclam]", :immediately
   if node["clamav"]["freshclam"]["enabled"]
     notifies :restart, "service[#{node["clamav"]["freshclam"]["service"]}]",
       :delayed
+  else
+    notifies :run, "execute[freshclam]", :immediately
   end
 end
 
