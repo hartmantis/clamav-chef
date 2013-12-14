@@ -1,12 +1,20 @@
-# Ignore .swp files
-*.swp
+# Berkshelf 
+.berkshelf
 
-# Ignore Vagrant temp files
+# Vagrant
 .vagrant
 
-# Ignore Test Kitchen temp files
-test/kitchen/.kitchen/
+# vim
+*.sw?
+*~
 
-# Ignore Berkshelf temp files
-Berksfile.lock
-.berkshelf/
+# Test Kitchen
+.kitchen
+.kitchen.local.yml
+
+# Bundler
+.vendor
+.bundle
+
+# Guard
+tmp/

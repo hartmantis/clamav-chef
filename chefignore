@@ -1,72 +1,63 @@
 # Put files/directories that should be ignored in this file when uploading
-# or sharing to the community site
- 
-# Compiled source #
-###################
+# or sharing to the community site.
+# Lines that start with '# ' are comments.
+
+# OS generated files #
+######################
+.DS_Store
+Icon?
+nohup.out
+ehthumbs.db
+Thumbs.db
+
+# SASS #
+########
+.sass-cache
+
+# EDITORS #
+###########
+\#*
+.#*
+*~
+*.sw[a-z]
+*.bak
+REVISION
+TAGS*
+tmtags
+*_flymake.*
+*_flymake
+*.tmproj
+.project
+.settings
+mkmf.log
+
+## COMPILED ##
+##############
+a.out
+*.o
+*.pyc
+*.so
 *.com
 *.class
 *.dll
 *.exe
-*.o
-*.so
 */rdoc/
- 
-# Packages #
-############
-# it's better to unpack these files and commit the raw source
-# git has its own built in compression methods
-*.7z
-*.dmg
-*.gz
-*.iso
-*.jar
-*.rar
-*.tar
-*.zip
- 
-# Logs and databases #
-######################
-*.log
-*.sql
-*.sqlite
- 
-# OS generated files #
-######################
-.DS_Store
-ehthumbs.db
-Icon?
-Thumbs.db
- 
-# SASS #
-########
-.sass-cache
- 
-# Bundler #
+
+# Testing #
 ###########
-.bundle
- 
-# POW #
-#######
-.pow
-.powrc
-.powenv
- 
-# Other Stuff #
-###############
-.project
-.settings
- 
-# Editor #
-##########
-*~
-*.sw[a-z]
- 
-# Subversion #
-##############
-.svn
-*/.svn
- 
-# Git #
+.watchr
+.rspec
+spec/*
+spec/fixtures/*
+test/*
+features/*
+Guardfile
+Procfile
+Gemfile
+Gemfile.lock
+Rakefile
+
+# SCM #
 #######
 .git
 */.git
@@ -74,39 +65,36 @@ Thumbs.db
 .gitmodules
 .gitconfig
 .gitattributes
- 
-# Spec #
-########
-.rspec
-spec/
- 
-# Ruby #
-########
-.rvmrc
-.rbenv-version
-Gemfile*
-Gemfile.lock
-Rakefile
+.svn
+*/.bzr/*
+*/.hg/*
+*/.svn/*
+
+# Berkshelf #
+#############
+Berksfile
+Berksfile.lock
+cookbooks/*
+tmp
+.berkshelf/*
+
+# Cookbooks #
+#############
+CONTRIBUTING
+CHANGELOG*
+
+# Strainer #
+############
+Colanderfile
+Strainerfile
+.colander
+.strainer
 
 # Vagrant #
 ###########
+.vagrant
 Vagrantfile
 
 # Travis #
 ##########
 .travis.yml
-
-# Testing #
-###########
-test/
- 
-# Cookbook #
-############
-CONTRIBUTING*
-CHANGELOG*
-Colanderfile
-Berksfile
-Berksfile.lock
-.colander
-tmp
-knife.rb
