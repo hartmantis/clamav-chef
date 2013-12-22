@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-include_recipe "yum::epel"
+include_recipe "yum-epel"
 
 service node["clamav"]["clamd"]["service"]
 service node["clamav"]["freshclam"]["service"]
