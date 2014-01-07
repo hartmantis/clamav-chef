@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
 # Recipe:: clamd
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,25 +18,25 @@
 # limitations under the License.
 #
 
-service node["clamav"]["clamd"]["service"]
+service node['clamav']['clamd']['service']
 
-supp_groups = node["clamav"]["allow_supplementary_groups"]
-template "#{node["clamav"]["conf_dir"]}/clamd.conf" do
-  owner node["clamav"]["user"]
-  group node["clamav"]["group"]
-  source "clamd.conf.erb"
-  mode "0644"
+supp_groups = node['clamav']['allow_supplementary_groups']
+template "#{node['clamav']['conf_dir']}/clamd.conf" do
+  owner node['clamav']['user']
+  group node['clamav']['group']
+  source 'clamd.conf.erb'
+  mode '0644'
   action :create
   variables(
-    :clamd => node["clamav"]["clamd"],
-    :database_directory => node["clamav"]["database_directory"],
-    :user => node["clamav"]["user"],
-    :allow_supplementary_groups => supp_groups,
-    :bytecode  => node["clamav"]["bytecode"]
+    clamd: node['clamav']['clamd'],
+    database_directory: node['clamav']['database_directory'],
+    user: node['clamav']['user'],
+    allow_supplementary_groups: supp_groups,
+    bytecode: node['clamav']['bytecode']
   )
-  if node["clamav"]["clamd"]["enabled"]
-    notifies :restart, "service[#{node["clamav"]["clamd"]["service"]}]"
+  if node['clamav']['clamd']['enabled']
+    notifies :restart, "service[#{node['clamav']['clamd']['service']}]"
   end
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby
