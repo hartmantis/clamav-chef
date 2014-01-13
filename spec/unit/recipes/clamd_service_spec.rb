@@ -60,6 +60,7 @@ describe 'clamav::clamd_service' do
 
       context 'a node with the clamd service enabled' do
         let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+
         it_behaves_like 'any node'
         it_behaves_like 'a node with the clamd service enabled'
       end

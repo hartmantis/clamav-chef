@@ -1,5 +1,4 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+# -*- encoding: utf-8 -*-
 
 ENV["BERKSHELF_PATH"] = File.expand_path(".berkshelf")
 require "berkshelf/vagrant"
@@ -43,4 +42,4 @@ Vagrant::Config.run do |config|
 
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby
