@@ -33,4 +33,16 @@ default["clamav"]["group"] = "clamav"
 default["clamav"]["allow_supplementary_groups"] = "no"
 default["clamav"]["bytecode"] = "yes"
 
+default["clamav"]["scan"]["script"] = "/usr/local/bin/clamav-scan.sh"
+default["clamav"]["scan"]["minimal"]["minute"] = "42"
+default["clamav"]["scan"]["minimal"]["hour"] = "0"
+default["clamav"]["scan"]["minimal"]["weekday"] = "1-6"
+default["clamav"]["scan"]["minimal"]["dirs"] = "/bin /sbin /usr/bin /usr/sbin /usr/local/bin /usr/local/sbin /etc /root /opt /home"
+default["clamav"]["scan"]["full"]["minute"] = "42"
+default["clamav"]["scan"]["full"]["hour"] = "0"
+default["clamav"]["scan"]["full"]["weekday"] = "0"
+default["clamav"]["scan"]["minimal"]["dirs"] = "/"
+default["clamav"]["scan"]["user"] = "root"
+default["clamav"]["scan"]["mailto"] = "example@example.com"
+
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
