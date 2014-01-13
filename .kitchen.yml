@@ -1,0 +1,44 @@
+driver:
+  name: vagrant
+
+platforms:
+  - name: centos-6.5
+  - name: centos-5.10
+  - name: ubuntu-13.10
+  - name: ubuntu-12.04
+
+suites:
+  - name: default
+    run_list:
+      - recipe[clamav_test]
+    attributes:
+  - name: dev_packages
+    run_list:
+      - recipe[clamav_test]
+    attributes: 
+      clamav:
+        dev_package: true
+  - name: services_enabled
+    run_list:
+      - recipe[clamav_test]
+    attributes:
+      clamav:
+        clamd:
+          enabled: true
+      freshclam:
+        enabled: true
+  - name: syslog_configured
+    run_list:
+      - recipe[clamav_test]
+    attributes:
+      clamav:
+        clamd:
+          enabled: true
+          log_file: nil
+          log_syslog: yes
+          syslog_facility: local7
+        freshclam:
+          enabled: true
+          update_log_file: nil
+          log_syslog: yes
+          syslog_facility: local7
