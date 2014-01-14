@@ -32,7 +32,7 @@ cron_d 'clamav_minimal_scan' do
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
   command %Q{
-    #{node["clamav"]["scan"]["script"]} \
+  #{node["clamav"]["scan"]["script"]} \
     #{node["clamav"]["scan"]["minimal"]["dirs"]}
   }
   only_if node['clamav']['scan']['minimal']['enable']
@@ -45,7 +45,7 @@ cron_d 'clamav_full_scan' do
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
   command %Q{
-    #{node["clamav"]["scan"]["script"]} \
+  #{node["clamav"]["scan"]["script"]} \
     #{node["clamav"]["scan"]["full"]["dirs"]}
   }
   only_if node['clamav']['scan']['full']['enable']
