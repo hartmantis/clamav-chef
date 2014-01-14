@@ -17,29 +17,38 @@
 # limitations under the License.
 #
 
-cookbook_file "#{node["clamav"]["scan"]["script"]}" do
-    source "clamav-scan.sh"
-    owner node["clamav"]["user"]
-    group node["clamav"]["group"]
-    mode "0555"
+cookbook_file "#{node['clamav']['scan']['script']}" do
+  source 'clamav-scan.sh'
+  owner node['clamav']['user']
+  group node['clamav']['group']
+  mode '0555'
+  only_if node['clamav']['scan']['script']['enable']
 end
 
-cron "clamav_minimal_scan" do
-    minute node["clamav"]["scan"]["minimal"]["minute"]
-    hour node["clamav"]["scan"]["minimal"]["hour"]
-    weekday node["clamav"]["scan"]["minimal"]["weekday"]
-    user node["clamav"]["scan"]["user"]
-    mailto node["clamav"]["scan"]["mailto"]
-    command "#{node["clamav"]["scan"]["script"]} #{node["clamav"]["scan"]["minimal"]["dirs"]}"
+cron_d 'clamav_minimal_scan' do
+  minute node['clamav']['scan']['minimal']['minute']
+  hour node['clamav']['scan']['minimal']['hour']
+  weekday node['clamav']['scan']['minimal']['weekday']
+  user node['clamav']['scan']['user']
+  mailto node['clamav']['scan']['mailto']
+  command %Q{
+    #{node["clamav"]["scan"]["script"]} \
+    #{node["clamav"]["scan"]["minimal"]["dirs"]}
+  }
+  only_if node['clamav']['scan']['minimal']['enable']
 end
 
-cron "clamav_full_scan" do
-    minute node["clamav"]["scan"]["full"]["minute"]
-    hour node["clamav"]["scan"]["full"]["hour"]
-    weekday node["clamav"]["scan"]["full"]["weekday"]
-    user node["clamav"]["scan"]["user"]
-    mailto node["clamav"]["scan"]["mailto"]
-    command "#{node["clamav"]["scan"]["script"]} #{node["clamav"]["scan"]["full"]["dirs"]}"
+cron_d 'clamav_full_scan' do
+  minute node['clamav']['scan']['full']['minute']
+  hour node['clamav']['scan']['full']['hour']
+  weekday node['clamav']['scan']['full']['weekday']
+  user node['clamav']['scan']['user']
+  mailto node['clamav']['scan']['mailto']
+  command %Q{
+    #{node["clamav"]["scan"]["script"]} \
+    #{node["clamav"]["scan"]["full"]["dirs"]}
+  }
+  only_if node['clamav']['scan']['full']['enable']
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
