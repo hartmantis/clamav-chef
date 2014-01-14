@@ -59,7 +59,9 @@ default['clamav']['clamd']['command_read_timeout'] = '5'
 default['clamav']['clamd']['send_buf_timeout'] = '500'
 default['clamav']['clamd']['max_queue'] = '100'
 default['clamav']['clamd']['idle_timeout'] = '30'
-default['clamav']['clamd']['exclude_paths'] = ['^/proc/', '^/sys/', '^/dev/', '^/var/log/clamav/']
+default['clamav']['clamd']['exclude_paths'] = [
+  '^/proc/', '^/sys/', '^/dev/', '^/var/log/clamav/'
+]
 default['clamav']['clamd']['max_directory_recursion'] = '25'
 default['clamav']['clamd']['follow_directory_symlinks'] = 'no'
 default['clamav']['clamd']['follow_file_symlinks'] = 'no'
