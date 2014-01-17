@@ -17,14 +17,14 @@
 # limitations under the License.
 #
 
-case node["platform_family"]
-when "rhel"
+case node['platform_family']
+when 'rhel'
   include_recipe "#{@cookbook_name}::install_rpm"
-when "debian"
+when 'debian'
   include_recipe "#{@cookbook_name}::install_deb"
 else
-  raise Chef::Exceptions::UnsupportedAction,
-    "Cookbook does not support #{node["platform"]} platform"
+  fail Chef::Exceptions::UnsupportedAction,
+       "Cookbook does not support #{node["platform"]} platform"
 end
 
 include_recipe "#{@cookbook_name}::users"
