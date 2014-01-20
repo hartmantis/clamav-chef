@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
-# Recipe:: clamav-scan
+# Recipe:: clamav_scan
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,12 +18,12 @@
 # limitations under the License.
 #
 
-cookbook_file "#{node['clamav']['scan']['script']['path']}" do
+cookbook_file node['clamav']['scan']['script']['path'] do
   source 'clamav-scan.sh'
   owner node['clamav']['user']
   group node['clamav']['group']
   mode '0555'
-  only_if node['clamav']['scan']['script']['enable']
+  only_if { node['clamav']['scan']['script']['enable'] }
 end
 
 cron_d 'clamav_minimal_scan' do
@@ -31,11 +32,9 @@ cron_d 'clamav_minimal_scan' do
   weekday node['clamav']['scan']['minimal']['weekday']
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
-  command %Q{
-  #{node["clamav"]["scan"]["script"]} \
-    #{node["clamav"]["scan"]["minimal"]["dirs"]}
-  }
-  only_if node['clamav']['scan']['minimal']['enable']
+  command "#{node['clamav']['scan']['script']['path']} " +
+    node['clamav']['scan']['minimal']['dirs']
+  only_if { node['clamav']['scan']['minimal']['enable'] }
 end
 
 cron_d 'clamav_full_scan' do
@@ -44,11 +43,9 @@ cron_d 'clamav_full_scan' do
   weekday node['clamav']['scan']['full']['weekday']
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
-  command %Q{
-  #{node["clamav"]["scan"]["script"]} \
-    #{node["clamav"]["scan"]["full"]["dirs"]}
-  }
-  only_if node['clamav']['scan']['full']['enable']
+  command "#{node['clamav']['scan']['script']['path']} " +
+    node['clamav']['scan']['full']['dirs']
+  only_if { node['clamav']['scan']['full']['enable'] }
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

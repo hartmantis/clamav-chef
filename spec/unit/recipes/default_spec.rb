@@ -11,6 +11,7 @@ describe 'clamav::default' do
       clamav::clamd
       clamav::freshclam_service
       clamav::clamd_service
+      clamav::clamav_scan
     }
   end
   let(:extra_includes) { [] }

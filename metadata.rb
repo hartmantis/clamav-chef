@@ -12,6 +12,7 @@ depends           'logrotate', '~> 1.0'
 depends           'yum', '~> 3.0'
 depends           'yum-epel', '~> 0.2'
 depends           'apt', '~> 2.1'
+depends           'cron', '~> 1.2'
 
 supports          'ubuntu'
 supports          'debian'

@@ -42,3 +42,15 @@ suites:
           update_log_file: nil
           log_syslog: yes
           syslog_facility: local7
+  - name: cron_scans_enabled
+    run_list:
+      - recipe[clamav_test]
+    attributes:
+      clamav:
+        scan:
+          script:
+            enable: true
+          minimal:
+            enable: true
+          full:
+            enable: true

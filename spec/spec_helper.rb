@@ -5,8 +5,10 @@ require 'chefspec'
 require 'tmpdir'
 require 'fileutils'
 require 'support/resources/apt_repository'
+require 'support/resources/cron_d'
 require 'support/resources/logrotate_app'
 require 'support/matchers/apt_repository'
+require 'support/matchers/cron_d'
 require 'support/matchers/logrotate_app'
 
 RSpec.configure do |c|

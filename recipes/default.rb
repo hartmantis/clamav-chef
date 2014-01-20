@@ -34,6 +34,6 @@ include_recipe "#{@cookbook_name}::freshclam"
 include_recipe "#{@cookbook_name}::clamd"
 include_recipe "#{@cookbook_name}::freshclam_service"
 include_recipe "#{@cookbook_name}::clamd_service"
-include_recipe "#{@cookbook_name}::clamav-scan"
+include_recipe "#{@cookbook_name}::clamav_scan"
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby
