@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-cookbook_file "#{node['clamav']['scan']['script']}" do
+cookbook_file "#{node['clamav']['scan']['script']['path']}" do
   source 'clamav-scan.sh'
   owner node['clamav']['user']
   group node['clamav']['group']
