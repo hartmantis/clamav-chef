@@ -7,7 +7,7 @@ describe 'clamav logging' do
     %w{/var/log/clamav/clamd.log /var/log/clamav/freshclam.log}
   end
   let(:logrotate_files) do
-    %x{logrotate -d /etc/logrotate.conf 2>&1}.lines.collect |l|
+    %x{logrotate -d /etc/logrotate.conf 2>&1}.lines.map do |l|
       l.split(' ')[2] if l.start_with?('considering log ')
     end.compact
   end
