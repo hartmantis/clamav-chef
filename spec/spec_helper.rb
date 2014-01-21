@@ -45,4 +45,6 @@ RSpec.configure do |c|
   c.after(:suite) { FileUtils.rm_r(COOKBOOK_PATH) }
 end
 
+at_exit { ChefSpec::Coverage.report! }
+
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby
