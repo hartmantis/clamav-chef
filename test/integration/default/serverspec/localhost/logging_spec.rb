@@ -6,14 +6,17 @@ describe 'clamav logging' do
   let(:log_files) do
     %w{/var/log/clamav/clamd.log /var/log/clamav/freshclam.log}
   end
-  let(:logrotate_files) do
-    %x{logrotate -d /etc/logrotate.conf 2>&1}.lines.map do |l|
-      l.split(' ')[2] if l.start_with?('considering log ')
-    end.compact
-  end
+  let(:cmd) { 'logrotate -d /etc/logrotate.conf 2>&1' }
 
   it 'has a valid logrotate config' do
-    log_files.each { |f| expect(logrotate_files).to include(f) }
+    expect(command(cmd)).to return_exit_status(0)
+  end
+
+  it 'is configured to rotate the ClamAV logs' do
+    res = command(cmd)
+    log_files.each do |f|
+      expect(res.stdout).to match(/considering log #{f}/)
+    end
   end
 
   it 'has correct log file ownership' do

@@ -11,7 +11,7 @@ describe 'clamav cron scans' do
   let(:full_cmd) { "#{script} /" }
 
   it 'does not have the scan script in place' do
-    expect(file(script)).to be_file
+    expect(file(script)).to_not be_file
   end
 
   it 'does not have the minimal scan cron job enabled' do
