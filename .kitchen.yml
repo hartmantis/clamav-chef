@@ -25,8 +25,8 @@ suites:
       clamav:
         clamd:
           enabled: true
-      freshclam:
-        enabled: true
+        freshclam:
+          enabled: true
   - name: syslog_configured
     run_list:
       - recipe[clamav_test]

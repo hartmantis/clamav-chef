@@ -26,7 +26,7 @@ Then 'ClamAV detects nothing' do
   expect(@res).to include("\nInfected files: 0\n")
 end
 
-Then 'ClamAV should detect a virus' do
+Then 'ClamAV detects a virus' do
   expect(@res).to include("#{@f.path}: Eicar-Test-Signature FOUND\n")
   expect(@res).to include("\nInfected files: 1\n")
 end
