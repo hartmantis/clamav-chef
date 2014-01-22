@@ -34,12 +34,12 @@ suites:
       clamav:
         clamd:
           enabled: true
-          log_file: nil
+          log_file: false
           log_syslog: yes
           syslog_facility: local7
         freshclam:
           enabled: true
-          update_log_file: nil
+          update_log_file: false
           log_syslog: yes
           syslog_facility: local7
   - name: cron_scans_enabled
