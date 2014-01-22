@@ -22,10 +22,12 @@ require 'etc'
 
 include_recipe 'logrotate'
 
-log_files = [node['clamav']['clamd']['log_file'],
-             node['clamav']['freshclam']['update_log_file']].uniq
+log_files = [
+  node['clamav']['clamd']['log_file'],
+  node['clamav']['freshclam']['update_log_file']
+].keep_if { |f| f }.uniq
 
-log_files.map { |x| File.dirname(x) }.uniq.each do |d|
+log_files.map { |f| File.dirname(f) }.uniq.each do |d|
   directory d do
     owner node['clamav']['user']
     group node['clamav']['group']

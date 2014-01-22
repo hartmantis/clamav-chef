@@ -9,11 +9,11 @@ describe 'clamav syslog logging' do
   let(:syslog) { File.read(syslog_file) }
 
   it 'is writing clamav logs to the system log' do
-    expect(file(f)).to contain(' clamd[')
+    expect(file(syslog_file)).to contain(/ clamd\[/)
   end
 
   it 'is writing freshclam logs to the system log' do
-    expect(file(f)).to contain(' freshclam[')
+    expect(file(syslog_file)).to contain(/ freshclam\[/)
   end
 end
 
