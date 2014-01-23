@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
 # Recipe:: logging
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,17 +18,19 @@
 # limitations under the License.
 #
 
-require "etc"
+require 'etc'
 
-include_recipe "logrotate"
+include_recipe 'logrotate'
 
-log_files = [node["clamav"]["clamd"]["log_file"],
-  node["clamav"]["freshclam"]["update_log_file"]].uniq
+log_files = [
+  node['clamav']['clamd']['log_file'],
+  node['clamav']['freshclam']['update_log_file']
+].keep_if { |f| f }.uniq
 
-log_files.map { |x| File.dirname(x) }.uniq.each do |d|
+log_files.map { |f| File.dirname(f) }.uniq.each do |d|
   directory d do
-    owner node["clamav"]["user"]
-    group node["clamav"]["group"]
+    owner node['clamav']['user']
+    group node['clamav']['group']
     recursive true
     action :create
   end
@@ -35,26 +38,26 @@ end
 
 log_files.each do |f|
   file f do
-    owner node["clamav"]["user"]
-    group node["clamav"]["group"]
+    owner node['clamav']['user']
+    group node['clamav']['group']
     action :create
   end
 end
 
-node["clamav"]["clamd"]["log_file"] and logrotate_app "clamav" do
-  cookbook "logrotate"
-  path node["clamav"]["clamd"]["log_file"]
-  frequency node["clamav"]["clamd"]["logrotate_frequency"]
-  rotate node["clamav"]["clamd"]["logrotate_rotations"]
-  create "644 #{node["clamav"]["user"]} #{node["clamav"]["group"]}"
+node['clamav']['clamd']['log_file'] && logrotate_app('clamav') do
+  cookbook 'logrotate'
+  path node['clamav']['clamd']['log_file']
+  frequency node['clamav']['clamd']['logrotate_frequency']
+  rotate node['clamav']['clamd']['logrotate_rotations']
+  create "644 #{node['clamav']['user']} #{node['clamav']['group']}"
 end
 
-node["clamav"]["freshclam"]["update_log_file"] and logrotate_app "freshclam" do
-  cookbook "logrotate"
-  path node["clamav"]["freshclam"]["update_log_file"]
-  frequency node["clamav"]["freshclam"]["logrotate_frequency"]
-  rotate node["clamav"]["freshclam"]["logrotate_rotations"]
-  create "644 #{node["clamav"]["user"]} #{node["clamav"]["group"]}"
+node['clamav']['freshclam']['update_log_file'] && logrotate_app('freshclam') do
+  cookbook 'logrotate'
+  path node['clamav']['freshclam']['update_log_file']
+  frequency node['clamav']['freshclam']['logrotate_frequency']
+  rotate node['clamav']['freshclam']['logrotate_rotations']
+  create "644 #{node['clamav']['user']} #{node['clamav']['group']}"
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

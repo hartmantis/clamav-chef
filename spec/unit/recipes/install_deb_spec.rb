@@ -1,0 +1,117 @@
+# -*- encoding: utf-8 -*-
+
+require 'spec_helper'
+
+describe 'clamav::install_deb' do
+  let(:packages) { %w{clamav clamav-daemon} }
+  let(:clamd_service) { 'service[clamav-daemon]' }
+  let(:freshclam_service) { 'service[clamav-freshclam]' }
+  let(:attributes) { {} }
+  let(:platform) { { platform: 'ubuntu', version: '12.04' } }
+  let(:runner) do
+    ChefSpec::Runner.new(platform) do |node|
+      attributes.each { |k, v| node.set[k] = v }
+    end
+  end
+  let(:chef_run) do
+    Chef::ResourceCollection.any_instance.stub(:lookup).and_call_original
+    Chef::ResourceCollection.any_instance.stub(:lookup)
+      .with('execute[apt-get update]')
+      .and_return(Chef::Resource::Execute.new('apt-get update'))
+    runner.converge(described_recipe)
+  end
+
+  shared_examples_for 'any node' do
+    it 'sets up the ClamAV APT repo' do
+      expect(chef_run).to create_apt_repository('clamav-repo').with(
+        uri: 'http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu',
+        distribution: 'precise',
+        components: %w{main},
+        keyserver: 'keyserver.ubuntu.com',
+        key: '5ADC2037'
+      )
+    end
+
+    it 'sends a notification to "apt-get update"' do
+      e = 'execute[apt-get update]'
+      expect(chef_run.apt_repository('clamav-repo')).to notify(e).to(:run)
+    end
+
+    it 'installs the pertinent packages' do
+      packages.each do |p|
+        expect(chef_run).to install_package(p)
+      end
+    end
+
+    it 'cleans up files left behind by the packages' do
+      %w{
+        /etc/logrotate.d/clamav-daemon
+        /etc/logrotate.d/clamav-freshclam
+      }.each do |f|
+        expect(chef_run).to delete_file(f)
+      end
+    end
+  end
+
+  shared_examples_for 'a node with all default attributes' do
+    it 'does not send any restart notifications' do
+      packages.each do |p|
+        [clamd_service, freshclam_service].each do |s|
+          expect(chef_run.package(p)).to_not notify(s).to(:restart)
+        end
+      end
+    end
+  end
+
+  context 'an entirey default node' do
+    it_behaves_like 'any node'
+    it_behaves_like 'a node with all default attributes'
+  end
+
+  context 'a node with the dev package enabled' do
+    let(:attributes) { { clamav: { dev_package: true } } }
+
+    it_behaves_like 'any node'
+
+    it 'installs the ClamAV dev package' do
+      expect(chef_run).to install_package('libclamav-dev')
+    end
+  end
+
+  context 'a node with the package versions overridden' do
+    let(:attributes) { { clamav: { version: '42.42.42' } } }
+
+    it_behaves_like 'any node'
+
+    it 'installs the packages at the specified version' do
+      packages.each do |p|
+        expect(chef_run).to install_package(p).with(version: '42.42.42')
+      end
+    end
+  end
+
+  context 'a node with the clamd daemon enabled' do
+    let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+
+    it_behaves_like 'any node'
+
+    it 'sends a restart notification to clamd' do
+      packages.each do |p|
+        expect(chef_run.package(p)).to notify(clamd_service).to(:restart)
+      end
+    end
+  end
+
+  context 'a node with the freshclam daemon enabled' do
+    let(:attributes) { { clamav: { freshclam: { enabled: true } } } }
+
+    it_behaves_like 'any node'
+
+    it 'sends a restart notification to freshclam' do
+      expect(chef_run.package(packages[0])).to notify(freshclam_service)
+        .to(:restart)
+    end
+  end
+end
+
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

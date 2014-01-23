@@ -1,17 +1,29 @@
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
+# -*- encoding: utf-8 -*-
 
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "chef", ENV.fetch("CHEF_VERSION", ">= 10.14.4")
-gem "test-kitchen"
-gem "rake"
-gem "tailor"
-gem "foodcritic"
-gem "chefspec"
-gem "rspec"
-gem "minitest-chef-handler"
-gem "berkshelf"
-gem "cucumber"
+group :development, :test do
+  gem 'rake'
+  gem 'yard-chef'
+  gem 'guard'
+  gem 'cane'
+  gem 'countloc'
+  gem 'rubocop'
+  gem 'foodcritic'
+  gem 'guard-foodcritic'
+  gem 'rspec'
+  gem 'chefspec'
+  gem 'guard-rspec'
+  gem 'serverspec'
+  gem 'fauxhai'
+  gem 'test-kitchen'
+  gem 'kitchen-vagrant'
+  gem 'vagrant-wrapper'
+  gem 'guard-kitchen'
+  gem 'cucumber'
+end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+gem 'chef'
+gem 'berkshelf'
+
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

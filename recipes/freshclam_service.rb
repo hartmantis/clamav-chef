@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
 # Recipe:: freshclam_service
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,17 +18,17 @@
 # limitations under the License.
 #
 
-directory File.dirname(node["clamav"]["freshclam"]["pid_file"]) do
-  owner node["clamav"]["user"]
-  group node["clamav"]["group"]
+directory File.dirname(node['clamav']['freshclam']['pid_file']) do
+  owner node['clamav']['user']
+  group node['clamav']['group']
   recursive true
   action :create
 end
 
-service node["clamav"]["freshclam"]["service"] do
-  supports :status => true, :restart => true
-  action node["clamav"]["freshclam"]["enabled"] ? [:enable, :start] :
-    [:stop, :disable]
+service node['clamav']['freshclam']['service'] do
+  supports status: true, restart: true
+  action node['clamav']['freshclam']['enabled'] ? [:enable, :start] :
+         [:stop, :disable]
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

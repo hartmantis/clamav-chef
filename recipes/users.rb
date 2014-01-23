@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
 # Recipe:: users
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -18,16 +19,16 @@
 #
 
 # These should be created by the package install but, just in case...
-user node["clamav"]["user"] do
-  comment "Clam Anti Virus Checker"
+user node['clamav']['user'] do
+  comment 'Clam Anti Virus Checker'
   system true
-  shell "/sbin/nologin"
+  shell '/sbin/nologin'
 end
 
-group node["clamav"]["group"] do
-  members [node["clamav"]["user"]]
+group node['clamav']['group'] do
+  members [node['clamav']['user']]
   system true
-  only_if { node["clamav"]["user"] != node["clamav"]["group"] }
+  only_if { node['clamav']['user'] != node['clamav']['group'] }
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby

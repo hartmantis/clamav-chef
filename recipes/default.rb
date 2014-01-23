@@ -1,8 +1,9 @@
+# -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
 # Recipe:: default
 #
-# Copyright 2012-2013, Jonathan Hartman
+# Copyright 2012-2014, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,14 +18,14 @@
 # limitations under the License.
 #
 
-case node["platform_family"]
-when "rhel"
+case node['platform_family']
+when 'rhel'
   include_recipe "#{@cookbook_name}::install_rpm"
-when "debian"
+when 'debian'
   include_recipe "#{@cookbook_name}::install_deb"
 else
-  raise Chef::Exceptions::UnsupportedAction,
-    "Cookbook does not support #{node["platform"]} platform"
+  fail(Chef::Exceptions::UnsupportedAction,
+       "Cookbook does not support #{node["platform"]} platform")
 end
 
 include_recipe "#{@cookbook_name}::users"
@@ -33,5 +34,6 @@ include_recipe "#{@cookbook_name}::freshclam"
 include_recipe "#{@cookbook_name}::clamd"
 include_recipe "#{@cookbook_name}::freshclam_service"
 include_recipe "#{@cookbook_name}::clamd_service"
+include_recipe "#{@cookbook_name}::clamav_scan"
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+# vim: ai et ts=2 sts=2 sw=2 ft=ruby
