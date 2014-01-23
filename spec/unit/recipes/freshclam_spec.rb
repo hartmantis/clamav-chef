@@ -74,25 +74,31 @@ describe 'clamav::freshclam' do
     end
   end
 
+  shared_examples_for 'a node that needs to run freshclam' do
+    it 'runs freshclam manually' do
+      expect(chef_run).to_not run_execute('freshclam')
+      expect(chef_run.template(conf)).to notify('execute[freshclam]')
+        .to(:run)
+    end
+  end
+
+  shared_examples_for 'a node that does not need to run freshclam' do
+    it 'does not run freshclam manually' do
+      expect(chef_run).to_not run_execute('freshclam')
+      expect(chef_run.template(conf)).to_not notify('execute[freshclam]')
+        .to(:run)
+    end
+  end
+
   shared_examples_for 'a node with the freshclam service disabled' do
     it 'leaves disabled service alone' do
       expect(chef_run.template(conf)).to_not notify(service).to(:restart)
-    end
-
-    it 'runs freshclam manually' do
-      expect(chef_run).to_not run_execute('freshclam')
     end
   end
 
   shared_examples_for 'a node with the freshclam service enabled' do
     it 'restarts the enabled service' do
       expect(chef_run.template(conf)).to notify(service).to(:restart)
-    end
-
-    it 'does not run freshclam manually' do
-      expect(chef_run).to_not run_execute('freshclam')
-      expect(chef_run.template(conf)).to_not notify('execute[freshclam]')
-        .to(:run)
     end
   end
 
@@ -132,6 +138,7 @@ describe 'clamav::freshclam' do
       context 'an entirely default node' do
         it_behaves_like 'any node'
         it_behaves_like 'a node with all default attributes'
+        it_behaves_like 'a node that needs to run freshclam'
         it_behaves_like 'a node with the freshclam service disabled'
         it_behaves_like 'a node with the clamd service disabled'
       end
@@ -141,6 +148,11 @@ describe 'clamav::freshclam' do
 
         it_behaves_like 'any node'
         it_behaves_like 'a node with all default attributes'
+        if k == :Ubuntu
+          it_behaves_like 'a node that needs to run freshclam'
+        else
+          it_behaves_like 'a node that does not need to run freshclam'
+        end
         it_behaves_like 'a node with the freshclam service enabled'
         it_behaves_like 'a node with the clamd service disabled'
       end
@@ -150,6 +162,7 @@ describe 'clamav::freshclam' do
 
         it_behaves_like 'any node'
         it_behaves_like 'a node with all default attributes'
+        it_behaves_like 'a node that needs to run freshclam'
         it_behaves_like 'a node with the freshclam service disabled'
         it_behaves_like 'a node with the clamd service enabled'
       end

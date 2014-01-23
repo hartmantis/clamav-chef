@@ -20,7 +20,9 @@
 
 service node['clamav']['freshclam']['service']
 
+platform_family = node['platform_family']
 supp_groups = node['clamav']['allow_supplementary_groups']
+
 if node['clamav']['clamd']['enabled']
   notify = File.expand_path("#{node['clamav']['conf_dir']}/clamd.conf")
 else
@@ -43,7 +45,8 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   if node['clamav']['freshclam']['enabled']
     notifies :restart, "service[#{node['clamav']['freshclam']['service']}]",
              :delayed
-  else
+  end
+  if !node['clamav']['freshclam']['enabled'] || platform_family == 'debian'
     notifies :run, 'execute[freshclam]', :immediately
   end
 end
