@@ -36,12 +36,12 @@ suites:
           enabled: true
           log_file: false
           log_syslog: yes
-          syslog_facility: local7
+          log_facility: LOG_LOCAL7
         freshclam:
           enabled: true
           update_log_file: false
           log_syslog: yes
-          syslog_facility: local7
+          log_facility: LOG_LOCAL7
   - name: cron_scans_enabled
     run_list:
       - recipe[clamav_test]
