@@ -20,8 +20,8 @@
 
 include_recipe 'yum-epel'
 
-service node['clamav']['clamd']['service']
-service node['clamav']['freshclam']['service']
+include_recipe "#{cookbook_name}::clamd_service"
+include_recipe "#{cookbook_name}::freshclam_service"
 
 %w{clamav clamav-db clamd}.each do |pkg|
   yum_package pkg do

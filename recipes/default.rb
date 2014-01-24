@@ -20,20 +20,20 @@
 
 case node['platform_family']
 when 'rhel'
-  include_recipe "#{@cookbook_name}::install_rpm"
+  include_recipe "#{cookbook_name}::install_rpm"
 when 'debian'
-  include_recipe "#{@cookbook_name}::install_deb"
+  include_recipe "#{cookbook_name}::install_deb"
 else
   fail(Chef::Exceptions::UnsupportedAction,
        "Cookbook does not support #{node["platform"]} platform")
 end
 
-include_recipe "#{@cookbook_name}::users"
-include_recipe "#{@cookbook_name}::logging"
-include_recipe "#{@cookbook_name}::freshclam"
-include_recipe "#{@cookbook_name}::clamd"
-include_recipe "#{@cookbook_name}::freshclam_service"
-include_recipe "#{@cookbook_name}::clamd_service"
-include_recipe "#{@cookbook_name}::clamav_scan"
+include_recipe "#{cookbook_name}::users"
+include_recipe "#{cookbook_name}::logging"
+include_recipe "#{cookbook_name}::freshclam"
+include_recipe "#{cookbook_name}::clamd"
+include_recipe "#{cookbook_name}::freshclam_service"
+include_recipe "#{cookbook_name}::clamd_service"
+include_recipe "#{cookbook_name}::clamav_scan"
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby
