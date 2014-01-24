@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-include_recipe "#{cookbook_name}::freshclam_service"
+include_recipe "#{cookbook_name}::services"
 
 platform_family = node['platform_family']
 supp_groups = node['clamav']['allow_supplementary_groups']

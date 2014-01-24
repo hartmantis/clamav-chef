@@ -13,12 +13,7 @@ describe 'clamav::install_deb' do
       attributes.each { |k, v| node.set[k] = v }
     end
   end
-  let(:chef_run) do
-    Chef::ResourceCollection.any_instance.stub(:lookup)
-      .with('execute[apt-get update]')
-      .and_return(Chef::Resource::Execute.new('apt-get update'))
-    runner.converge(described_recipe)
-  end
+  let(:chef_run) { runner.converge(described_recipe) }
 
   shared_examples_for 'any node' do
     it 'sets up the ClamAV APT repo' do

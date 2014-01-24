@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 #
 # Cookbook Name:: clamav
-# Recipe:: freshclam_service
+# Recipe:: services
 #
 # Copyright 2012-2014, Jonathan Hartman
 #
@@ -18,11 +18,21 @@
 # limitations under the License.
 #
 
-directory File.dirname(node['clamav']['freshclam']['pid_file']) do
-  owner node['clamav']['user']
-  group node['clamav']['group']
-  recursive true
-  action :create
+[
+  node['clamav']['clamd']['pid_file'],
+  node['clamav']['freshclam']['pid_file']
+].map { |f| File.dirname(f) }.compact.uniq.each do |d|
+  directory d do
+    owner node['clamav']['user']
+    group node['clamav']['group']
+    recursive true
+  end
+end
+
+service node['clamav']['clamd']['service'] do
+  supports status: true, restart: true
+  action node['clamav']['clamd']['enabled'] ? [:enable, :start] :
+    [:stop, :disable]
 end
 
 service node['clamav']['freshclam']['service'] do

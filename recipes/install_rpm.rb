@@ -19,9 +19,7 @@
 #
 
 include_recipe 'yum-epel'
-
-include_recipe "#{cookbook_name}::clamd_service"
-include_recipe "#{cookbook_name}::freshclam_service"
+include_recipe "#{cookbook_name}::services"
 
 %w{clamav clamav-db clamd}.each do |pkg|
   yum_package pkg do
