@@ -12,22 +12,7 @@ suites:
     run_list:
       - recipe[clamav_test]
     attributes:
-  - name: dev_packages
-    run_list:
-      - recipe[clamav_test]
-    attributes: 
-      clamav:
-        dev_package: true
-  - name: services_enabled
-    run_list:
-      - recipe[clamav_test]
-    attributes:
-      clamav:
-        clamd:
-          enabled: true
-        freshclam:
-          enabled: true
-  - name: syslog_configured
+  - name: all_options_enabled
     run_list:
       - recipe[clamav_test]
     attributes:
@@ -42,11 +27,7 @@ suites:
           update_log_file: false
           log_syslog: yes
           log_facility: LOG_LOCAL7
-  - name: cron_scans_enabled
-    run_list:
-      - recipe[clamav_test]
-    attributes:
-      clamav:
+        dev_package: true
         scan:
           script:
             enable: true
