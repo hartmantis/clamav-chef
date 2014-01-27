@@ -11,6 +11,20 @@ require 'support/matchers/apt_repository'
 require 'support/matchers/cron_d'
 require 'support/matchers/logrotate_app'
 
+def stub_apt_resources
+  Chef::ResourceCollection.any_instance.stub(:lookup)
+    .with('execute[apt-get update]')
+    .and_return(Chef::Resource::Execute.new('apt-get update'))
+end
+
+def stub_service_resources
+  %w{clamd clamav-daemon freshclam clamav-freshclam}.each do |s|
+    Chef::ResourceCollection.any_instance.stub(:lookup)
+      .with("service[#{s}]")
+      .and_return(Chef::Resource::Service.new(s))
+  end
+end
+
 RSpec.configure do |c|
   c.color_enabled = true
 
@@ -27,19 +41,26 @@ RSpec.configure do |c|
     # Don't worry about external cookbook dependencies
     Chef::Cookbook::Metadata.any_instance.stub(:depends)
 
+    # Prep lookup() for the stubs below
+    Chef::ResourceCollection.any_instance.stub(:lookup).and_call_original
+
     # Test each recipe in isolation, regardless of includes
     @included_recipes = []
     Chef::RunContext.any_instance.stub(:loaded_recipe?).and_return(false)
     Chef::Recipe.any_instance.stub(:include_recipe) do |i|
-      Chef::RunContext.any_instance.stub(:loaded_recipe?).with(i).and_return(
-        true)
+      # Recipes that define scripts or services are a special case
+      case i
+      when 'apt'
+        stub_apt_resources
+      when 'clamav::services'
+        stub_service_resources
+      end
+      Chef::RunContext.any_instance.stub(:loaded_recipe?).with(i)
+        .and_return(true)
       @included_recipes << i
     end
-    Chef::RunContext.any_instance.stub(:loaded_recipes).and_return(
-      @included_recipes)
-
-    # Drop extraneous writes to stdout
-    Chef::Formatters::Doc.any_instance.stub(:library_load_start)
+    Chef::RunContext.any_instance.stub(:loaded_recipes)
+      .and_return(@included_recipes)
   end
 
   c.after(:suite) { FileUtils.rm_r(COOKBOOK_PATH) }

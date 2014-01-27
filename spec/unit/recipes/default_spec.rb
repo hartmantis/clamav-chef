@@ -9,8 +9,7 @@ describe 'clamav::default' do
       clamav::logging
       clamav::freshclam
       clamav::clamd
-      clamav::freshclam_service
-      clamav::clamd_service
+      clamav::services
       clamav::clamav_scan
     }
   end
@@ -43,7 +42,26 @@ describe 'clamav::default' do
       let(:platform) { { platform: v[:platform], version: v[:version] } }
       let(:extra_includes) { v[:includes] }
 
-      it_behaves_like 'any supported platform'
+      context 'with recipes tested in isolation' do
+        it_behaves_like 'any supported platform'
+      end
+
+      context 'with recipes tested together' do
+        before(:each) do
+          # Unstub everything intra-cookbook
+          Chef::RunContext.any_instance.unstub(:loaded_recipe?)
+          Chef::RunContext.any_instance.unstub(:loaded_recipes)
+
+          stub_apt_resources
+
+          Chef::Recipe.any_instance.unstub(:include_recipe)
+          Chef::Recipe.any_instance.stub(:include_recipe)
+          Chef::Recipe.any_instance.stub(:include_recipe).with(/clamav::/)
+            .and_call_original
+        end
+
+        it_behaves_like 'any supported platform'
+      end
     end
   end
 

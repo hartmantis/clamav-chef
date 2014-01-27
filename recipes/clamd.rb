@@ -18,7 +18,7 @@
 # limitations under the License.
 #
 
-service node['clamav']['clamd']['service']
+include_recipe "#{cookbook_name}::services"
 
 supp_groups = node['clamav']['allow_supplementary_groups']
 template "#{node['clamav']['conf_dir']}/clamd.conf" do

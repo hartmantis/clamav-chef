@@ -19,9 +19,7 @@
 #
 
 include_recipe 'apt'
-
-service node['clamav']['clamd']['service']
-service node['clamav']['freshclam']['service']
+include_recipe "#{cookbook_name}::services"
 
 apt_repository 'clamav-repo' do
   uri 'http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu'
