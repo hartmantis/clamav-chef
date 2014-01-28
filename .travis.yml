@@ -1,21 +1,22 @@
 language: ruby
 
-gemfile:
-  - Gemfile
+bundler_args: --path=~/.bundle
 
-rvm:
-#  - 1.9.2
-  - 1.9.3
-
-env:
-#  - CHEF_VERSION=10.14.4
-#  - CHEF_VERSION=10.24.0
-
-before_install: echo "cookbook 'minitest-handler'" >> Berksfile
+before_script:
+    # Pending ENV support in the next TK release after 1.1.1
+  - cp .kitchen.travis.yml .kitchen.local.yml
+  # Pending the ability to use root passwords in kitchen-rackspace
+  - ssh-keygen -f ~/.ssh/id_rsa -b 768 -P ''
 
 script:
-  - bundle exec rake
-  - bundle exec berks install --path /tmp/berkshelf
-  - bundle exec rake converge
+  # Pending the ability to drive TK concurrency via ENV and/or config file
+  - rake everything_but_the_kitchen
+  # Leave out the Kitchen run for now
+  # - bundle exec kitchen test --parallel
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby fdm=marker
+env:
+  global:
+    # Pending ENV support in the next TK release after 1.1.1
+    # - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
+    - secure: XwAdgS1uKAlKvom7NndLnU+/fCpOKevsmzs4o6sH8/bu0Fi+6Mj8fZrko79gbjDgizoJS24jW8vBgYe4fnpANU6Ea8KxoCv6k09bmlG1CgjwTThHtNhLqbHNivd2ehyQ9ALl9Fg88uqjr4y682e4DLNTp5wtUWSWMLWbKj0QoAI=
+    - secure: BvW+mz11wV7lzgHZSShMjRPnpT8GFHynzsI+9OkeXrwedZW4UkQWPrUarHf3mwEAV34jr9KC2zuECKR7hQeMPQFYHGsUjDDn3VVu99OxGZUgf8r5MAYKBpKQzQGaVwPSlQRl6MzdFlunoV9rrxe7u4YgXcLmVDAu7WQwCPdEqnI=
