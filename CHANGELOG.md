@@ -1,16 +1,15 @@
-## 0.4.1:
+ClamAV Cookbook CHANGELOG
+=========================
 
+v0.4.1 (2013-12-13)
+-------------------
 * Bump dependency cookbook versions
 
-## 0.4.0:
-
+v0.4.0 (2013-03-29)
+-------------------
 * Default package versions to nil for now to make life easier
 * Loosen the cookbook dependencies a little
 
-## 0.0.2:
-
-* Let's call it a new version since so much has changed
-
-## 0.0.1:
-
-* In development, let's test all the things!
+v0.2.0 (2013-01-16)
+-------------------
+* Initial release
