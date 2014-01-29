@@ -48,6 +48,13 @@ Whether to install the appropriate ClamAV development package
 
 Log file/syslog facility logging options
 
+    default['clamav']['scan']['script']['enable'] = false
+    default['clamav']['scan']['minimal']['enable'] = false
+    default['clamav']['scan']['full']['enable'] = false
+
+Optionally enable a daily minimum virus scan and/or a weekly virus scan of the
+full filesystem.
+
 ClamAV has many other options. See the attribute files and ClamAV
 [documentation](http://www.clamav.net/doc/latest/html/) for details.
 
@@ -61,34 +68,20 @@ Feel free to fork this project and submit any changes via pull request.
 
 Testing
 =====
-As a first project to implement cookbook tests, I probably went a bit
-overboard, but this cookbook implements several sets of tests using a number
-of tools.
+This cookbook implements several suites of syntax, style, unit, integration and
+acceptance tests, utilizing a number of tools:
 
-* [Vagrant](http://vagrantup.com/) and [VirtualBox](https://www.virtualbox.org/) for creating virtual environments
+* [Vagrant](http://vagrantup.com/) and
+[VirtualBox](https://www.virtualbox.org/) for creating virtual environments
 * [Berkshelf](http://berkshelf.com/) for retrieving cookbook dependencies
-* [FoodCritic](http://acrmp.github.com/foodcritic/) for lint tests
-* [ChefSpec](https://github.com/acrmp/chefspec/) for the cookbook tests
-* [Minitest Chef Handler](https://github.com/calavera/minitest-chef-handler) for the full-on Chef run tests
-* [Cucumber](http://cukes.info/) for high-level behavior tests
-* [Test Kitchen](https://github.com/opscode/test-kitchen) to tie all the tests together
+* [Rubocop](https://github.com/bbatsov/rubocop) for Ruby lint tests
+* [FoodCritic](http://www.foodcritic.io) for Chef lint tests
+* [ChefSpec](https://github.com/sethvargo/chefspec) for the cookbook unit tests
+* [Serverspec](http://serverspec.org) for post-converge integration tests
+* [Cucumber](http://cukes.info/) for high-level acceptance tests
+* [Test Kitchen](http://kitchen.ci) to tie all the tests together
 
-To run the Foodcritic tests only, run:
 
-    foodcritic
+To run the entire suite of tests, simple:
 
-To run the ChefSpec tests:
-
-    rspec
-
-To start up a development environment for basic Chef run verification:
-
-    vagrant up
-
-To do a full-on run of all tests on every supported platform:
-
-    kitchen test
-
-To Do
-=====
-* Use Fauxhai for some of the spec tests
+    rake
