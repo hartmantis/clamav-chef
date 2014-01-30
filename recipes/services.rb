@@ -29,16 +29,28 @@
   end
 end
 
-service node['clamav']['clamd']['service'] do
+c_service = node['clamav']['clamd']['service']
+c_enabled = node['clamav']['clamd']['enabled']
+service c_service do
   supports status: true, restart: true
-  action node['clamav']['clamd']['enabled'] ? [:enable, :start] :
-    [:stop, :disable]
+  action :nothing
 end
 
-service node['clamav']['freshclam']['service'] do
+f_service = node['clamav']['freshclam']['service']
+f_enabled = node['clamav']['freshclam']['enabled']
+service f_service do
   supports status: true, restart: true
-  action node['clamav']['freshclam']['enabled'] ? [:enable, :start] :
-         [:stop, :disable]
+  action :nothing
+end
+
+ruby_block 'dummy service notification block' do
+  block do
+    Chef::Log.info('Dispatching service notifications...')
+  end
+  notifies(c_enabled ? :enable : :disable, "service[#{c_service}]")
+  notifies(c_enabled ? :start : :stop, "service[#{c_service}]")
+  notifies(f_enabled ? :enable : :disable, "service[#{f_service}]")
+  notifies(f_enabled ? :start : :stop, "service[#{f_service}]")
 end
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby

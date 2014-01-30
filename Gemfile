@@ -9,8 +9,6 @@ group :development, :test do
   gem 'cane'
   gem 'countloc'
   gem 'rubocop'
-  # Pending release of https://github.com/bbatsov/rubocop/issues/762
-  gem 'rainbow', '< 2'
   gem 'foodcritic'
   gem 'guard-foodcritic'
   gem 'rspec'
