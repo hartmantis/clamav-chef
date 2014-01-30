@@ -38,7 +38,7 @@ default['clamav']['scan']['script']['enable'] = false
 default['clamav']['scan']['minimal']['minute'] = '42'
 default['clamav']['scan']['minimal']['hour'] = '0'
 default['clamav']['scan']['minimal']['weekday'] = '1-6'
-default['clamav']['scan']['minimal']['dirs'] = '/bin /sbin /usr/bin ' +
+default['clamav']['scan']['minimal']['dirs'] = '/bin /sbin /usr/bin ' \
   '/usr/sbin /usr/local/bin /usr/local/sbin /etc /root /opt /home'
 default['clamav']['scan']['minimal']['enable'] = false
 default['clamav']['scan']['full']['minute'] = '42'

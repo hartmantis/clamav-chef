@@ -30,7 +30,7 @@ when 'debian'
 end
 
 # Options - freshclam.conf
-default['clamav']['freshclam']['update_log_file'] = '/var/log/clamav/' +
+default['clamav']['freshclam']['update_log_file'] = '/var/log/clamav/' \
   'freshclam.log'
 default['clamav']['freshclam']['logrotate_frequency'] = 'daily'
 default['clamav']['freshclam']['logrotate_rotations'] = 7
