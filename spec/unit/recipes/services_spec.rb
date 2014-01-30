@@ -12,6 +12,7 @@ describe 'clamav::services' do
     }
   end
   let(:attributes) { {} }
+  let(:ruby_block) { 'dummy service notification block' }
   let(:runner) do
     ChefSpec::Runner.new(platform) do |node|
       attributes.each { |k, v| node.set[k] = v }
@@ -29,33 +30,61 @@ describe 'clamav::services' do
         )
       end
     end
+
+    it 'does nothing with the services themselves' do
+      [:clamd, :freshclam].each do |s|
+        expect(chef_run.service(services[s])).to be
+        expect(chef_run).to_not start_service(services[s])
+        expect(chef_run).to_not stop_service(services[s])
+        expect(chef_run).to_not enable_service(services[s])
+        expect(chef_run).to_not disable_service(services[s])
+      end
+    end
+
+    it 'creates a dummy Ruby block' do
+      expect(chef_run).to run_ruby_block('dummy service notification block')
+    end
   end
 
   shared_examples_for 'with the freshclam service disabled' do
     it 'disables the service' do
-      expect(chef_run).to disable_service(services[:freshclam])
-      expect(chef_run).to stop_service(services[:freshclam])
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:freshclam]}]").to(:disable)
+    end
+
+    it 'stops the service' do
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:freshclam]}]").to(:stop)
     end
   end
 
   shared_examples_for 'with the freshclam service enabled' do
     it 'enables the service' do
-      expect(chef_run).to enable_service(services[:freshclam])
-      expect(chef_run).to start_service(services[:freshclam])
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:freshclam]}]").to(:enable)
+    end
+
+    it 'starts the service' do
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:freshclam]}]").to(:start)
     end
   end
 
   shared_examples_for 'with the clamd service disabled' do
     it 'stops and disables the service' do
-      expect(chef_run).to disable_service(services[:clamd])
-      expect(chef_run).to stop_service(services[:clamd])
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:clamd]}]").to(:disable)
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:clamd]}]").to(:stop)
     end
   end
 
   shared_examples_for 'with the clamd service enabled' do
     it 'enables and starts the service' do
-      expect(chef_run).to enable_service(services[:clamd])
-      expect(chef_run).to start_service(services[:clamd])
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:clamd]}]").to(:enable)
+      expect(chef_run.ruby_block(ruby_block))
+        .to notify("service[#{services[:clamd]}]").to(:start)
     end
   end
 
