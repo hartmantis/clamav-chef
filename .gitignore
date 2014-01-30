@@ -17,6 +17,7 @@ Berksfile.lock
 .kitchen.local.yml
 
 # Bundler
+vendor
 .vendor
 .bundle
 

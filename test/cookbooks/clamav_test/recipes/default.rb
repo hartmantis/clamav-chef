@@ -18,6 +18,9 @@
 # limitations under the License.
 #
 
+# Compiler is needed to install Cucumber for the acceptance tests
+include_recipe 'apt' if node['platform_family'] == 'debian'
+include_recipe 'build-essential'
 include_recipe 'clamav::default'
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,7 +1,7 @@
 # -*- encoding: utf-8 -*-
 
 require 'rubygems'
-require 'english'
+require 'English'
 require 'bundler/setup'
 require 'rubocop/rake_task'
 require 'cane/rake_task'
@@ -37,8 +37,13 @@ RSpec::Core::RakeTask.new(:spec)
 
 Kitchen::RakeTasks.new
 
+desc 'Run all tests that do not require a converge'
+task everything_but_the_kitchen: [
+  :cane, :rubocop, :loc, :cookbook_test, :foodcritic, :spec
+]
+
 task default: [
-  :cane, :rubocop, :loc, :cookbook_test, :foodcritic, :spec, 'kitchen:all'
+  :everything_but_the_kitchen, 'kitchen:all'
 ]
 
 # vim: ai et ts=2 sts=2 sw=2 ft=ruby
