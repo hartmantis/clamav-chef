@@ -1,6 +1,15 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
+v1.0.0 (2014-01-31)
+-------------------
+* Update to the latest supporting Gems
+* Update everything to Rubocop's style guidelines
+* Implement ChefSpec v3 unit tests
+* Implement full suite of Test Kitchen integration and acceptance tests
+* Add support for simple and full scheduled filesystem scans
+
+
 v0.4.1 (2013-12-13)
 -------------------
 * Bump dependency cookbook versions
