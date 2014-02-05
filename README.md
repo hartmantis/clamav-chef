@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/RoboticCheese/clamav.png?branch=master)](https://travis-ci.org/RoboticCheese/clamav)
+[![Build Status](https://travis-ci.org/RoboticCheese/clamav-chef.png?branch=master)](https://travis-ci.org/RoboticCheese/clamav-chef)
 
 Description
 ===========
