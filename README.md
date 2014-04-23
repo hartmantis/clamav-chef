@@ -1,7 +1,11 @@
-[![Build Status](https://travis-ci.org/RoboticCheese/clamav-chef.png?branch=master)](https://travis-ci.org/RoboticCheese/clamav-chef)
+clamav Cookbook
+===============
+[![Cookbook Version](http://img.shields.io/cookbook/v/clamav.svg)][cookbook]
+[![Build Status](http://img.shields.io/travis/RoboticCheese/clamav-chef.svg)][travis]
 
-Description
-===========
+[cookbook]: https://community.opscode.com/cookbooks/clamav
+[travis]: http://travis-ci.org/RoboticCheese/clamav-chef
+
 A cookbook for installing and configuring ClamAV. Components to be installed/enabled
 are accessible as attributes.
 
