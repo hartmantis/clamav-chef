@@ -28,6 +28,7 @@ if node['clamav']['clamd']['enabled']
 else
   notify = nil
 end
+
 template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   owner node['clamav']['user']
   group node['clamav']['group']
@@ -49,6 +50,12 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   if !node['clamav']['freshclam']['enabled'] || platform_family == 'debian'
     notifies :run, 'execute[freshclam]', :immediately
   end
+end
+
+directory node['clamav']['database_directory'] do
+  owner node['clamav']['user']
+  group node['clamav']['group']
+  recursive true
 end
 
 execute 'freshclam' do
