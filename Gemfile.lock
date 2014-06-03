@@ -84,7 +84,7 @@ GEM
       ffi (~> 1.9)
     diff-lcs (1.2.5)
     erubis (2.7.0)
-    excon (0.34.0)
+    excon (0.35.0)
     faraday (0.9.0)
       multipart-post (>= 1.2, < 3)
     fauxhai (2.1.2)
@@ -129,7 +129,7 @@ GEM
     hitimes (1.2.1)
     ipaddress (0.8.0)
     json (1.8.1)
-    kitchen-rackspace (0.6.0)
+    kitchen-rackspace (0.6.1)
       fog (~> 1.18)
       test-kitchen (~> 1.1)
       unf
