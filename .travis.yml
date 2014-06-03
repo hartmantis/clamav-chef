@@ -10,7 +10,7 @@ before_script:
 
 script:
   # Pending the ability to drive TK concurrency via ENV and/or config file
-  - rake everything_but_the_kitchen && bundle exec kitchen test --parallel
+  - bundle exec rake everything_but_the_kitchen && bundle exec kitchen test --parallel
 
 env:
   global:
