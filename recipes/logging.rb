@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: logging
@@ -59,5 +59,3 @@ node['clamav']['freshclam']['update_log_file'] && logrotate_app('freshclam') do
   rotate node['clamav']['freshclam']['logrotate_rotations']
   create "644 #{node['clamav']['user']} #{node['clamav']['group']}"
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

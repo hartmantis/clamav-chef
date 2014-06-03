@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: install_deb
@@ -59,11 +59,9 @@ package 'libclamav-dev' do
   only_if { node['clamav']['dev_package'] }
 end
 
-files = %w{/etc/logrotate.d/clamav-daemon /etc/logrotate.d/clamav-freshclam}
+files = %w(/etc/logrotate.d/clamav-daemon /etc/logrotate.d/clamav-freshclam)
 files.each do |f|
   file f do
     action :delete
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

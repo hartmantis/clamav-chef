@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: clamd
@@ -38,5 +38,3 @@ template "#{node['clamav']['conf_dir']}/clamd.conf" do
     notifies :restart, "service[#{node['clamav']['clamd']['service']}]"
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: clamav_scan
@@ -47,5 +47,3 @@ cron_d 'clamav_full_scan' do
     node['clamav']['scan']['full']['dirs']
   only_if { node['clamav']['scan']['full']['enable'] }
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

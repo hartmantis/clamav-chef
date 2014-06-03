@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -43,7 +43,7 @@ describe 'clamav::freshclam' do
       'MaxAttempts 3',
       'ScriptedUpdates yes',
       'CompressLocalDatabase no',
-    # 'DatabaseCustomURL',
+      # 'DatabaseCustomURL',
       'Checks 12',
       '#HTTPProxyServer myproxy.com',
       '#HTTPProxyPort 1234',
@@ -64,7 +64,7 @@ describe 'clamav::freshclam' do
       '#DetectionStatsHostID unique-id',
       '#SafeBrowsing yes',
       'Bytecode yes'
-    # 'ExtraDatabase"
+      # 'ExtraDatabase"
       # }}}
     ]
     attrs.each do |attr|
@@ -169,5 +169,3 @@ describe 'clamav::freshclam' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

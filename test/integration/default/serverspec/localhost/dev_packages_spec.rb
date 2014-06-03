@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -11,5 +11,3 @@ describe 'clamav dev packages' do
     expect(package(pkg)).to_not be_installed
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Attributes:: clamd
@@ -113,5 +113,3 @@ default['clamav']['clamd']['clamuko_exclude_paths'] = []
 default['clamav']['clamd']['clamuko_exclude_uids'] = []
 default['clamav']['clamd']['bytecode_security'] = 'TrustSigned'
 default['clamav']['clamd']['bytecode_timeout'] = '5000'
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: default
@@ -25,7 +25,7 @@ when 'debian'
   include_recipe "#{cookbook_name}::install_deb"
 else
   fail(Chef::Exceptions::UnsupportedAction,
-       "Cookbook does not support #{node["platform"]} platform")
+       "Cookbook does not support #{node['platform']} platform")
 end
 
 include_recipe "#{cookbook_name}::users"
@@ -34,5 +34,3 @@ include_recipe "#{cookbook_name}::freshclam"
 include_recipe "#{cookbook_name}::clamd"
 include_recipe "#{cookbook_name}::services"
 include_recipe "#{cookbook_name}::clamav_scan"
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

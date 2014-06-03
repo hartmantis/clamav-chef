@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -54,7 +54,7 @@ describe 'clamav::clamav_scan' do
         weekday: '1-6',
         user: 'root',
         mailto: 'example@example.com',
-        command: "#{script} /bin /sbin /usr/bin /usr/sbin /usr/local/bin " +
+        command: "#{script} /bin /sbin /usr/bin /usr/sbin /usr/local/bin " \
           '/usr/local/sbin /etc /root /opt /home'
       )
     end
@@ -71,5 +71,3 @@ describe 'clamav::clamav_scan' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

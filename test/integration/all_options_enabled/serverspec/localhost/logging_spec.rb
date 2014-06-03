@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -16,5 +16,3 @@ describe 'clamav syslog logging' do
     expect(file(syslog_file)).to contain(/ freshclam\[/)
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,9 +1,9 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
 describe 'clamav::install_rpm' do
-  let(:packages) { %w{clamav clamav-db clamd} }
+  let(:packages) { %w(clamav clamav-db clamd) }
   let(:clamd) { 'clamd' }
   let(:freshclam) { 'freshclam' }
   let(:clamd_service) { "service[#{clamd}]" }
@@ -97,5 +97,3 @@ describe 'clamav::install_rpm' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

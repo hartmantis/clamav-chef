@@ -1,9 +1,9 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
 describe 'clamav::install_deb' do
-  let(:packages) { %w{clamav clamav-daemon} }
+  let(:packages) { %w(clamav clamav-daemon) }
   let(:clamd_service) { 'service[clamav-daemon]' }
   let(:freshclam_service) { 'service[clamav-freshclam]' }
   let(:attributes) { {} }
@@ -20,7 +20,7 @@ describe 'clamav::install_deb' do
       expect(chef_run).to create_apt_repository('clamav-repo').with(
         uri: 'http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu',
         distribution: 'precise',
-        components: %w{main},
+        components: %w(main),
         keyserver: 'keyserver.ubuntu.com',
         key: '5ADC2037'
       )
@@ -38,10 +38,10 @@ describe 'clamav::install_deb' do
     end
 
     it 'cleans up files left behind by the packages' do
-      %w{
+      %w(
         /etc/logrotate.d/clamav-daemon
         /etc/logrotate.d/clamav-freshclam
-      }.each do |f|
+      ).each do |f|
         expect(chef_run).to delete_file(f)
       end
     end
@@ -107,5 +107,3 @@ describe 'clamav::install_deb' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

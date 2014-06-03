@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -22,7 +22,7 @@ describe 'clamav::services' do
 
   shared_examples_for 'with anything' do
     it 'creates the PID file directories' do
-      pids.each do |name, path|
+      pids.each do |_, path|
         expect(chef_run).to create_directory(File.dirname(path)).with(
           user: 'clamav',
           group: 'clamav',
@@ -160,5 +160,3 @@ describe 'clamav::services' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

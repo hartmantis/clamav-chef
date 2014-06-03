@@ -1,10 +1,10 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
 describe 'clamav logging' do
   let(:log_files) do
-    %w{/var/log/clamav/clamd.log /var/log/clamav/freshclam.log}
+    %w(/var/log/clamav/clamd.log /var/log/clamav/freshclam.log)
   end
   let(:cmd) { 'logrotate -d /etc/logrotate.conf 2>&1' }
 
@@ -27,5 +27,3 @@ describe 'clamav logging' do
     expect(user('clam')).to_not exist
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby
