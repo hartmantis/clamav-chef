@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 source 'https://rubygems.org'
 
@@ -9,22 +9,20 @@ group :development, :test do
   gem 'cane'
   gem 'countloc'
   gem 'rubocop'
-  gem 'foodcritic'
-  gem 'guard-foodcritic'
+  # TODO: Most recent release has a dep conflict with Chef
+  gem 'foodcritic', github: 'acrmp/foodcritic'
+  # TODO: Guard-foodcritic has a dep conflict with Berkshelf 3
+  # gem 'guard-foodcritic'
   gem 'rspec'
   gem 'chefspec'
   gem 'guard-rspec'
-  gem 'serverspec'
   gem 'fauxhai'
   gem 'test-kitchen'
   gem 'kitchen-rackspace'
   gem 'kitchen-vagrant'
   gem 'vagrant-wrapper'
   gem 'guard-kitchen'
-  gem 'cucumber'
 end
 
 gem 'chef'
 gem 'berkshelf'
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby
