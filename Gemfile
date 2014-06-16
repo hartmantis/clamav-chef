@@ -10,7 +10,7 @@ group :development, :test do
   gem 'countloc'
   gem 'rubocop'
   # TODO: Most recent release has a dep conflict with Chef
-  gem 'foodcritic', github: 'acrmp/foodcritic'
+  gem 'foodcritic'
   # TODO: Guard-foodcritic has a dep conflict with Berkshelf 3
   # gem 'guard-foodcritic'
   gem 'rspec'
