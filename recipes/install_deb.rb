@@ -59,6 +59,19 @@ package 'libclamav-dev' do
   only_if { node['clamav']['dev_package'] }
 end
 
+package 'clamav-freshclam' do
+  action :install
+  version node['clamav']['version'] if node['clamav']['version']
+  if node['clamav']['clamd']['enabled']
+    notifies :restart,
+             "service[#{node['clamav']['clamd']['service']}]"
+  end
+  if node['clamav']['freshclam']['enabled']
+    notifies :restart,
+             "service[#{node['clamav']['freshclam']['service']}]"
+  end
+end
+
 files = %w(/etc/logrotate.d/clamav-daemon /etc/logrotate.d/clamav-freshclam)
 files.each do |f|
   file f do

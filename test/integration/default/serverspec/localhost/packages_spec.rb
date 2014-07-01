@@ -6,7 +6,7 @@ describe 'clamav packages' do
   let(:packages) do
     case @node['platform_family']
     when 'debian'
-      %w(clamav clamav-daemon)
+      %w(clamav clamav-daemon clamav-freshclam)
     else
       %w(clamav clamav-db clamd)
     end

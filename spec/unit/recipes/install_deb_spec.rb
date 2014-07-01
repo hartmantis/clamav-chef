@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'clamav::install_deb' do
-  let(:packages) { %w(clamav clamav-daemon) }
+  let(:packages) { %w(clamav clamav-daemon clamav-freshclam) }
   let(:clamd_service) { 'service[clamav-daemon]' }
   let(:freshclam_service) { 'service[clamav-freshclam]' }
   let(:attributes) { {} }
