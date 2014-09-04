@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: install_rpm
@@ -68,7 +68,7 @@ template "/etc/init.d/#{node['clamav']['clamd']['service']}" do
   mode '0755'
   action :create
   variables(
-    clamd_conf: "#{node["clamav"]["conf_dir"]}/clamd.conf",
+    clamd_conf: "#{node['clamav']['conf_dir']}/clamd.conf",
     clamd_pid: node['clamav']['clamd']['pid_file'],
     clamd_bin_dir: '/usr/sbin'
   )
@@ -90,4 +90,3 @@ user 'clam' do
   not_if { node['clamav']['user'] == 'clam' }
 end
 
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

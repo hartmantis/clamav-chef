@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Attributes:: default
@@ -48,5 +48,3 @@ default['clamav']['scan']['full']['dirs'] = '/'
 default['clamav']['scan']['full']['enable'] = false
 default['clamav']['scan']['user'] = 'root'
 default['clamav']['scan']['mailto'] = 'example@example.com'
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

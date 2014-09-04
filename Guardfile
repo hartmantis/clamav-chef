@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # A sample Guardfile
 # More info at https://github.com/guard/guard#readme
@@ -28,5 +28,3 @@ end
 #   watch(/^providers\/(.+)\.rb/)
 #   watch(/^resources\/(.+)\.rb/)
 # end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

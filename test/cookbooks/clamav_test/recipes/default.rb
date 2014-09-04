@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav_test
 # Recipe:: default
@@ -22,5 +22,3 @@
 include_recipe 'apt' if node['platform_family'] == 'debian'
 include_recipe 'build-essential'
 include_recipe 'clamav::default'
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,17 +1,17 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
 describe 'clamav::default' do
   let(:includes) do
-    %w{
+    %w(
       clamav::users
       clamav::logging
       clamav::freshclam
       clamav::clamd
       clamav::services
       clamav::clamav_scan
-    }
+    )
   end
   let(:extra_includes) { [] }
   let(:platform) { { platform: nil, version: nil } }
@@ -30,12 +30,12 @@ describe 'clamav::default' do
     Ubuntu: {
       platform: 'ubuntu',
       version: '12.04',
-      includes: %w{clamav::install_deb}
+      includes: %w(clamav::install_deb)
     },
     CentOS: {
       platform: 'centos',
       version: '6.4',
-      includes: %w{clamav::install_rpm}
+      includes: %w(clamav::install_rpm)
     }
   }.each do |k, v|
     context "a #{k} node" do
@@ -49,15 +49,16 @@ describe 'clamav::default' do
       context 'with recipes tested together' do
         before(:each) do
           # Unstub everything intra-cookbook
-          Chef::RunContext.any_instance.unstub(:loaded_recipe?)
-          Chef::RunContext.any_instance.unstub(:loaded_recipes)
+          allow_any_instance_of(Chef::RunContext).to receive(:loaded_recipe?)
+            .and_call_original
+          allow_any_instance_of(Chef::RunContext).to receive(:loaded_recipes)
+            .and_call_original
 
           stub_apt_resources
 
-          Chef::Recipe.any_instance.unstub(:include_recipe)
-          Chef::Recipe.any_instance.stub(:include_recipe)
-          Chef::Recipe.any_instance.stub(:include_recipe).with(/clamav::/)
-            .and_call_original
+          allow_any_instance_of(Chef::Recipe).to receive(:include_recipe)
+          allow_any_instance_of(Chef::Recipe).to receive(:include_recipe)
+            .with(/clamav::/).and_call_original
         end
 
         it_behaves_like 'any supported platform'
@@ -68,10 +69,9 @@ describe 'clamav::default' do
   context 'a node of an unsupported platform' do
     let(:platform) { { platform: 'Windows', version: '2008R2' } }
     it 'raises an exception' do
-      Chef::Formatters::Base.any_instance.stub(:file_load_failed)
+      allow_any_instance_of(Chef::Formatters::Base)
+        .to receive(:file_load_failed)
       expect { chef_run }.to raise_error
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

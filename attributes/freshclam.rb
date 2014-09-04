@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Attributes:: default
@@ -66,5 +66,3 @@ default['clamav']['freshclam']['detection_stats_country'] = nil
 default['clamav']['freshclam']['detection_stats_host_id'] = nil
 default['clamav']['freshclam']['safe_browsing'] = nil
 default['clamav']['freshclam']['extra_databases'] = []
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

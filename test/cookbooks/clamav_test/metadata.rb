@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 name              'clamav_test'
 maintainer        'Jonathan Hartman'
@@ -11,5 +11,3 @@ version           '0.1.0'
 depends           'apt'
 depends           'build-essential'
 depends           'clamav'
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: services
@@ -52,5 +52,3 @@ ruby_block 'dummy service notification block' do
   notifies(f_enabled ? :enable : :disable, "service[#{f_service}]")
   notifies(f_enabled ? :start : :stop, "service[#{f_service}]")
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: users
@@ -30,5 +30,3 @@ group node['clamav']['group'] do
   system true
   only_if { node['clamav']['user'] != node['clamav']['group'] }
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

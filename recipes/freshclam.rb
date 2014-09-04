@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 #
 # Cookbook Name:: clamav
 # Recipe:: freshclam
@@ -62,5 +62,3 @@ execute 'freshclam' do
   command 'freshclam'
   action :nothing
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

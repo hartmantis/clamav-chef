@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'rubygems'
 require 'English'
@@ -11,7 +11,7 @@ require 'kitchen/rake_tasks'
 
 Cane::RakeTask.new
 
-Rubocop::RakeTask.new do |task|
+RuboCop::RakeTask.new do |task|
   task.patterns = %w{**/*.rb}
 end
 
@@ -45,5 +45,3 @@ task everything_but_the_kitchen: [
 task default: [
   :everything_but_the_kitchen, 'kitchen:all'
 ]
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

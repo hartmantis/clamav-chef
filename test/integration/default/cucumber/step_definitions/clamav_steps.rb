@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'tempfile'
 
@@ -17,7 +17,7 @@ When(/^I manually scan a (\w+) file$/) do |file_type|
   @f.rewind
   @f.close
   File.chmod(0777, @f)
-  @res = %x{clamscan #{@f.path}}
+  @res = `clamscan #{@f.path}`
   @f.unlink
 end
 
@@ -30,5 +30,3 @@ Then 'ClamAV detects a virus' do
   expect(@res).to include("#{@f.path}: Eicar-Test-Signature FOUND\n")
   expect(@res).to include("\nInfected files: 1\n")
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby

@@ -1,4 +1,4 @@
-# -*- encoding: utf-8 -*-
+# Encoding: UTF-8
 
 require 'spec_helper'
 
@@ -74,8 +74,8 @@ describe 'clamav::clamd' do
       'Debug no',
       'LeaveTemporaryFiles no',
       'DetectPUA no',
-    # 'ExcludePUA ',
-    # 'IncludePUA ',
+      # 'ExcludePUA ',
+      # 'IncludePUA ',
       'AlgorithmicDetection yes',
       'ScanPE yes',
       'ScanELF yes',
@@ -108,9 +108,9 @@ describe 'clamav::clamd' do
       '#ClamukoScanOnOpen yes',
       '#ClamukoScanOnClose yes',
       '#ClamukoScanOnExec yes',
-    # 'ClamukoIncludePath ',
-    # 'ClamukoExcludePath ',
-    # 'ClamukoExcludeUID ',
+      # 'ClamukoIncludePath ',
+      # 'ClamukoExcludePath ',
+      # 'ClamukoExcludeUID ',
       'Bytecode yes',
       'BytecodeSecurity TrustSigned',
       'BytecodeTimeout 5000'
@@ -169,5 +169,3 @@ describe 'clamav::clamd' do
     end
   end
 end
-
-# vim: ai et ts=2 sts=2 sw=2 ft=ruby
