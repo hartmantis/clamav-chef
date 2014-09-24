@@ -25,7 +25,7 @@ yum_options = ""
 
 case node['platform']
 when 'amazon'
-  package_list = %w{clamav clamav-update}
+  package_list = %w{clamav clamav-update clamd}
   if File.exist?('/etc/yum.repos.d/epel.repo')
     yum_options << '--disablerepo=epel '
   end
