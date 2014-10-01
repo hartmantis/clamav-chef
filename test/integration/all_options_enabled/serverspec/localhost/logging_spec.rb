@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'clamav syslog logging' do
   let(:syslog_file) do
-    "/var/log/#{@node['platform_family'] == 'debian' ? 'syslog' : '/messages'}"
+    "/var/log/#{os[:family] == 'ubuntu' ? 'syslog' : '/messages'}"
   end
   let(:syslog) { File.read(syslog_file) }
 
