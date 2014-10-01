@@ -8,12 +8,11 @@ require 'cane/rake_task'
 require 'rspec/core/rake_task'
 require 'foodcritic'
 require 'kitchen/rake_tasks'
+require 'stove/rake_task'
 
 Cane::RakeTask.new
 
-RuboCop::RakeTask.new do |task|
-  task.patterns = %w{**/*.rb}
-end
+RuboCop::RakeTask.new
 
 desc 'Display LOC stats'
 task :loc do
@@ -30,18 +29,13 @@ task :cookbook_test do
 end
 
 FoodCritic::Rake::LintTask.new do |f|
-  f.options = { fail_tags: %w{any} }
+  f.options = { fail_tags: %w(any) }
 end
 
 RSpec::Core::RakeTask.new(:spec)
 
 Kitchen::RakeTasks.new
 
-desc 'Run all tests that do not require a converge'
-task everything_but_the_kitchen: [
-  :cane, :rubocop, :loc, :cookbook_test, :foodcritic, :spec
-]
+Stove::RakeTask.new
 
-task default: [
-  :everything_but_the_kitchen, 'kitchen:all'
-]
+task default: %w(cane rubocop loc cookbook_test foodcritic spec)

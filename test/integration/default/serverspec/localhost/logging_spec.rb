@@ -9,7 +9,7 @@ describe 'clamav logging' do
   let(:cmd) { 'logrotate -d /etc/logrotate.conf 2>&1' }
 
   it 'has a valid logrotate config' do
-    expect(command(cmd)).to return_exit_status(0)
+    expect(command(cmd).exit_status).to eq(0)
   end
 
   it 'is configured to rotate the ClamAV logs' do

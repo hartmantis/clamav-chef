@@ -1,20 +1,20 @@
 language: ruby
 
-bundler_args: --path=~/.bundle
+install:
+  - curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -P chefdk
+  - chef exec bundle install --without=development integration
 
 before_script:
-    # Pending ENV support in the next TK release after 1.1.1
+  # Pending ENV support in Kitchen's Rake tasks and not just the CLI
   - cp .kitchen.travis.yml .kitchen.local.yml
-  # Pending the ability to use root passwords in kitchen-rackspace
-  - ssh-keygen -f ~/.ssh/id_rsa -b 768 -P ''
+  - echo -e $DIGITALOCEAN_SSH_KEY_BODY > ~/.ssh/id_rsa
 
 script:
-  # Pending the ability to drive TK concurrency via ENV and/or config file
-  - bundle exec rake everything_but_the_kitchen && bundle exec kitchen test -c
+  - chef exec rake && chef exec bundle exec kitchen test -c 4
+
+after_script:
+  - chef exec bundle exec kitchen destroy
 
 env:
   global:
-    # Pending ENV support in the next TK release after 1.1.1
     # - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
-    - secure: XwAdgS1uKAlKvom7NndLnU+/fCpOKevsmzs4o6sH8/bu0Fi+6Mj8fZrko79gbjDgizoJS24jW8vBgYe4fnpANU6Ea8KxoCv6k09bmlG1CgjwTThHtNhLqbHNivd2ehyQ9ALl9Fg88uqjr4y682e4DLNTp5wtUWSWMLWbKj0QoAI=
-    - secure: BvW+mz11wV7lzgHZSShMjRPnpT8GFHynzsI+9OkeXrwedZW4UkQWPrUarHf3mwEAV34jr9KC2zuECKR7hQeMPQFYHGsUjDDn3VVu99OxGZUgf8r5MAYKBpKQzQGaVwPSlQRl6MzdFlunoV9rrxe7u4YgXcLmVDAu7WQwCPdEqnI=

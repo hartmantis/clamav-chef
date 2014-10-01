@@ -23,6 +23,14 @@ describe 'clamav::freshclam' do
         mode: '0644'
       )
     end
+
+    it 'ensures the database directory is created' do
+      expect(chef_run).to create_directory('/var/lib/clamav').with(
+        owner: 'clamav',
+        group: 'clamav',
+        recursive: true
+      )
+    end
   end
 
   shared_examples_for 'a node with all default attributes' do

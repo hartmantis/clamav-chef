@@ -4,10 +4,10 @@ require 'spec_helper'
 
 describe 'clamav enabled services' do
   let(:clamd_service) do
-    @node['platform_family'] == 'debian' ? 'clamav-daemon' : 'clamd'
+    os[:family] == 'ubuntu' ? 'clamav-daemon' : 'clamd'
   end
   let(:freshclam_service) do
-    @node['platform_family'] == 'debian' ? 'clamav-freshclam' : 'freshclam'
+    os[:family] == 'ubuntu' ? 'clamav-freshclam' : 'freshclam'
   end
 
   it 'is running clamd' do
