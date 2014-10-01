@@ -23,7 +23,9 @@ group :test do
   gem 'test-kitchen'
   gem 'kitchen-digitalocean', '>= 0.8.0'
   # TODO: Using a patched resource_kit ATM to get past activesupport error
-  gem 'resource_kit', github: 'RoboticCheese/resource_kit'
+  gem 'resource_kit',
+      github: 'RoboticCheese/resource_kit',
+      branch: 'backpatched'
   gem 'fog'
   gem 'kitchen-vagrant'
 end
