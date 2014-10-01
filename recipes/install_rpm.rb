@@ -24,10 +24,10 @@ include_recipe "#{cookbook_name}::services"
 yum_options = []
 case node['platform']
 when 'amazon'
-  package_list = %w{clamav clamav-update clamd}
+  package_list = %w(clamav clamav-update clamd)
   yum_options << '--disablerepo=epel'
 else
-  package_list = %w{clamav clamav-db clamd}
+  package_list = %w(clamav clamav-db clamd)
 end
 
 package_list.each do |pkg|
@@ -82,4 +82,3 @@ user 'clam' do
   action :remove
   not_if { node['clamav']['user'] == 'clam' }
 end
-
