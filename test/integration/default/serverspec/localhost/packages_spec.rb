@@ -4,8 +4,8 @@ require 'spec_helper'
 
 describe 'clamav packages' do
   let(:packages) do
-    case @node['platform_family']
-    when 'debian'
+    case os[:family]
+    when 'ubuntu'
       %w(clamav clamav-daemon clamav-freshclam)
     else
       %w(clamav clamav-db clamd)

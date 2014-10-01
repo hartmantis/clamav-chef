@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe 'clamav dev packages' do
   let(:pkg) do
-    @node['platform_family'] == 'debian' ? 'libclamav-dev' : 'clamav-devel'
+    os[:family] == 'ubuntu' ? 'libclamav-dev' : 'clamav-devel'
   end
 
   it 'is not installed' do
