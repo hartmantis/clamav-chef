@@ -1,26 +1,24 @@
-# Berkshelf 
-Berksfile.lock
-.berkshelf
-
-# Vagrant
 .vagrant
-
-# ChefSpec
-.coverage
-
-# vim
-*.sw?
+Berksfile.lock
+berks-cookbooks/
 *~
-
-# Test Kitchen
-.kitchen
-.kitchen.local.yml
+*#
+.#*
+\#*#
+.*.sw[a-z]
+*.un~
+/cookbooks
 
 # Bundler
-vendor
-.vendor
-.bundle
+bin/*
+.bundle/*
 Gemfile.lock
 
-# Guard
-tmp/
+.kitchen/
+.kitchen.local.yml
+.env.sh
+Vagrantfile
+
+# sublime text
+*.sublime-project
+*.sublime-workspace
