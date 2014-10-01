@@ -102,7 +102,6 @@ default['clamav']['clamd']['max_scan_size'] = '100M'
 default['clamav']['clamd']['max_file_size'] = '25M'
 default['clamav']['clamd']['max_recursion'] = '25'
 default['clamav']['clamd']['max_files'] = '10000'
-default['clamav']['clamd']['clamuko_scan_on_access'] = 'no'
 default['clamav']['clamd']['clamuko_scanner_count'] = nil
 default['clamav']['clamd']['clamuko_max_file_size'] = nil
 default['clamav']['clamd']['clamuko_scan_on_open'] = nil

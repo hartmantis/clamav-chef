@@ -446,12 +446,6 @@
 ## Clamuko settings
 ##
 
-# Enable Clamuko. Dazuko must be configured and running. Clamuko supports
-# both Dazuko (/dev/dazuko) and DazukoFS (/dev/dazukofs.ctrl). DazukoFS
-# is the preferred option. For more information please visit www.dazuko.org
-# Default: no
-<%= @clamd["clamuko_scan_on_access"] ? "ClamukoScanOnAccess #{@clamd["clamuko_scan_on_access"]}" : "#ClamukoScanOnAccess yes" %>
-
 # The number of scanner threads that will be started (DazukoFS only).
 # Having multiple scanner threads allows Clamuko to serve multiple
 # processes simultaneously. This is particularly beneficial on SMP machines.

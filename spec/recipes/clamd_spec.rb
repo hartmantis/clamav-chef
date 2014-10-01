@@ -102,7 +102,6 @@ describe 'clamav::clamd' do
       'MaxFileSize 25M',
       'MaxRecursion 25',
       'MaxFiles 10000',
-      'ClamukoScanOnAccess no',
       '#ClamukoScannerCount 3',
       '#ClamukoMaxFileSize 10M',
       '#ClamukoScanOnOpen yes',
