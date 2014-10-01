@@ -20,6 +20,7 @@ Berksfile.lock
 vendor
 .vendor
 .bundle
+Gemfile.lock
 
 # Guard
 tmp/

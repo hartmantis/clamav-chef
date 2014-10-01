@@ -2,27 +2,42 @@
 
 source 'https://rubygems.org'
 
-group :development, :test do
-  gem 'rake'
+group :development do
   gem 'yard-chef'
   gem 'guard'
-  gem 'cane'
-  gem 'countloc'
-  gem 'rubocop'
-  # TODO: Most recent release has a dep conflict with Chef
-  gem 'foodcritic'
-  # TODO: Guard-foodcritic has a dep conflict with Berkshelf 3
-  # gem 'guard-foodcritic'
-  gem 'rspec'
-  gem 'chefspec'
   gem 'guard-rspec'
-  gem 'fauxhai'
-  gem 'test-kitchen'
-  gem 'kitchen-rackspace'
-  gem 'kitchen-vagrant'
-  gem 'vagrant-wrapper'
   gem 'guard-kitchen'
 end
 
-gem 'chef'
-gem 'berkshelf'
+group :test do
+  gem 'rake'
+  gem 'cane'
+  gem 'countloc'
+  gem 'rubocop'
+  gem 'foodcritic'
+  # TODO: guard-foodcritic has a dep conflict with Berkshelf 3
+  # gem 'guard-foodcritic'
+  gem 'rspec', '>= 3'
+  gem 'chefspec', '>= 4'
+  gem 'fauxhai'
+  gem 'test-kitchen'
+  gem 'kitchen-digitalocean', '>= 0.8.0'
+  gem 'fog'
+  gem 'kitchen-vagrant'
+end
+
+group :integration do
+  gem 'serverspec', '= 2.0.0.beta21'
+  gem 'cucumber'
+end
+
+group :deploy do
+  gem 'stove'
+end
+
+group :production do
+  gem 'chef', '>= 11'
+  gem 'berkshelf', '>= 3'
+  gem 'cleanroom'
+  gem 'omnijack', '>= 0.1.1'
+end
