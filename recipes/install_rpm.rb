@@ -21,27 +21,20 @@
 include_recipe 'yum-epel'
 include_recipe "#{cookbook_name}::services"
 
-yum_options = ""
-
+yum_options = []
 case node['platform']
 when 'amazon'
   package_list = %w{clamav clamav-update clamd}
-  if File.exist?('/etc/yum.repos.d/epel.repo')
-    yum_options << '--disablerepo=epel '
-  end
+  yum_options << '--disablerepo=epel'
 else
   package_list = %w{clamav clamav-db clamd}
-end
-
-if File.exist?('/etc/yum.repos.d/rpmforge.repo')
-  yum_options << '--disablerepo=rpmforge '
 end
 
 package_list.each do |pkg|
   yum_package pkg do
     action :install
     version node['clamav']['version'] if node['clamav']['version']
-    options yum_options
+    options yum_options.join(' ')
 
     # Give it an arch or YUM will try to install both i386 and x86_64 versions
     arch node['kernel']['machine']
