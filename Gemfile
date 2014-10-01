@@ -22,6 +22,8 @@ group :test do
   gem 'fauxhai'
   gem 'test-kitchen'
   gem 'kitchen-digitalocean', '>= 0.8.0'
+  # TODO: Using a patched resource_kit ATM to get past activesupport error
+  gem 'resource_kit', github: 'RoboticCheese/resource_kit'
   gem 'fog'
   gem 'kitchen-vagrant'
 end
@@ -38,6 +40,4 @@ end
 group :production do
   gem 'chef', '>= 11'
   gem 'berkshelf', '>= 3'
-  gem 'cleanroom'
-  gem 'omnijack', '>= 0.1.1'
 end
