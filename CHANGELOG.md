@@ -1,10 +1,13 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
+v?.?.? (????-??-??)
+-------------------
+* In Amazon, use their packages instead of EPEL's
+
 v1.0.2 (2014-02-21)
 -------------------
 * Remove .DS_Store file accidentally uploaded to community site
-
 
 v1.0.0 (2014-01-31)
 -------------------
