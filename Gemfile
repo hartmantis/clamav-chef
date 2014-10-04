@@ -31,7 +31,7 @@ group :test do
 end
 
 group :integration do
-  gem 'serverspec', '= 2.0.0.beta21'
+  gem 'serverspec', '>= 2'
   gem 'cucumber'
 end
 
