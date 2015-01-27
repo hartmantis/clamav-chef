@@ -2,9 +2,12 @@
 driver:
   name: digitalocean
 platforms:
+  # Clamd will fail to start on some distros with only 512MB
   - name: ubuntu-14-04-x64
   - name: ubuntu-12-04-x64
     driver:
       size: 1gb
   - name: centos-6-5-x64
+    driver:
+      size: 1gb
   - name: centos-5-10-x64
