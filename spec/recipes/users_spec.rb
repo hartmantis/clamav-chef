@@ -7,7 +7,7 @@ describe 'clamav::users' do
   let(:group) { 'clamav' }
   let(:attributes) { {} }
   let(:chef_run) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       attributes.each { |k, v| node.set[k] = v }
     end.converge(described_recipe)
   end

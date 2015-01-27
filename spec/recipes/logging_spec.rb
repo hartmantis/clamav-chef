@@ -8,7 +8,7 @@ describe 'clamav::logging' do
   let(:freshclam_log_file) { "#{log_dir}/freshclam.log" }
   let(:attributes) { {} }
   let(:runner) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end

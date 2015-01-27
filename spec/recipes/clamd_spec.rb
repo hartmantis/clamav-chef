@@ -8,7 +8,7 @@ describe 'clamav::clamd' do
   let(:service) { nil }
   let(:attributes) { {} }
   let(:runner) do
-    ChefSpec::Runner.new(platform) do |node|
+    ChefSpec::SoloRunner.new(platform) do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end
