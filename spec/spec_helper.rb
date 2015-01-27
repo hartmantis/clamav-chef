@@ -4,6 +4,9 @@ require 'chef'
 require 'chefspec'
 require 'tmpdir'
 require 'fileutils'
+require 'simplecov'
+require 'simplecov-console'
+require 'coveralls'
 require 'support/resources/apt_repository'
 require 'support/resources/cron_d'
 require 'support/resources/logrotate_app'
@@ -67,5 +70,13 @@ RSpec.configure do |c|
 
   c.after(:suite) { FileUtils.rm_r(COOKBOOK_PATH) }
 end
+
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  Coveralls::SimpleCov::Formatter,
+  SimpleCov::Formatter::HTMLFormatter,
+  SimpleCov::Formatter::Console
+]
+SimpleCov.minimum_coverage(90)
+SimpleCov.start
 
 at_exit { ChefSpec::Coverage.report! }
