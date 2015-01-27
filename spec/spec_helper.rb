@@ -15,14 +15,14 @@ require 'support/matchers/cron_d'
 require 'support/matchers/logrotate_app'
 
 def stub_apt_resources
-  allow_any_instance_of(Chef::ResourceCollection).to receive(:lookup)
+  allow_any_instance_of(Chef::ResourceCollection).to receive(:find)
     .with('execute[apt-get update]')
     .and_return(Chef::Resource::Execute.new('apt-get update'))
 end
 
 def stub_service_resources
   %w(clamd clamav-daemon freshclam clamav-freshclam).each do |s|
-    allow_any_instance_of(Chef::ResourceCollection).to receive(:lookup)
+    allow_any_instance_of(Chef::ResourceCollection).to receive(:find)
       .with("service[#{s}]")
       .and_return(Chef::Resource::Service.new(s))
   end
@@ -45,7 +45,7 @@ RSpec.configure do |c|
     allow_any_instance_of(Chef::Cookbook::Metadata).to receive(:depends)
 
     # Prep lookup() for the stubs below
-    allow_any_instance_of(Chef::ResourceCollection).to receive(:lookup)
+    allow_any_instance_of(Chef::ResourceCollection).to receive(:find)
       .and_call_original
 
     # Test each recipe in isolation, regardless of includes
