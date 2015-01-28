@@ -7,4 +7,5 @@ platforms:
   - name: ubuntu-14-04-x64
   - name: ubuntu-12-04-x64
   - name: centos-6-5-x64
-  - name: centos-5-10-x64
+  # TODO: DO's 5.10 image has the slug name of 5.8 for some reason
+  - name: centos-5-8-x64
