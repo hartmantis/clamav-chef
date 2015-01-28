@@ -2,9 +2,13 @@ clamav Cookbook
 ===============
 [![Cookbook Version](http://img.shields.io/cookbook/v/clamav.svg)][cookbook]
 [![Build Status](http://img.shields.io/travis/RoboticCheese/clamav-chef.svg)][travis]
+[![Code Climate](http://img.shields.io/codeclimate/github/RoboticCheese/clamav-chef.svg)][codeclimate]
+[![Coverage Status](http://img.shields.io/coveralls/RoboticCheese/clamav-chef.svg)][coveralls]
 
-[cookbook]: https://community.opscode.com/cookbooks/clamav
+[cookbook]: https://supermarket.chef.io/cookbooks/clamav
 [travis]: http://travis-ci.org/RoboticCheese/clamav-chef
+[codeclimate]: https://codeclimate.com/github/RoboticCheese/clamav-chef
+[coveralls]: https://coveralls.io/r/RoboticCheese/clamav-chef
 
 A cookbook for installing and configuring ClamAV. Components to be installed/enabled
 are accessible as attributes.

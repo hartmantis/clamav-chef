@@ -11,7 +11,7 @@ describe 'clamav::install_rpm' do
   let(:attributes) { {} }
   let(:platform) { { platform: 'centos', version: '6.4' } }
   let(:runner) do
-    ChefSpec::Runner.new(platform) do |node|
+    ChefSpec::SoloRunner.new(platform) do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end
@@ -99,7 +99,7 @@ describe 'clamav::install_rpm' do
 
   context 'an Amazon node' do
     let(:runner) do
-      ChefSpec::Runner.new do |node|
+      ChefSpec::SoloRunner.new do |node|
         attributes.each { |k, v| node.set[k] = v }
         node.automatic['platform'] = 'amazon'
         node.automatic['platform_family'] = 'rhel'

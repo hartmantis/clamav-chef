@@ -6,7 +6,7 @@ describe 'clamav::clamav_scan' do
   let(:script) { '/usr/local/bin/clamav-scan.sh' }
   let(:attributes) { {} }
   let(:runner) do
-    ChefSpec::Runner.new do |node|
+    ChefSpec::SoloRunner.new do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end

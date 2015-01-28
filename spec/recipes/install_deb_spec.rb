@@ -9,7 +9,7 @@ describe 'clamav::install_deb' do
   let(:attributes) { {} }
   let(:platform) { { platform: 'ubuntu', version: '12.04' } }
   let(:runner) do
-    ChefSpec::Runner.new(platform) do |node|
+    ChefSpec::SoloRunner.new(platform) do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end

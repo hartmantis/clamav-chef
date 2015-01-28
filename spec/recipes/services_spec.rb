@@ -14,7 +14,7 @@ describe 'clamav::services' do
   let(:attributes) { {} }
   let(:ruby_block) { 'dummy service notification block' }
   let(:runner) do
-    ChefSpec::Runner.new(platform) do |node|
+    ChefSpec::SoloRunner.new(platform) do |node|
       attributes.each { |k, v| node.set[k] = v }
     end
   end

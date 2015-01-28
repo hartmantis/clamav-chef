@@ -15,19 +15,20 @@ group :test do
   gem 'countloc'
   gem 'rubocop'
   gem 'foodcritic'
-  # TODO: guard-foodcritic has a dep conflict with Berkshelf 3
-  # gem 'guard-foodcritic'
+  gem 'guard-foodcritic'
   gem 'rspec', '>= 3'
   gem 'chefspec', '>= 4'
+  gem 'simplecov'
+  gem 'simplecov-console'
+  gem 'coveralls'
   gem 'fauxhai'
   gem 'test-kitchen'
   gem 'kitchen-digitalocean', '>= 0.8.0'
-  # TODO: Using a patched resource_kit ATM to get past activesupport error
-  gem 'resource_kit',
-      github: 'RoboticCheese/resource_kit',
-      branch: 'backpatched'
   gem 'fog'
   gem 'kitchen-vagrant'
+  # TODO: This can go away when ChefDK comes with 1.6.4+
+  # (See https://github.com/chef/chef-dk/issues/278)
+  gem 'nokogiri', '< 1.6.4'
 end
 
 group :integration do
