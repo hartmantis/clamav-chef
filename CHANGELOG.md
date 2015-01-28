@@ -1,9 +1,10 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
-v?.?.? (????-??-??)
+v1.1.0 (2015-01-27)
 -------------------
 * In Amazon, use their packages instead of EPEL's
+* Remove deprecated `ClamukoScanOnAccess` option
 
 v1.0.2 (2014-02-21)
 -------------------
