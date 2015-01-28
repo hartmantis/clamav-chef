@@ -26,6 +26,9 @@ group :test do
   gem 'kitchen-digitalocean', '>= 0.8.0'
   gem 'fog'
   gem 'kitchen-vagrant'
+  # TODO: This can go away when ChefDK comes with 1.6.4+
+  # (See https://github.com/chef/chef-dk/issues/278)
+  gem 'nokogiri', '< 1.6.4'
 end
 
 group :integration do
