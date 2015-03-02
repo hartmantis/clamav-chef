@@ -22,12 +22,18 @@ include_recipe 'yum-epel'
 include_recipe "#{cookbook_name}::services"
 
 yum_options = []
+arch = node['kernel']['machine']
 case node['platform']
 when 'amazon'
   package_list = %w(clamav clamav-update clamd)
   yum_options << '--disablerepo=epel'
 else
-  package_list = %w(clamav clamav-db clamd)
+  case node['platform_version'][0]
+  when '7'
+    package_list = %w(clamav clamav-update clamav-scanner.noarch clamav-scanner-systemd.noarch)
+  else 
+    package_list = %w(clamav clamav-db clamd)
+  end
 end
 
 package_list.each do |pkg|
@@ -37,7 +43,9 @@ package_list.each do |pkg|
     options yum_options.join(' ')
 
     # Give it an arch or YUM will try to install both i386 and x86_64 versions
-    arch node['kernel']['machine']
+    if !pkg.split('/\./').last == "noarch"
+      arch node['kernel']['machine']
+    end
     if node['clamav']['clamd']['enabled']
       notifies :restart,
                "service[#{node['clamav']['clamd']['service']}]"
