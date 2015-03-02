@@ -30,6 +30,7 @@ suites:
           update_log_file: false
           log_syslog: yes
           log_facility: LOG_LOCAL7
+          rhel_cron_disable: false
         dev_package: true
         scan:
           script:

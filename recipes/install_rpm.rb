@@ -82,6 +82,17 @@ template "/etc/init.d/#{node['clamav']['freshclam']['service']}" do
   )
 end
 
+template '/etc/sysconfig/freshclam' do
+  owner 'root'
+  group 'root'
+  mode '0644'
+  source 'freshclam.sysconfig.erb'
+  action :create
+  variables(
+    rhel_cron_disable: node['clamav']['freshclam']['rhel_cron_disable']
+  )
+end
+
 user 'clam' do
   action :remove
   not_if { node['clamav']['user'] == 'clam' }
