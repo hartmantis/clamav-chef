@@ -41,7 +41,7 @@ template "/etc/sysconfig/freshclam" do
   mode "0644"
   source "freshclam.sysconfig.erb"
   action :create
-  variables (
+  variables(
     freshclam: node['clamav']['freshclam']
   )
 end

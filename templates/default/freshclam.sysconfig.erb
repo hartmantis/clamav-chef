@@ -21,4 +21,4 @@
 ### !!!!! REMOVE ME !!!!!!
 ### REMOVE ME: By default, the freshclam update is disabled to avoid
 ### REMOVE ME: network access without prior activation
-<%= if @freshclam['cron_disable'] ? "FRESHCLAM_DELAY=disabled" %>
+<%= @freshclam['cron_disable'] ? "FRESHCLAM_DELAY=disabled" : "" %>
