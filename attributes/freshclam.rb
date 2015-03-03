@@ -66,3 +66,5 @@ default['clamav']['freshclam']['detection_stats_country'] = nil
 default['clamav']['freshclam']['detection_stats_host_id'] = nil
 default['clamav']['freshclam']['safe_browsing'] = nil
 default['clamav']['freshclam']['extra_databases'] = []
+default['clamav']['freshclam']['cron_disable'] = true
+

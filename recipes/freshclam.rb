@@ -35,6 +35,17 @@ else
   notify = nil
 end
 
+template "/etc/sysconfig/freshclam" do
+  owner "root"
+  group "root"
+  mode "0644"
+  source "freshclam.sysconfig.erb"
+  action :create
+  variables(
+    freshclam: node['clamav']['freshclam']
+  )
+end
+
 template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   owner node['clamav']['user']
   group node['clamav']['group']
