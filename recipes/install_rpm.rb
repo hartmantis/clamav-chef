@@ -27,7 +27,13 @@ when 'amazon'
   package_list = %w(clamav clamav-update clamd)
   yum_options << '--disablerepo=epel'
 else
-  package_list = %w(clamav clamav-db clamd)
+  major_version = node['platform_version'].split('.').first.to_i
+
+  if platform_family?('rhel') && major_version == 7
+    package_list = %w(clamav-server clamav clamav-update)
+  else
+    package_list = %w(clamav clamav-db clamd)
+  end
 end
 
 package_list.each do |pkg|
