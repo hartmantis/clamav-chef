@@ -1,6 +1,10 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
+v?.?.? (????-??-??)
+-------------------
+* Add support for RHEL7
+
 v1.1.0 (2015-01-27)
 -------------------
 * In Amazon, use their packages instead of EPEL's
