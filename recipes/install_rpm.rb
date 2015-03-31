@@ -22,19 +22,17 @@ include_recipe 'yum-epel'
 include_recipe "#{cookbook_name}::services"
 
 yum_options = []
-case node['platform']
-when 'amazon'
-  package_list = %w(clamav clamav-update clamd)
-  yum_options << '--disablerepo=epel'
-else
-  major_version = node['platform_version'].split('.').first.to_i
-
-  if platform_family?('rhel') && major_version == 7
-    package_list = %w(clamav-server clamav clamav-update)
-  else
-    package_list = %w(clamav clamav-db clamd)
-  end
-end
+package_list = case node['platform']
+               when 'amazon'
+                 yum_options << '--disablerepo=epel'
+                 %w(clamav clamav-update clamd)
+               else
+                 if node['platform_version'].to_i >= 7
+                   %w(clamav-server clamav clamav-update)
+                 else
+                   %w(clamav clamav-db clamd)
+                 end
+               end
 
 package_list.each do |pkg|
   yum_package pkg do

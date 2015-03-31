@@ -17,7 +17,7 @@ describe 'clamav::install_rpm' do
   end
   let(:chef_run) { runner.converge(described_recipe) }
 
-  shared_examples_for 'any node' do
+  shared_examples_for 'any platform' do
     it 'includes the EPEL cookbook' do
       expect(chef_run).to include_recipe('yum-epel')
     end
@@ -37,76 +37,75 @@ describe 'clamav::install_rpm' do
     it 'cleans up the bad user the RPMs create' do
       expect(chef_run).to remove_user('clam')
     end
-  end
 
-  shared_examples_for 'a node with all the default attributes' do
-    it 'does not send any restart notifications' do
-      packages.each do |p|
-        [clamd_service, freshclam_service].each do |s|
-          expect(chef_run.package(p)).to_not notify(s).to(:restart)
+    context 'all default attributes' do
+      it 'does not send any restart notifications' do
+        packages.each do |p|
+          [clamd_service, freshclam_service].each do |s|
+            expect(chef_run.package(p)).to_not notify(s).to(:restart)
+          end
+        end
+      end
+    end
+
+    context 'the dev package enabled' do
+      let(:attributes) { { clamav: { dev_package: true } } }
+
+      it 'installs the ClamAV dev package' do
+        expect(chef_run).to install_yum_package('clamav-devel')
+      end
+    end
+
+    context 'the package versions overridden' do
+      let(:attributes) { { clamav: { version: '42.42.42' } } }
+
+      it 'installs the packages at the specified version' do
+        packages.each do |p|
+          expect(chef_run).to install_yum_package(p).with(version: '42.42.42')
+        end
+      end
+    end
+
+    context 'the clamd daemon enabled' do
+      let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+
+      it 'sends a restart notification to clamd' do
+        packages.each do |p|
+          expect(chef_run.yum_package(p)).to notify(clamd_service).to(:restart)
+        end
+      end
+    end
+
+    context 'the freshclam daemon enabled' do
+      let(:attributes) { { clamav: { freshclam: { enabled: true } } } }
+
+      it 'sends a restart notification to freshclam' do
+        packages.each do |p|
+          expect(chef_run.yum_package(p)).to notify(freshclam_service)
+            .to(:restart)
         end
       end
     end
   end
 
-  context 'an entirely default node' do
-    it_behaves_like 'any node'
-    it_behaves_like 'a node with all the default attributes'
+  context 'CentOS 6' do
+    let(:platform) { { platform: 'centos', version: '6.4' } }
+    let(:packages) { %w(clamav clamav-db clamd) }
+
+    it_behaves_like 'any platform'
   end
 
-  context 'a node with the dev package enabled' do
-    let(:attributes) { { clamav: { dev_package: true } } }
+  context 'CentOS 7' do
+    let(:platform) { { platform: 'centos', version: '7.0' } }
+    let(:packages) { %w(clamav-server clamav clamav-update) }
 
-    it_behaves_like 'any node'
-
-    it 'installs the ClamAV dev package' do
-      expect(chef_run).to install_yum_package('clamav-devel')
-    end
-  end
-
-  context 'a node with the package versions overridden' do
-    let(:attributes) { { clamav: { version: '42.42.42' } } }
-
-    it_behaves_like 'any node'
-
-    it 'installs the packages at the specified version' do
-      packages.each do |p|
-        expect(chef_run).to install_yum_package(p).with(version: '42.42.42')
-      end
-    end
-  end
-
-  context 'a node with the clamd daemon enabled' do
-    let(:attributes) { { clamav: { clamd: { enabled: true } } } }
-
-    it 'sends a restart notification to clamd' do
-      packages.each do |p|
-        expect(chef_run.yum_package(p)).to notify(clamd_service).to(:restart)
-      end
-    end
-  end
-
-  context 'a node with the freshclam daemon enabled' do
-    let(:attributes) { { clamav: { freshclam: { enabled: true } } } }
-
-    it 'sends a restart notification to freshclam' do
-      packages.each do |p|
-        expect(chef_run.yum_package(p)).to notify(freshclam_service)
-          .to(:restart)
-      end
-    end
+    it_behaves_like 'any platform'
   end
 
   context 'an Amazon node' do
-    let(:runner) do
-      ChefSpec::SoloRunner.new do |node|
-        attributes.each { |k, v| node.set[k] = v }
-        node.automatic['platform'] = 'amazon'
-        node.automatic['platform_family'] = 'rhel'
-      end
-    end
+    let(:platform) { { platform: 'amazon', version: '2014.09' } }
     let(:packages) { %w(clamav clamav-update clamd) }
 
-    it_behaves_like 'any node'
+    it_behaves_like 'any platform'
   end
 end
