@@ -4,6 +4,7 @@ driver:
   # Clamd will fail to start on some distros with only 512MB
   size: 1gb
 platforms:
+  - name: ubuntu-14-10-x64
   - name: ubuntu-14-04-x64
   - name: ubuntu-12-04-x64
   - name: centos-7-0-x64

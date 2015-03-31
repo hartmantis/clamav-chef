@@ -6,6 +6,7 @@ platforms:
   - name: centos-7.0
   - name: centos-6.6
   - name: centos-5.11
+  - name: ubuntu-14.10
   - name: ubuntu-14.04
   - name: ubuntu-12.04
 
