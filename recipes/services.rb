@@ -47,8 +47,18 @@ ruby_block 'dummy service notification block' do
   block do
     Chef::Log.info('Dispatching service notifications...')
   end
-  notifies(c_enabled ? :enable : :disable, "service[#{c_service}]")
-  notifies(c_enabled ? :start : :stop, "service[#{c_service}]")
-  notifies(f_enabled ? :enable : :disable, "service[#{f_service}]")
-  notifies(f_enabled ? :start : :stop, "service[#{f_service}]")
+  if c_enabled
+    notifies :enable, "service[#{c_service}]"
+    notifies :start, "service[#{c_service}]"
+  else
+    notifies :stop, "service[#{c_service}]"
+    notifies :disable, "service[#{c_service}]"
+  end
+  if f_enabled
+    notifies :enable, "service[#{f_service}]"
+    notifies :start, "service[#{f_service}]"
+  else
+    notifies :stop, "service[#{f_service}]"
+    notifies :disable, "service[#{f_service}]"
+  end
 end
