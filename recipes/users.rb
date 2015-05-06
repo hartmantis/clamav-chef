@@ -30,3 +30,14 @@ group node['clamav']['group'] do
   system true
   only_if { node['clamav']['user'] != node['clamav']['group'] }
 end
+
+[
+  node['clamav']['clamd']['pid_file'],
+  node['clamav']['freshclam']['pid_file']
+].map { |f| File.dirname(f) }.compact.uniq.each do |d|
+  directory d do
+    owner node['clamav']['user']
+    group node['clamav']['group']
+    recursive true
+  end
+end

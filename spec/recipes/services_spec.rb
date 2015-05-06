@@ -5,12 +5,6 @@ require 'spec_helper'
 describe 'clamav::services' do
   let(:platform) { { platform: nil, version: nil } }
   let(:services) { { clamd: nil, freshclam: nil } }
-  let(:pids) do
-    {
-      clamd: '/var/run/clamav/clamd.pid',
-      freshclam: '/var/run/clamav/freshclam.pid'
-    }
-  end
   let(:attributes) { {} }
   let(:ruby_block) { 'dummy service notification block' }
   let(:runner) do
@@ -21,16 +15,6 @@ describe 'clamav::services' do
   let(:chef_run) { runner.converge(described_recipe) }
 
   shared_examples_for 'with anything' do
-    it 'creates the PID file directories' do
-      pids.each do |_, path|
-        expect(chef_run).to create_directory(File.dirname(path)).with(
-          user: 'clamav',
-          group: 'clamav',
-          recursive: true
-        )
-      end
-    end
-
     it 'does nothing with the services themselves' do
       [:clamd, :freshclam].each do |s|
         expect(chef_run.service(services[s])).to be
@@ -140,22 +124,6 @@ describe 'clamav::services' do
         it_behaves_like 'with anything'
         it_behaves_like 'with the clamd service enabled'
         it_behaves_like 'with the freshclam service enabled'
-      end
-
-      context 'with overridden PID file paths' do
-        let(:pids) { { clamd: '/tmp/r1/clam', freshclam: '/tmp/r2/fresh' } }
-        let(:attributes) do
-          {
-            clamav: {
-              clamd: { pid_file: pids[:clamd] },
-              freshclam: { pid_file: pids[:freshclam] }
-            }
-          }
-        end
-
-        it_behaves_like 'with anything'
-        it_behaves_like 'with the clamd service disabled'
-        it_behaves_like 'with the freshclam service disabled'
       end
     end
   end

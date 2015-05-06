@@ -19,6 +19,11 @@ describe 'clamav::users' do
         shell: '/sbin/nologin'
       )
     end
+
+    it 'creates the PID file directory' do
+      expect(chef_run).to create_directory('/var/run/clamav')
+        .with(user: user, group: group, recursive: true)
+    end
   end
 
   context 'an entirely default node' do
