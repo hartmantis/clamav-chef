@@ -12,10 +12,14 @@
 # Source function library
 . /etc/init.d/functions
 
+# Get network config
+. /etc/sysconfig/network
+
 prog="clamd"
 progdir="<%= @clamd_bin_dir %>"
 conf="<%= @clamd_conf %>"
 pid="<%= @clamd_pid %>"
+lock="/var/lock/subsys/$prog"
 
 test -f $conf || exit 1
 
@@ -28,8 +32,8 @@ start() {
 	echo -n $"Starting $prog: "
 	daemon $progdir/$prog -c $conf
 	RETVAL=$?
-	[ $RETVAL -eq 0 ] && touch $pid && success || failure
-    echo
+	[ $RETVAL -eq 0 ] && touch $lock && success || failure
+	echo
 	return $RETVAL
 }
 
@@ -38,8 +42,8 @@ stop() {
 	# Would be better to send QUIT first, then killproc if that fails
 	killproc $prog
 	RETVAL=$?
-	[ $RETVAL -eq 0 ] && rm -f $pid && success || failure
-    echo
+	[ $RETVAL -eq 0 ] && rm -f $pid $lock && success || failure
+	echo
 	return $RETVAL
 }
 
@@ -53,7 +57,7 @@ reload() {
 	killproc clamd -HUP
 	RETVAL=$?
 	[ $RETVAL -eq 0 ] && success || failure
-    echo
+	echo
 	return $RETVAL
 }
 

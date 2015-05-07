@@ -1,6 +1,6 @@
 #!/bin/sh
 #
-# freshclam    Init Script to start/ttop the freshclam daemon.
+# freshclam	Init Script to start/ttop the freshclam daemon.
 #
 # chkconfig: 2345 70 41
 # description: freshclam is an update daemon for Clam AV database.
@@ -19,20 +19,21 @@ prog="freshclam"
 progdir="<%= @freshclam_bin_dir %>"
 conf="<%= @freshclam_conf %>"
 pid="<%= @freshclam_pid %>"
+lock="/var/lock/subsys/$prog"
 
 test -f $conf || exit 1
 
 # Source configuration
 if [ -f /etc/sysconfig/$prog ]; then
-    . /etc/sysconfig/$prog
+	. /etc/sysconfig/$prog
 fi
 
 start() {
 	echo -n $"Starting $prog: "
-	daemon $progdir/$prog -d -p $pid
+	daemon $progdir/$prog -d --config-file=$conf
 	RETVAL=$?
-	[ $RETVAL -eq 0 ] && touch $pid && success || failure
-    echo
+	[ $RETVAL -eq 0 ] && touch $lock && success || failure
+	echo
 	return $RETVAL
 }
 
@@ -40,8 +41,8 @@ stop() {
 	echo -n $"Stopping $prog: "
 	killproc $prog
 	RETVAL=$?
-	[ $RETVAL -eq 0 ] && rm -f $pid && success || failure
-    echo
+	[ $RETVAL -eq 0 ] && rm -f $pid $lock && success || failure
+	echo
 	return $RETVAL
 }	
 
@@ -55,7 +56,7 @@ reload() {
 	killproc freshclam -ALRM
 	RETVAL=$?
 	[ $RETVAL -eq 0 ] && success || failure
-    echo
+	echo
 	return $RETVAL
 }
 
