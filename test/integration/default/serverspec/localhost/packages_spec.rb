@@ -8,7 +8,11 @@ describe 'clamav packages' do
     when 'ubuntu'
       %w(clamav clamav-daemon clamav-freshclam)
     else
-      %w(clamav clamav-db clamd)
+      if os[:release].to_i >= 7
+        %w(clamav-server clamav clamav-update)
+      else
+        %w(clamav clamav-db clamd)
+      end
     end
   end
 

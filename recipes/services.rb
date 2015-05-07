@@ -18,17 +18,6 @@
 # limitations under the License.
 #
 
-[
-  node['clamav']['clamd']['pid_file'],
-  node['clamav']['freshclam']['pid_file']
-].map { |f| File.dirname(f) }.compact.uniq.each do |d|
-  directory d do
-    owner node['clamav']['user']
-    group node['clamav']['group']
-    recursive true
-  end
-end
-
 c_service = node['clamav']['clamd']['service']
 c_enabled = node['clamav']['clamd']['enabled']
 service c_service do
@@ -47,8 +36,18 @@ ruby_block 'dummy service notification block' do
   block do
     Chef::Log.info('Dispatching service notifications...')
   end
-  notifies(c_enabled ? :enable : :disable, "service[#{c_service}]")
-  notifies(c_enabled ? :start : :stop, "service[#{c_service}]")
-  notifies(f_enabled ? :enable : :disable, "service[#{f_service}]")
-  notifies(f_enabled ? :start : :stop, "service[#{f_service}]")
+  if c_enabled
+    notifies :enable, "service[#{c_service}]"
+    notifies :start, "service[#{c_service}]"
+  else
+    notifies :stop, "service[#{c_service}]"
+    notifies :disable, "service[#{c_service}]"
+  end
+  if f_enabled
+    notifies :enable, "service[#{f_service}]"
+    notifies :start, "service[#{f_service}]"
+  else
+    notifies :stop, "service[#{f_service}]"
+    notifies :disable, "service[#{f_service}]"
+  end
 end
