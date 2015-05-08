@@ -1,7 +1,7 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
-v?.?.? (????-??-??)
+v1.2.0 (2015-05-07)
 -------------------
 * Add support for RHEL7
 * Add an attribute to control disabling/enabling of the Freshclam cron job
