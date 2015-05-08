@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe 'clamav cron scans' do
+describe 'clamav cron jobs' do
   let(:script) { '/usr/local/bin/clamav-scan.sh' }
   let(:minimal_cmd) do
     "#{script} /bin /sbin /usr/bin /usr/sbin /usr/local/bin " \
@@ -20,5 +20,11 @@ describe 'clamav cron scans' do
 
   it 'does not have the full scan cron job enabled' do
     expect(cron).to_not have_entry("42 0 * * 0 #{full_cmd}")
+  end
+
+  describe file('/etc/sysconfig/freshclam'), if: os[:family] == 'redhat' do
+    it 'leaves the freshclam cron job disabled' do
+      expect(subject.content).to match(/^FRESHCLAM_DELAY=disable/)
+    end
   end
 end

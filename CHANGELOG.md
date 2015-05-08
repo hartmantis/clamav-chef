@@ -4,6 +4,8 @@ ClamAV Cookbook CHANGELOG
 v?.?.? (????-??-??)
 -------------------
 * Add support for RHEL7
+* Add an attribute to control disabling/enabling of the Freshclam cron job
+  RHEL installs and disables by default
 
 v1.1.0 (2015-01-27)
 -------------------

@@ -46,6 +46,11 @@ describe 'clamav::install_rpm' do
           end
         end
       end
+
+      it 'leaves the freshclam cron job disabled' do
+        expect(chef_run).to render_file('/etc/sysconfig/freshclam')
+          .with_content(/^FRESHCLAM_DELAY=disabled/)
+      end
     end
 
     context 'the dev package enabled' do
@@ -85,6 +90,15 @@ describe 'clamav::install_rpm' do
             .to(:restart)
         end
       end
+    end
+  end
+
+  context 'the freshclam cron job enabled' do
+    let(:attributes) { { clamav: { freshclam: { rhel_cron_disable: false } } } }
+
+    it 'enables the freshclam cron job' do
+      expect(chef_run).not_to render_file('/etc/sysconfig/freshclam')
+        .with_content(/^FRESHCLAM_DELAY=disabled/)
     end
   end
 
