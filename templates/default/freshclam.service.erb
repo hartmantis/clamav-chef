@@ -1,0 +1,10 @@
+[Unit]
+Description=freshclam daemon
+
+[Service]
+Type=forking
+PIDFile=<%= @freshclam_pid %>
+ExecStart=<%= @freshclam_bin_dir %>/freshclam -d -p <%= @freshclam_pid %>
+
+[Install]
+WantedBy=multi-user.target
