@@ -2,18 +2,10 @@
 
 source 'https://rubygems.org'
 
-group :development do
-  gem 'yard-chef'
-  gem 'guard'
-  gem 'guard-rspec'
-  gem 'guard-kitchen'
-  gem 'guard-foodcritic'
-end
-
 group :test do
   gem 'rake'
   gem 'rubocop'
-  gem 'foodcritic'
+  gem 'foodcritic', '~> 6.0'
   gem 'rspec'
   gem 'chefspec'
   gem 'simplecov'
