@@ -29,11 +29,9 @@ directory node['clamav']['database_directory'] do
   recursive true
 end
 
-if node['clamav']['clamd']['enabled']
-  notify = File.expand_path("#{node['clamav']['conf_dir']}/clamd.conf")
-else
-  notify = nil
-end
+notify = if node['clamav']['clamd']['enabled']
+           File.expand_path("#{node['clamav']['conf_dir']}/clamd.conf")
+         end
 
 template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   owner node['clamav']['user']
