@@ -3,6 +3,7 @@ ClamAV Cookbook CHANGELOG
 
 v?.?.? (????-??-??)
 -------------------
+* Remove the additional Ubuntu repo; it was shut down 2016/01/30
 
 v1.2.0 (2015-05-07)
 -------------------
