@@ -54,7 +54,7 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
              :delayed
   end
   if !node['clamav']['freshclam']['enabled'] || platform_family == 'debian'
-    notifies :run, 'execute[freshclam]', :immediately
+    notifies :run, 'execute[freshclam]', :delayed
   end
 end
 
