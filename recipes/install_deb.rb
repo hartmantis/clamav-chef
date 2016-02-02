@@ -28,7 +28,6 @@ apt_repository 'clamav-repo' do
   keyserver 'keyserver.ubuntu.com'
   key '5ADC2037'
   only_if { node['platform'] == 'ubuntu' }
-  notifies :run, 'execute[apt-get update]', :immediately
 end
 
 package 'clamav' do
