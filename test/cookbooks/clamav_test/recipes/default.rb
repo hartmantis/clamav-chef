@@ -49,4 +49,6 @@ execute 'rsyslogd' do
   ignore_failure true
 end
 
+directory '/etc/cron.d'
+
 include_recipe 'clamav'
