@@ -24,8 +24,8 @@ when 'rhel'
 when 'debian'
   include_recipe "#{cookbook_name}::install_deb"
 else
-  fail(Chef::Exceptions::UnsupportedAction,
-       "Cookbook does not support #{node['platform']} platform")
+  raise(Chef::Exceptions::UnsupportedAction,
+        "Cookbook does not support #{node['platform']} platform")
 end
 
 include_recipe "#{cookbook_name}::users"

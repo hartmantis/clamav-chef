@@ -13,10 +13,6 @@ suites:
   - name: default
     run_list:
       - recipe[clamav_test]
-    attributes:
-      clamav:
-        freshclam:
-          skip_initial_run: true
   - name: all_options_enabled
     run_list:
       - recipe[clamav_test]

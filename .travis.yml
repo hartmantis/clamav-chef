@@ -16,6 +16,10 @@ install:
   - chef exec bundle install --without=development integration
 
 before_script:
+  - mkdir -p test/cookbooks/clamav_test/files
+  - wget -P test/cookbooks/clamav_test/files http://database.clamav.net/main.cvd
+  - wget -P test/cookbooks/clamav_test/files http://database.clamav.net/daily.cvd
+  - wget -P test/cookbooks/clamav_test/files http://database.clamav.net/bytecode.cvd
   - cp .kitchen.travis.yml .kitchen.local.yml
 
 script:

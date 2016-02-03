@@ -51,4 +51,16 @@ end
 
 directory '/etc/cron.d'
 
+# Speed up Travis builds by dropping in some shared .cvd files instead of
+# downloading them from the DB server on each test platform.
+if ::File.exist?(::File.expand_path('../../files/main.cvd', __FILE__))
+  directory node['clamav']['database_directory'] do
+    recursive true
+  end
+
+  %w(main.cvd daily.cvd bytecode.cvd).each do |f|
+    cookbook_file ::File.join(node['clamav']['database_directory'], f)
+  end
+end
+
 include_recipe 'clamav'
