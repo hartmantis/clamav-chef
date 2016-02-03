@@ -22,10 +22,6 @@ include_recipe "#{cookbook_name}::services"
 
 supp_groups = node['clamav']['allow_supplementary_groups']
 
-run_freshclam = !node['clamav']['freshclam']['skip_initial_run'] && \
-                (!node['clamav']['freshclam']['enabled'] || \
-                 node['platform_family'] == 'debian')
-
 directory node['clamav']['database_directory'] do
   owner node['clamav']['user']
   group node['clamav']['group']
@@ -54,10 +50,10 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
     notifies :restart, "service[#{node['clamav']['freshclam']['service']}]",
              :delayed
   end
-  notifies(:run, 'execute[freshclam]', :immediately) if run_freshclam
 end
 
 execute 'freshclam' do
   command 'freshclam'
-  action :nothing
+  creates ::File.join(node['clamav']['database_directory'], 'daily.cvd')
+  not_if { node['clamav']['freshclam']['skip_initial_run'] }
 end
