@@ -54,7 +54,7 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
     notifies :restart, "service[#{node['clamav']['freshclam']['service']}]",
              :delayed
   end
-  notifies(:run, 'execute[freshclam]', :delayed) if run_freshclam
+  notifies(:run, 'execute[freshclam]', :immediately) if run_freshclam
 end
 
 execute 'freshclam' do
