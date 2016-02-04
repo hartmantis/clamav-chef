@@ -21,16 +21,6 @@
 include_recipe 'apt'
 include_recipe "#{cookbook_name}::services"
 
-apt_repository 'clamav-repo' do
-  uri 'http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu'
-  distribution node['lsb']['codename']
-  components ['main']
-  keyserver 'keyserver.ubuntu.com'
-  key '5ADC2037'
-  only_if { node['platform'] == 'ubuntu' }
-  notifies :run, 'execute[apt-get update]', :immediately
-end
-
 package 'clamav' do
   action :install
   version node['clamav']['version'] if node['clamav']['version']
