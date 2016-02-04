@@ -10,8 +10,6 @@ services:
   - docker
 
 install:
-  - sudo apt-get purge -y lxc-docker
-  - wget -qO- https://get.docker.com/ | sudo sh
   - curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -P chefdk
   - chef exec bundle install --without=development integration
 
