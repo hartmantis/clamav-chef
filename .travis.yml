@@ -11,10 +11,10 @@ services:
 
 cache:
   directories:
-    - test/cookbooks/clamav_test/files
+    - test/fixtures/cookbooks/clamav_test/files
 
 env:
-  - CVD_PATH=test/cookbooks/clamav_test/files
+  - CVD_PATH=test/fixtures/cookbooks/clamav_test/files
 
 install:
   - curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -P chefdk

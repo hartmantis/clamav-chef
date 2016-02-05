@@ -1,10 +1,10 @@
 # Encoding: UTF-8
 
-source 'https://api.berkshelf.com'
+source 'https://supermarket.chef.io'
 
 metadata
 
 group :development, :test do
   cookbook 'clamav_test',
-           path: './test/cookbooks/clamav_test'
+           path: './test/fixtures/cookbooks/clamav_test'
 end
