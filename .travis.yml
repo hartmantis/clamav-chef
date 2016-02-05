@@ -1,20 +1,31 @@
 language: ruby
 
+branches:
+  only:
+    - master
+
+sudo: required
+
+services:
+  - docker
+
+cache:
+  directories:
+    - test/cookbooks/clamav_test/files
+
+env:
+  - CVD_PATH=test/cookbooks/clamav_test/files
+
 install:
-  - curl -L https://www.opscode.com/chef/install.sh | sudo bash -s -- -P chefdk
+  - curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -P chefdk
   - chef exec bundle install --without=development integration
 
 before_script:
-  # Pending ENV support in Kitchen's Rake tasks and not just the CLI
+  - mkdir -p $CVD_PATH
+  - "[ -e $CVD_PATH/main.cvd ] || wget -P $CVD_PATH http://database.clamav.net/main.cvd"
+  - "[ -e $CVD_PATH/daily.cvd ] || wget -P $CVD_PATH http://database.clamav.net/daily.cvd"
+  - "[ -e $CVD_PATH/bytecode.cvd ] || wget -P $CVD_PATH http://database.clamav.net/bytecode.cvd"
   - cp .kitchen.travis.yml .kitchen.local.yml
-  - echo -e $DIGITALOCEAN_SSH_KEY_BODY > ~/.ssh/id_rsa
 
 script:
-  - chef exec rake && chef exec bundle exec kitchen test -c 4
-
-after_script:
-  - chef exec bundle exec kitchen destroy
-
-env:
-  global:
-    # - KITCHEN_LOCAL_YAML=.kitchen.travis.yml
+  - chef exec rake && chef exec kitchen test

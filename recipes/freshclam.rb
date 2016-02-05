@@ -20,7 +20,6 @@
 
 include_recipe "#{cookbook_name}::services"
 
-platform_family = node['platform_family']
 supp_groups = node['clamav']['allow_supplementary_groups']
 
 directory node['clamav']['database_directory'] do
@@ -29,11 +28,9 @@ directory node['clamav']['database_directory'] do
   recursive true
 end
 
-if node['clamav']['clamd']['enabled']
-  notify = File.expand_path("#{node['clamav']['conf_dir']}/clamd.conf")
-else
-  notify = nil
-end
+notify = if node['clamav']['clamd']['enabled']
+           File.expand_path("#{node['clamav']['conf_dir']}/clamd.conf")
+         end
 
 template "#{node['clamav']['conf_dir']}/freshclam.conf" do
   owner node['clamav']['user']
@@ -53,12 +50,10 @@ template "#{node['clamav']['conf_dir']}/freshclam.conf" do
     notifies :restart, "service[#{node['clamav']['freshclam']['service']}]",
              :delayed
   end
-  if !node['clamav']['freshclam']['enabled'] || platform_family == 'debian'
-    notifies :run, 'execute[freshclam]', :delayed
-  end
 end
 
 execute 'freshclam' do
   command 'freshclam'
-  action :nothing
+  creates ::File.join(node['clamav']['database_directory'], 'daily.cvd')
+  not_if { node['clamav']['freshclam']['skip_initial_run'] }
 end

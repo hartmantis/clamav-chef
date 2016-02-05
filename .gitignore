@@ -23,3 +23,5 @@ Vagrantfile
 # sublime text
 *.sublime-project
 *.sublime-workspace
+
+test/cookbooks/clamav_test/files/*.cvd

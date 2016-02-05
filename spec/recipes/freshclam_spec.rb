@@ -84,17 +84,15 @@ describe 'clamav::freshclam' do
 
   shared_examples_for 'a node that needs to run freshclam' do
     it 'runs freshclam manually' do
-      expect(chef_run).to_not run_execute('freshclam')
-      expect(chef_run.template(conf)).to notify('execute[freshclam]')
-        .to(:run)
+      expect(chef_run).to run_execute('freshclam').with(
+        creates: '/var/lib/clamav/daily.cvd'
+      )
     end
   end
 
   shared_examples_for 'a node that does not need to run freshclam' do
     it 'does not run freshclam manually' do
       expect(chef_run).to_not run_execute('freshclam')
-      expect(chef_run.template(conf)).to_not notify('execute[freshclam]')
-        .to(:run)
     end
   end
 
@@ -156,11 +154,7 @@ describe 'clamav::freshclam' do
 
         it_behaves_like 'any node'
         it_behaves_like 'a node with all default attributes'
-        if k == :Ubuntu
-          it_behaves_like 'a node that needs to run freshclam'
-        else
-          it_behaves_like 'a node that does not need to run freshclam'
-        end
+        it_behaves_like 'a node that needs to run freshclam'
         it_behaves_like 'a node with the freshclam service enabled'
         it_behaves_like 'a node with the clamd service disabled'
       end
@@ -173,6 +167,18 @@ describe 'clamav::freshclam' do
         it_behaves_like 'a node that needs to run freshclam'
         it_behaves_like 'a node with the freshclam service disabled'
         it_behaves_like 'a node with the clamd service enabled'
+      end
+
+      context 'a node with the initial freshclam run disabled' do
+        let(:attributes) do
+          { clamav: { freshclam: { skip_initial_run: true } } }
+        end
+
+        it_behaves_like 'any node'
+        it_behaves_like 'a node with all default attributes'
+        it_behaves_like 'a node that does not need to run freshclam'
+        it_behaves_like 'a node with the freshclam service disabled'
+        it_behaves_like 'a node with the clamd service disabled'
       end
     end
   end

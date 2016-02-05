@@ -26,14 +26,17 @@ cookbook_file node['clamav']['scan']['script']['path'] do
   only_if { node['clamav']['scan']['script']['enable'] }
 end
 
+script_path = node['clamav']['scan']['script']['path']
+min_dirs = node['clamav']['scan']['minimal']['dirs']
+full_dirs = node['clamav']['scan']['full']['dirs']
+
 cron_d 'clamav_minimal_scan' do
   minute node['clamav']['scan']['minimal']['minute']
   hour node['clamav']['scan']['minimal']['hour']
   weekday node['clamav']['scan']['minimal']['weekday']
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
-  command "#{node['clamav']['scan']['script']['path']} " +
-    node['clamav']['scan']['minimal']['dirs']
+  command "#{script_path} #{min_dirs}"
   only_if { node['clamav']['scan']['minimal']['enable'] }
 end
 
@@ -43,7 +46,6 @@ cron_d 'clamav_full_scan' do
   weekday node['clamav']['scan']['full']['weekday']
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
-  command "#{node['clamav']['scan']['script']['path']} " +
-    node['clamav']['scan']['full']['dirs']
+  command "#{script_path} #{full_dirs}"
   only_if { node['clamav']['scan']['full']['enable'] }
 end

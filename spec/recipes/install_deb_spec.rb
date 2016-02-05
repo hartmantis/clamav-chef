@@ -16,21 +16,6 @@ describe 'clamav::install_deb' do
   let(:chef_run) { runner.converge(described_recipe) }
 
   shared_examples_for 'any node' do
-    it 'sets up the ClamAV APT repo' do
-      expect(chef_run).to create_apt_repository('clamav-repo').with(
-        uri: 'http://ppa.launchpad.net/ubuntu-clamav/ppa/ubuntu',
-        distribution: 'precise',
-        components: %w(main),
-        keyserver: 'keyserver.ubuntu.com',
-        key: '5ADC2037'
-      )
-    end
-
-    it 'sends a notification to "apt-get update"' do
-      e = 'execute[apt-get update]'
-      expect(chef_run.apt_repository('clamav-repo')).to notify(e).to(:run)
-    end
-
     it 'installs the pertinent packages' do
       packages.each do |p|
         expect(chef_run).to install_package(p)
