@@ -1,7 +1,7 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
-v?.?.? (????-??-??)
+v1.3.0 (2016-02-05)
 -------------------
 * Remove the additional Ubuntu repo; it was shut down 2016/01/30
 * Run Freshclam any time the virus DB does not exist
