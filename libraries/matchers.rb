@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Recipe:: default
+# Library:: matchers
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -9,7 +9,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#   http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,16 @@
 # limitations under the License.
 #
 
-clamav_app 'default' do
-  version node['clamav']['version']
+if defined?(ChefSpec)
+  {
+    clamav_app: [:install, :upgrade, :remove]
+  }.each do |matcher, actions|
+    ChefSpec.define_matcher(matcher)
+
+    actions.each do |action|
+      define_method("#{action}_#{matcher}") do |name|
+        ChefSpec::Matchers::ResourceMatcher.new(matcher, action, name)
+      end
+    end
+  end
 end

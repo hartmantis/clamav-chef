@@ -1,9 +1,5 @@
 # Encoding: UTF-8
 
-# Compiler is needed to install Cucumber for the acceptance tests
-include_recipe 'apt' if node['platform_family'] == 'debian'
-include_recipe 'build-essential'
-
 # Ensure rsyslog is installed and running, regardless of whether the build
 # environment is a Vagrant box or a Docker container with no init system.
 package 'rsyslog'
@@ -28,7 +24,7 @@ file '/etc/rsyslog.conf' do
   end
 end
 execute 'rsyslogd' do
-  ignore_failure true
+  not_if 'pidof rsyslogd'
 end
 
 directory '/etc/cron.d'

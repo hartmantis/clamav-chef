@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Recipe:: default
+# Library:: provider_mapping
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -9,7 +9,7 @@
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
 #
-#   http://www.apache.org/licenses/LICENSE-2.0
+#     http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,6 +18,13 @@
 # limitations under the License.
 #
 
-clamav_app 'default' do
-  version node['clamav']['version']
+require 'chef/version'
+require 'chef/platform/provider_mapping'
+require_relative 'provider_clamav_app'
+require_relative 'provider_clamav_app_debian'
+
+if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
+  Chef::Platform.set(resource: :clamav_app,
+                     platform_family: :debian,
+                     provider: Chef::Provider::ClamavApp::Debian)
 end
