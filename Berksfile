@@ -11,4 +11,6 @@ group :test do
            path: 'spec/support/cookbooks/resource_clamav_app_test'
   cookbook 'resource_clamav_service_clamd_test',
            path: 'spec/support/cookbooks/resource_clamav_service_clamd_test'
+  cookbook 'resource_clamav_service_freshclam_test',
+           path: 'spec/support/cookbooks/resource_clamav_service_freshclam_test'
 end

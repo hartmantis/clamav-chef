@@ -24,6 +24,8 @@ require_relative 'provider_clamav_app'
 require_relative 'provider_clamav_app_debian'
 require_relative 'provider_clamav_service_clamd'
 require_relative 'provider_clamav_service_clamd_debian'
+require_relative 'provider_clamav_service_freshclam'
+require_relative 'provider_clamav_service_freshclam_debian'
 
 if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
   Chef::Platform.set(resource: :clamav_app,
@@ -32,4 +34,7 @@ if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
   Chef::Platform.set(resource: :clamav_service_clamd,
                      platform_family: :debian,
                      provider: Chef::Provider::ClamavServiceClamd::Debian)
+  Chef::Platform.set(resource: :clamav_service_freshclam,
+                     platform_family: :debian,
+                     provider: Chef::Provider::ClamavServiceFreshclam::Debian)
 end

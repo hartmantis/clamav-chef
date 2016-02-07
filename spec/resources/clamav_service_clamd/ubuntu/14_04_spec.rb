@@ -29,7 +29,7 @@ describe 'resource_clamav_service_clamd::ubuntu::14_04' do
     end
   end
 
-  context 'the :didable action' do
+  context 'the :disable action' do
     let(:action) { :disable }
     cached(:chef_run) { converge }
 
