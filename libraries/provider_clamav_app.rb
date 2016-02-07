@@ -85,7 +85,7 @@ class Chef
       #
       def base_packages
         raise(NotImplementedError,
-              '`base_packages` must be overloaded to support this platform')
+              "#base_packages must be implemented for #{self.class} provider")
       end
 
       #
@@ -97,7 +97,7 @@ class Chef
       #
       def dev_packages
         raise(NotImplementedError,
-              '`dev_packages` must be overloaded to support this platform')
+              "#dev_packages must be implemented for #{self.class} provider")
       end
     end
   end

@@ -22,9 +22,14 @@ require 'chef/version'
 require 'chef/platform/provider_mapping'
 require_relative 'provider_clamav_app'
 require_relative 'provider_clamav_app_debian'
+require_relative 'provider_clamav_service_clamd'
+require_relative 'provider_clamav_service_clamd_debian'
 
 if Gem::Version.new(Chef::VERSION) < Gem::Version.new('12')
   Chef::Platform.set(resource: :clamav_app,
                      platform_family: :debian,
                      provider: Chef::Provider::ClamavApp::Debian)
+  Chef::Platform.set(resource: :clamav_service_clamd,
+                     platform_family: :debian,
+                     provider: Chef::Provider::ClamavServiceClamd::Debian)
 end

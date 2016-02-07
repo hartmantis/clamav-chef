@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Library:: matchers
+# Library:: provider_clamav_service_clamd_debian
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -18,16 +18,28 @@
 # limitations under the License.
 #
 
-if defined?(ChefSpec)
-  {
-    clamav_app: [:install, :upgrade, :remove],
-    clamav_service_clamd: [:enable, :disable, :start, :stop]
-  }.each do |matcher, actions|
-    ChefSpec.define_matcher(matcher)
+require 'chef/provider/lwrp_base'
+require_relative 'provider_clamav_service_clamd'
 
-    actions.each do |action|
-      define_method("#{action}_#{matcher}") do |name|
-        ChefSpec::Matchers::ResourceMatcher.new(matcher, action, name)
+class Chef
+  class Provider
+    class ClamavServiceClamd < Provider::LWRPBase
+      # A ClamAV clamd service provider for Ubuntu/Debian.
+      #
+      # @author Jonathan Hartman <j@p4nt5.com>
+      class Debian < ClamavServiceClamd
+        if defined?(provides)
+          provides :clamav_service_clamd, platform_family: 'debian'
+        end
+
+        private
+
+        #
+        # (see Chef::Provider::ClamavServiceClamd#service_name)
+        #
+        def service_name
+          'clamav-daemon'
+        end
       end
     end
   end

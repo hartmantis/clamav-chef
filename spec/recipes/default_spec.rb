@@ -15,6 +15,10 @@ describe 'clamav::default' do
     it 'installs the ClamAV app' do
       expect(chef_run).to install_clamav_app('default').with(version: version)
     end
+
+    it 'does nothing with the clamd service' do
+      expect(chef_run.clamav_service_clamd('default')).to do_nothing
+    end
   end
 
   context 'all default attributes' do
