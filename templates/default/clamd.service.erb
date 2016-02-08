@@ -1,0 +1,10 @@
+[Unit]
+Description=clamav daemon
+
+[Service]
+Type=forking
+PIDFile=<%= @clamd_pid %>
+ExecStart=<%= @clamd_bin_dir %>/clamd -c <%= @clamd_conf %>
+
+[Install]
+WantedBy=multi-user.target
