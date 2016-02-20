@@ -45,17 +45,18 @@ a.out
 
 # Testing #
 ###########
+Gemfile*
 .watchr
 .rspec
 spec/*
 spec/fixtures/*
 test/*
 features/*
+examples/*
 Guardfile
 Procfile
-Gemfile
-Gemfile.lock
-Rakefile
+.kitchen*
+.rubocop.yml
 
 # SCM #
 #######
@@ -76,12 +77,12 @@ Berksfile
 Berksfile.lock
 cookbooks/*
 tmp
-.berkshelf/*
 
 # Cookbooks #
 #############
-CONTRIBUTING
+CONTRIBUTING*
 CHANGELOG*
+TESTING*
 
 # Strainer #
 ############

@@ -1,27 +1,24 @@
 .vagrant
 Berksfile.lock
-berks-cookbooks/
+berks-cookbooks
 *~
 *#
 .#*
 \#*#
 .*.sw[a-z]
 *.un~
-/cookbooks
-coverage
 
-# Bundler
-bin/*
-.bundle/*
-Gemfile.lock
-
-.kitchen/
-.kitchen.local.yml
-.env.sh
-Vagrantfile
-
-# sublime text
+# Sublime Text
 *.sublime-project
 *.sublime-workspace
 
-test/cookbooks/clamav_test/files/*.cvd
+# Bundler
+Gemfile.lock
+bin/*
+.bundle/*
+
+.kitchen/
+.kitchen.local.yml
+
+.env.sh
+coverage
