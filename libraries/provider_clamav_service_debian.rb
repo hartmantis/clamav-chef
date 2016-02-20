@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Library:: provider_clamav_service_clamd_debian
+# Library:: provider_clamav_service_debian
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -19,26 +19,33 @@
 #
 
 require 'chef/provider/lwrp_base'
-require_relative 'provider_clamav_service_clamd'
+require_relative 'provider_clamav_service'
 
 class Chef
   class Provider
-    class ClamavServiceClamd < Provider::LWRPBase
-      # A ClamAV clamd service provider for Ubuntu/Debian.
+    class ClamavService < Provider::LWRPBase
+      # A ClamAV service provider for Ubuntu/Debian.
       #
       # @author Jonathan Hartman <j@p4nt5.com>
-      class Debian < ClamavServiceClamd
+      class Debian < ClamavService
         if defined?(provides)
-          provides :clamav_service_clamd, platform_family: 'debian'
+          provides :clamav_service, platform_family: 'debian'
         end
 
         private
 
         #
-        # (see Chef::Provider::ClamavServiceClamd#service_name)
+        # (see Chef::Provider::ClamavService#clamd_service_name)
         #
-        def service_name
+        def clamd_service_name
           'clamav-daemon'
+        end
+
+        #
+        # (see Chef::Provider::ClamavService#freshclam_service_name)
+        #
+        def freshclam_service_name
+          'clamav-freshclam'
         end
       end
     end

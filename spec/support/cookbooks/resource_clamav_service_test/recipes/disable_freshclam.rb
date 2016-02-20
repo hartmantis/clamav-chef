@@ -1,5 +1,5 @@
 # Encoding: UTF-8
 
-clamav_service_freshclam 'default' do
+clamav_service 'freshclam' do
   action :disable
 end

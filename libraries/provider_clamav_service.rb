@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Library:: provider_clamav_service_freshclam
+# Library:: provider_clamav_service
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -19,14 +19,14 @@
 #
 
 require 'chef/provider/lwrp_base'
-require_relative 'resource_clamav_service_freshclam'
+require_relative 'resource_clamav_service'
 
 class Chef
   class Provider
-    # A Chef provider for the ClamAV freshclam service.
+    # A Chef provider for managing the ClamAV services.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
-    class ClamavServiceFreshclam < Provider::LWRPBase
+    class ClamavService < Provider::LWRPBase
       use_inline_resources
 
       #
@@ -42,11 +42,26 @@ class Chef
       # Iterate over each service action and pass it on the the inline service
       # resource.
       #
-      Resource::ClamavServiceClamd.new('_', nil).allowed_actions.each do |a|
-        action(a) { service(service_name) { action a } }
+      Resource::ClamavService.new('clamd', nil).allowed_actions.each do |a|
+        action(a) do
+          service(send("#{new_resource.name}_service_name")) { action a }
+        end
       end
 
       private
+
+      #
+      # Return the name of the clamd service for the current platform.
+      #
+      # @return [String] the name of the service
+      #
+      # @raise [NotImplementedError] if not implemented for the platform
+      #
+      def clamd_service_name
+        raise(NotImplementedError,
+              "#clamd_service_name must be implemented for #{self.class} " \
+              'provider')
+      end
 
       #
       # Return the name of the freshclam service for the current platform.
@@ -55,9 +70,10 @@ class Chef
       #
       # @raise [NotImplementedError] if not implemented for the platform
       #
-      def service_name
+      def freshclam_service_name
         raise(NotImplementedError,
-              "#service_name must be implemented for #{self.class} provider")
+              "#freshclam_service_name must be implemented for #{self.class}" \
+              'provider')
       end
     end
   end

@@ -3,8 +3,7 @@
 require_relative '../spec_helper'
 require_relative '../../libraries/provider_mapping'
 require_relative '../../libraries/resource_clamav_app'
-require_relative '../../libraries/resource_clamav_service_clamd'
-require_relative '../../libraries/resource_clamav_service_freshclam'
+require_relative '../../libraries/resource_clamav_service'
 
 describe :provider_mapping do
   let(:chef_version) { nil }
@@ -17,18 +16,11 @@ describe :provider_mapping do
       Chef::Resource::ClamavApp.new('default', nil)
     )
   end
-  let(:service_clamd_provider) do
+  let(:service_provider) do
     Chef::Platform.find_provider(
       platform[:platform],
       platform[:version],
-      Chef::Resource::ClamavServiceClamd.new('default', nil)
-    )
-  end
-  let(:service_freshclam_provider) do
-    Chef::Platform.find_provider(
-      platform[:platform],
-      platform[:version],
-      Chef::Resource::ClamavServiceFreshclam.new('default', nil)
+      Chef::Resource::ClamavService.new('clamd', nil)
     )
   end
 
@@ -63,12 +55,7 @@ describe :provider_mapping do
         load(File.expand_path('../../../libraries/provider_mapping.rb',
                               __FILE__))
         expect(app_provider).to eq(Chef::Provider::ClamavApp::Debian)
-        expect(service_clamd_provider).to eq(
-          Chef::Provider::ClamavServiceClamd::Debian
-        )
-        expect(service_freshclam_provider).to eq(
-          Chef::Provider::ClamavServiceFreshclam::Debian
-        )
+        expect(service_provider).to eq(Chef::Provider::ClamavService::Debian)
       end
     end
   end
@@ -92,12 +79,7 @@ describe :provider_mapping do
         load(File.expand_path('../../../libraries/provider_mapping.rb',
                               __FILE__))
         expect(app_provider).to eq(Chef::Provider::ClamavApp::Debian)
-        expect(service_clamd_provider).to eq(
-          Chef::Provider::ClamavServiceClamd::Debian
-        )
-        expect(service_freshclam_provider).to eq(
-          Chef::Provider::ClamavServiceFreshclam::Debian
-        )
+        expect(service_provider).to eq(Chef::Provider::ClamavService::Debian)
       end
     end
   end

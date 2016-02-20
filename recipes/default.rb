@@ -21,4 +21,5 @@
 clamav_app 'default' do
   version node['clamav']['version']
 end
-clamav_service_clamd 'default'
+clamav_service 'clamd'
+clamav_service 'freshclam'

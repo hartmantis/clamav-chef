@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Library:: resource_clamav_service_freshclam
+# Library:: resource_clamav_service
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -22,13 +22,21 @@ require 'chef/resource/lwrp_base'
 
 class Chef
   class Resource
-    # A Chef resource for the ClamAV freshclam service.
+    # A Chef resource for managing the ClamAV services.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
-    class ClamavServiceFreshclam < Resource::LWRPBase
-      self.resource_name = :clamav_service_freshclam
+    class ClamavService < Resource::LWRPBase
+      self.resource_name = :clamav_service
       actions Chef::Resource::Service.new('_', nil).allowed_actions
       default_action :nothing
+
+      #
+      # The name must be one of the recognized services: 'clamd' or 'freshclam'
+      #
+      attribute :name,
+                kind_of: String,
+                required: true,
+                equal_to: %w(clamd freshclam)
     end
   end
 end

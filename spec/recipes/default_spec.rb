@@ -17,7 +17,7 @@ describe 'clamav::default' do
     end
 
     it 'does nothing with the clamd service' do
-      expect(chef_run.clamav_service_clamd('default')).to do_nothing
+      expect(chef_run.clamav_service('clamd')).to do_nothing
     end
   end
 
