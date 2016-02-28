@@ -55,7 +55,7 @@ describe :provider_mapping do
         load(File.expand_path('../../../libraries/provider_mapping.rb',
                               __FILE__))
         expect(app_provider).to eq(Chef::Provider::ClamavApp::Debian)
-        expect(service_provider).to eq(Chef::Provider::ClamavService::Debian)
+        expect(service_provider).to eq(Chef::Provider::ClamavService)
       end
     end
   end
@@ -79,7 +79,7 @@ describe :provider_mapping do
         load(File.expand_path('../../../libraries/provider_mapping.rb',
                               __FILE__))
         expect(app_provider).to eq(Chef::Provider::ClamavApp::Debian)
-        expect(service_provider).to eq(Chef::Provider::ClamavService::Debian)
+        expect(service_provider).to eq(Chef::Provider::ClamavService)
       end
     end
   end

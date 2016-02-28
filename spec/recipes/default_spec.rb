@@ -19,6 +19,10 @@ describe 'clamav::default' do
     it 'does nothing with the clamd service' do
       expect(chef_run.clamav_service('clamd')).to do_nothing
     end
+
+    it 'does nothing with the freshclam service' do
+      expect(chef_run.clamav_service('freshclam')).to do_nothing
+    end
   end
 
   context 'all default attributes' do
