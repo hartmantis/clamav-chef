@@ -19,6 +19,7 @@
 #
 
 require 'chef/provider/lwrp_base'
+require_relative 'helpers_defaults'
 require_relative 'resource_clamav_service'
 
 class Chef
@@ -27,7 +28,11 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavService < Provider::LWRPBase
+      include ClamavCookbook::Helpers::Defaults
+
       use_inline_resources
+
+      provides :clamav_service, platform_family: 'debian' if defined?(provides)
 
       #
       # WhyRun is supported by this provider
@@ -46,34 +51,6 @@ class Chef
         action(a) do
           service(send("#{new_resource.name}_service_name")) { action a }
         end
-      end
-
-      private
-
-      #
-      # Return the name of the clamd service for the current platform.
-      #
-      # @return [String] the name of the service
-      #
-      # @raise [NotImplementedError] if not implemented for the platform
-      #
-      def clamd_service_name
-        raise(NotImplementedError,
-              "#clamd_service_name must be implemented for #{self.class} " \
-              'provider')
-      end
-
-      #
-      # Return the name of the freshclam service for the current platform.
-      #
-      # @return [String] the name of the service
-      #
-      # @raise [NotImplementedError] if not implemented for the platform
-      #
-      def freshclam_service_name
-        raise(NotImplementedError,
-              "#freshclam_service_name must be implemented for #{self.class}" \
-              'provider')
       end
     end
   end

@@ -21,7 +21,7 @@
 if defined?(ChefSpec)
   {
     clamav_app: [:install, :upgrade, :remove],
-    clamav_service_clamd: [:enable, :disable, :start, :stop]
+    clamav_service: [:enable, :disable, :start, :stop]
   }.each do |matcher, actions|
     ChefSpec.define_matcher(matcher)
 
