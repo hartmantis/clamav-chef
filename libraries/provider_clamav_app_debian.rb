@@ -54,20 +54,6 @@ class Chef
           include_recipe 'apt'
           super()
         end
-
-        #
-        # (see ClamavApp#base_packages)
-        #
-        def base_packages
-          %w(clamav clamav-daemon clamav-freshclam)
-        end
-
-        #
-        # (see ClamavApp#dev_packages
-        #
-        def dev_packages
-          %w(libclamav-dev)
-        end
       end
     end
   end

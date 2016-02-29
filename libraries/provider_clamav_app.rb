@@ -19,6 +19,7 @@
 #
 
 require 'chef/provider/lwrp_base'
+require_relative 'helpers_defaults'
 
 class Chef
   class Provider
@@ -26,6 +27,8 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavApp < Provider::LWRPBase
+      include ClamavCookbook::Helpers::Defaults
+
       use_inline_resources
 
       #
@@ -74,30 +77,6 @@ class Chef
             action action
           end
         end
-      end
-
-      #
-      # Return the array of base packages to perform actions on.
-      #
-      # @return [Array] a package list
-      #
-      # @raise [NotImplementedError] if not implemented for the platform
-      #
-      def base_packages
-        raise(NotImplementedError,
-              "#base_packages must be implemented for #{self.class} provider")
-      end
-
-      #
-      # Return the array of dev packages to perform actions on.
-      #
-      # @return [Array] a package list
-      #
-      # @raise [NotImplementedError] if not implemented for the platform
-      #
-      def dev_packages
-        raise(NotImplementedError,
-              "#dev_packages must be implemented for #{self.class} provider")
       end
     end
   end

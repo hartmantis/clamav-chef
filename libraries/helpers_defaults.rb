@@ -48,6 +48,30 @@ module ClamavCookbook
           'clamav-freshclam'
         end
       end
+
+      #
+      # The list of packages that constitute a "base" install.
+      #
+      # @return [Array<String>] a list of base packages
+      #
+      def base_packages
+        case node['platform_family']
+        when 'debian'
+          %w(clamav clamav-daemon clamav-freshclam)
+        end
+      end
+
+      #
+      # The list of packages that constitute the development libraries.
+      #
+      # @return [Array<String>] a list of dev packages
+      #
+      def dev_packages
+        case node['platform_family']
+        when 'debian'
+          %w(libclamav-dev)
+        end
+      end
     end
   end
 end
