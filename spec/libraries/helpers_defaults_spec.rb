@@ -52,4 +52,44 @@ describe ClamavCookbook::Helpers::Defaults do
       end
     end
   end
+
+  describe '#base_packages' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct package list' do
+        expect(test_obj.base_packages).to eq(
+          %w(clamav clamav-daemon clamav-freshclam)
+        )
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct package list' do
+        expect(test_obj.base_packages).to eq(
+          %w(clamav clamav-daemon clamav-freshclam)
+        )
+      end
+    end
+  end
+
+  describe '#dev_packages' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct package list' do
+        expect(test_obj.dev_packages).to eq(%w(libclamav-dev))
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct package list' do
+        expect(test_obj.dev_packages).to eq(%w(libclamav-dev))
+      end
+    end
+  end
 end
