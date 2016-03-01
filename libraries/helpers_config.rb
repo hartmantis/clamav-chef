@@ -30,7 +30,7 @@ module ClamavCookbook
     #   ScanPE true
     #   ScanSWF true
     #   PidFile /var/run/clamav/clamd.pid
-    #     
+    #
     # For options that can have an array of values, they are listed multiple
     # times, e.g.:
     #
@@ -40,6 +40,40 @@ module ClamavCookbook
     # @author Jonathan Hartman <j@p4nt5.com>
     class Config
       include Chef::Mixin::ConvertToClassName
+
+      class << self
+        include Chef::Mixin::ConvertToClassName
+        #
+        # Read in an already-existing ClamAV config file and generate a Config
+        # object based on it.
+        #
+        # @param path [String] a path to the config file
+        #
+        # @return [ClamavCookbook::Helpers::Config] a new config object
+        #
+        def from_file(path)
+          from_s(File.open(path).read)
+        end
+
+        #
+        # Parse an input string containing a ClamAV config and generate a
+        # Config object based on it.
+        #
+        # @param conf [String] a config string
+        #
+        # @return [ClamavCookbook::Helpers::Config] a new config object
+        #
+        def from_s(conf)
+          parsed = conf.lines.map(&:strip).each_with_object({}) do |line, hsh|
+            k, v = line.split
+            k = convert_to_snake_case(k).to_sym
+            v = true if v == 'true'
+            v = false if v == 'false'
+            hsh[k] = hsh[k] ? Array(hsh[k]) + Array(v) : v
+          end
+          Config.new(parsed)
+        end
+      end
 
       #
       # Initialize a new config object based on a hash or mash, most likely
@@ -61,11 +95,16 @@ module ClamavCookbook
       # @return [String] a ClamAV config file body
       #
       def to_s
-        @config.map do |k, vs|
+        header = ['##############################################',
+                  '# This file generated automatically by Chef. #',
+                  '# Any local changes will be overwritten.     #',
+                  '##############################################']
+        body = @config.map do |k, vs|
           Array(vs).map do |v|
             "#{convert_to_class_name(k.to_s)} #{v}"
           end
-        end.flatten.join("\n")
+        end.flatten
+        (header + body).join("\n")
       end
     end
   end
