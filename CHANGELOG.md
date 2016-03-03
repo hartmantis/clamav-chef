@@ -3,6 +3,8 @@ ClamAV Cookbook CHANGELOG
 
 Unreleased
 ----------
+- Complete rewrite from the ground up using Chef custom resources
+- Update apt dependency from 2.x to 3.x
 
 v1.3.0 (2016-02-05)
 -------------------
