@@ -53,6 +53,60 @@ describe ClamavCookbook::Helpers::Defaults do
     end
   end
 
+  describe '#clamav_conf_dir' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct path' do
+        expect(test_obj.clamav_conf_dir).to eq('/etc/clamav')
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct path' do
+        expect(test_obj.clamav_conf_dir).to eq('/etc/clamav')
+      end
+    end
+  end
+
+  describe '#clamav_user' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct user' do
+        expect(test_obj.clamav_user).to eq('clamav')
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct user' do
+        expect(test_obj.clamav_user).to eq('clamav')
+      end
+    end
+  end
+
+  describe '#clamav_group' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct group' do
+        expect(test_obj.clamav_group).to eq('clamav')
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct group' do
+        expect(test_obj.clamav_group).to eq('clamav')
+      end
+    end
+  end
+
   describe '#base_packages' do
     context 'Ubuntu 14.04' do
       let(:platform) { { platform: 'ubuntu', version: '14.04' } }

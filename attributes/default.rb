@@ -19,3 +19,5 @@
 #
 
 default['clamav']['version'] = nil
+default['clamav']['clamd']['config'] = nil
+default['clamav']['freshclam']['config'] = nil
