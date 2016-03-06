@@ -50,6 +50,42 @@ module ClamavCookbook
       end
 
       #
+      # The directory containing the platform's ClamAV config files.
+      #
+      # @return [String] the config directory
+      #
+      def clamav_conf_dir
+        case node['platform_family']
+        when 'debian'
+          '/etc/clamav'
+        end
+      end
+
+      #
+      # The platform's ClamAV user.
+      #
+      # @return [String] the user
+      #
+      def clamav_user
+        case node['platform_family']
+        when 'debian'
+          'clamav'
+        end
+      end
+
+      #
+      # The platform's ClamAV group.
+      #
+      # @return [String] the group
+      #
+      def clamav_group
+        case node['platform_family']
+        when 'debian'
+          'clamav'
+        end
+      end
+
+      #
       # The list of packages that constitute a "base" install.
       #
       # @return [Array<String>] a list of base packages
