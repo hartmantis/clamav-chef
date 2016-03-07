@@ -28,6 +28,7 @@ class Chef
     class Clamav < Resource::LWRPBase
       self.resource_name = :clamav
       actions :create, :remove
+      default_action :create
 
       #
       # Attribute to control whether to enable the clamd service.
