@@ -19,5 +19,8 @@
 #
 
 default['clamav']['version'] = nil
+default['clamav']['dev'] = false
 default['clamav']['clamd']['config'] = nil
+default['clamav']['clamd']['enabled'] = false
 default['clamav']['freshclam']['config'] = nil
+default['clamav']['freshclam']['enabled'] = false
