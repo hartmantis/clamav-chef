@@ -47,21 +47,25 @@ class Chef
           version new_resource.version
           dev new_resource.dev
         end
-        clamav_config('clamd') { config new_resource.clamd_config }
-        clamav_config('freshclam') { config new_resource.freshclam_config }
+        clamav_config('clamd') do
+          config new_resource.clamd_config
+          if new_resource.enable_clamd
+            notifies :restart, 'clamav_service[clamd]'
+          end
+        end
+        clamav_config('freshclam') do
+          config new_resource.freshclam_config
+          if new_resource.enable_freshclam
+            notifies :restart, 'clamav_service[freshclam]'
+          end
+        end
         clamav_service 'clamd' do
-          action(if new_resource.enable_clamd
-                   [:enable, :start]
-                 else
-                   [:stop, :disable]
-                 end)
+          action new_resource.enable_clamd ? [:enable, :start] : \
+            [:stop, :disable]
         end
         clamav_service 'freshclam' do
-          action(if new_resource.enable_freshclam
-                   [:enable, :start]
-                 else
-                   [:stop, :disable]
-                 end)
+          action new_resource.enable_freshclam ? [:enable, :start] : \
+            [:stop, :disable]
         end
       end
 

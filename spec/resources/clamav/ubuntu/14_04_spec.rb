@@ -38,11 +38,25 @@ describe 'resource_clamav::ubuntu::14_04' do
       it 'configures clamd' do
         expect(chef_run).to create_clamav_config('clamd')
           .with(config: Mash.new(clamd_config))
+        if enable_clamd
+          expect(chef_run.clamav_config('clamd'))
+            .to notify('clamav_service[clamd]').to(:restart)
+        else
+          expect(chef_run.clamav_config('clamd'))
+            .to_not notify('clamav_service[clamd]').to(:restart)
+        end
       end
 
       it 'configures freshclam' do
         expect(chef_run).to create_clamav_config('freshclam')
           .with(config: Mash.new(freshclam_config))
+        if enable_freshclam
+          expect(chef_run.clamav_config('freshclam'))
+            .to notify('clamav_service[freshclam]').to(:restart)
+        else
+          expect(chef_run.clamav_config('freshclam'))
+            .to_not notify('clamav_service[freshclam]').to(:restart)
+        end
       end
 
       it 'manages the clamd service' do

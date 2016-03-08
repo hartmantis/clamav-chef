@@ -18,4 +18,16 @@ platforms:
 suites:
   - name: default
     run_list:
-      - recipe[clamav_test]
+      - recipe[clamav]
+  - name: enabled
+    run_list:
+      - recipe[clamav]
+    attributes:
+      clamav:
+        clamd:
+          enabled: true
+        freshclam:
+          enabled: true
+  - name: remove
+    run_list:
+      - recipe[clamav_test::remove]

@@ -50,6 +50,18 @@ module ClamavCookbook
       end
 
       #
+      # The directory containing ClamAV's virus definition files.
+      #
+      # @return [String] the data directory
+      #
+      def clamav_data_dir
+        case node['platform_family']
+        when 'debian'
+          '/var/lib/clamav'
+        end
+      end
+
+      #
       # The directory containing the platform's ClamAV config files.
       #
       # @return [String] the config directory

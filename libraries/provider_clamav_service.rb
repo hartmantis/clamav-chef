@@ -49,7 +49,16 @@ class Chef
       #
       Resource::ClamavService.new('clamd', nil).allowed_actions.each do |a|
         action(a) do
-          service(send("#{new_resource.name}_service_name")) { action a }
+          if a == :start && new_resource.name == 'clamd'
+            execute 'Ensure virus definitions exist so clamd can start' do
+              command 'freshclam'
+              creates ::File.join(clamav_data_dir, 'main.cvd')
+            end
+          end
+          service send("#{new_resource.name}_service_name") do
+            supports status: true, restart: true
+            action a
+          end
         end
       end
     end
