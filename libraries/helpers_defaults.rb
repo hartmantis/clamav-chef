@@ -50,6 +50,24 @@ module ClamavCookbook
       end
 
       #
+      # The bare minimum freshclam.conf required for it to function.
+      #
+      # @return [Hash] a barebones freshclam config
+      #
+      def freshclam_config
+        { database_mirror: %w(db.local.clamav.net database.clamav.net) }
+      end
+
+      #
+      # The bare minimum clamd.conf required for it to function.
+      #
+      # @return [Hash] a barebones clamd config
+      #
+      def clamd_config
+        {}
+      end
+
+      #
       # The directory containing ClamAV's virus definition files.
       #
       # @return [String] the data directory

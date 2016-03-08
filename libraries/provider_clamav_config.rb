@@ -56,7 +56,9 @@ class Chef
         file path do
           owner clamav_user
           group clamav_group
-          content ClamavCookbook::Helpers::Config.new(new_resource.config).to_s
+          content ClamavCookbook::Helpers::Config.new(
+            send("#{new_resource.name}_config").merge(new_resource.config.to_h)
+          ).to_s
         end
       end
 
