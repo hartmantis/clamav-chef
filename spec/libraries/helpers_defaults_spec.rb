@@ -53,6 +53,24 @@ describe ClamavCookbook::Helpers::Defaults do
     end
   end
 
+  describe '#clamav_data_dir' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct path' do
+        expect(test_obj.clamav_data_dir).to eq('/var/lib/clamav')
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct path' do
+        expect(test_obj.clamav_data_dir).to eq('/var/lib/clamav')
+      end
+    end
+  end
+
   describe '#clamav_conf_dir' do
     context 'Ubuntu 14.04' do
       let(:platform) { { platform: 'ubuntu', version: '14.04' } }

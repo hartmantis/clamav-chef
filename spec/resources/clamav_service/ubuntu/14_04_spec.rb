@@ -22,6 +22,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
       it 'does nothing with the clamd service' do
         expect(chef_run.service('clamav-daemon')).to eq(nil)
       end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
+      end
     end
 
     context 'the freshclam service' do
@@ -30,6 +35,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
 
       it 'does nothing with the freshclam service' do
         expect(chef_run.service('clamav-freshclam')).to eq(nil)
+      end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
       end
     end
 
@@ -53,6 +63,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
       it 'enables the clamd service' do
         expect(chef_run).to enable_service('clamav-daemon')
       end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
+      end
     end
 
     context 'the freshclam service' do
@@ -61,6 +76,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
 
       it 'enables the freshclam service' do
         expect(chef_run).to enable_service('clamav-freshclam')
+      end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
       end
     end
   end
@@ -76,6 +96,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
       it 'disables the clamd service' do
         expect(chef_run).to disable_service('clamav-daemon')
       end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
+      end
     end
 
     context 'the freshclam service' do
@@ -84,6 +109,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
 
       it 'disables the freshclam service' do
         expect(chef_run).to disable_service('clamav-freshclam')
+      end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
       end
     end
   end
@@ -99,6 +129,12 @@ describe 'resource_clamav_service::ubuntu::14_04' do
       it 'starts the clamd service' do
         expect(chef_run).to start_service('clamav-daemon')
       end
+
+      it 'conditionally executes freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to run_execute(exe)
+          .with(command: 'freshclam', creates: '/var/lib/clamav/main.cvd')
+      end
     end
 
     context 'the freshclam service' do
@@ -107,6 +143,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
 
       it 'starts the freshclam service' do
         expect(chef_run).to start_service('clamav-freshclam')
+      end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
       end
     end
   end
@@ -122,6 +163,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
       it 'stops the clamd service' do
         expect(chef_run).to stop_service('clamav-daemon')
       end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
+      end
     end
 
     context 'the freshclam service' do
@@ -130,6 +176,11 @@ describe 'resource_clamav_service::ubuntu::14_04' do
 
       it 'stops the freshclam service' do
         expect(chef_run).to stop_service('clamav-freshclam')
+      end
+
+      it 'does not execute freshclam' do
+        exe = 'Ensure virus definitions exist so clamd can start'
+        expect(chef_run).to_not run_execute(exe)
       end
     end
   end
