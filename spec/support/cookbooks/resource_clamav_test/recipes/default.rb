@@ -1,5 +1,4 @@
 # Encoding: UTF-8
-
 clamav 'default' do
   version node['clamav']['version']
   dev node['clamav']['dev']

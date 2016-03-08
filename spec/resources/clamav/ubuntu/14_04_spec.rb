@@ -32,17 +32,17 @@ describe 'resource_clamav::ubuntu::14_04' do
     shared_examples_for 'any attribute set' do
       it 'installs the ClamAV app' do
         expect(chef_run).to install_clamav_app('default')
-          .with(version: version, dev: dev)
+          .with(version: version, dev: dev || false)
       end
 
       it 'configures clamd' do
         expect(chef_run).to create_clamav_config('clamd')
-          .with(config: clamd_config)
+          .with(config: Mash.new(clamd_config))
       end
 
       it 'configures freshclam' do
         expect(chef_run).to create_clamav_config('freshclam')
-          .with(config: freshclam_config)
+          .with(config: Mash.new(freshclam_config))
       end
 
       it 'manages the clamd service' do
