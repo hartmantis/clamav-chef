@@ -18,8 +18,18 @@
 # limitations under the License.
 #
 
-clamav_app 'default' do
-  version node['clamav']['version']
+version = node['clamav']['version']
+dev = node['clamav']['dev']
+clamd_config = node['clamav']['clamd']['config']
+freshclam_config = node['clamav']['freshclam']['config']
+enable_clamd = node['clamav']['clamd']['enabled']
+enable_freshclam = node['clamav']['freshclam']['enabled']
+
+clamav 'default' do
+  version version unless version.nil?
+  dev dev unless dev.nil?
+  clamd_config clamd_config unless clamd_config.nil?
+  freshclam_config freshclam_config unless freshclam_config.nil?
+  enable_clamd enable_clamd unless enable_clamd.nil?
+  enable_freshclam enable_freshclam unless enable_freshclam.nil?
 end
-clamav_service 'clamd'
-clamav_service 'freshclam'

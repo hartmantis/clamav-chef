@@ -49,7 +49,10 @@ class Chef
       #
       Resource::ClamavService.new('clamd', nil).allowed_actions.each do |a|
         action(a) do
-          service(send("#{new_resource.name}_service_name")) { action a }
+          service send("#{new_resource.name}_service_name") do
+            supports status: true, restart: true
+            action a
+          end
         end
       end
     end
