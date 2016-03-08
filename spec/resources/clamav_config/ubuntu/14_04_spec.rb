@@ -56,6 +56,8 @@ describe 'resource_clamav_config::ubuntu::14_04' do
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
           ##############################################
+          DatabaseMirror db.local.clamav.net
+          DatabaseMirror database.clamav.net
         EOH
         expect(chef_run).to create_file('/etc/clamav/freshclam.conf')
           .with(owner: 'clamav', group: 'clamav', content: expected)

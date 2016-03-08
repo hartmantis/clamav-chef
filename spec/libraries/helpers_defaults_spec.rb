@@ -53,6 +53,46 @@ describe ClamavCookbook::Helpers::Defaults do
     end
   end
 
+  describe '#freshclam_config' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct config' do
+        expect(test_obj.freshclam_config).to eq(
+          database_mirror: %w(db.local.clamav.net database.clamav.net)
+        )
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct config' do
+        expect(test_obj.freshclam_config).to eq(
+          database_mirror: %w(db.local.clamav.net database.clamav.net)
+        )
+      end
+    end
+  end
+
+  describe '#clamd_config' do
+    context 'Ubuntu 14.04' do
+      let(:platform) { { platform: 'ubuntu', version: '14.04' } }
+
+      it 'returns the correct config' do
+        expect(test_obj.clamd_config).to eq({})
+      end
+    end
+
+    context 'Debian 8.2' do
+      let(:platform) { { platform: 'debian', version: '8.2' } }
+
+      it 'returns the correct config' do
+        expect(test_obj.clamd_config).to eq({})
+      end
+    end
+  end
+
   describe '#clamav_data_dir' do
     context 'Ubuntu 14.04' do
       let(:platform) { { platform: 'ubuntu', version: '14.04' } }
