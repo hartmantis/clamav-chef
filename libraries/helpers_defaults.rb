@@ -64,7 +64,7 @@ module ClamavCookbook
       # @return [Hash] a barebones clamd config
       #
       def clamd_config
-        {}
+        { local_socket: '/var/run/clamav/clamd.sock' }
       end
 
       #
