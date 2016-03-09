@@ -80,7 +80,9 @@ describe ClamavCookbook::Helpers::Defaults do
       let(:platform) { { platform: 'ubuntu', version: '14.04' } }
 
       it 'returns the correct config' do
-        expect(test_obj.clamd_config).to eq({})
+        expect(test_obj.clamd_config).to eq(
+          local_socket: '/var/run/clamav/clamd.sock'
+        )
       end
     end
 
@@ -88,7 +90,9 @@ describe ClamavCookbook::Helpers::Defaults do
       let(:platform) { { platform: 'debian', version: '8.2' } }
 
       it 'returns the correct config' do
-        expect(test_obj.clamd_config).to eq({})
+        expect(test_obj.clamd_config).to eq(
+          local_socket: '/var/run/clamav/clamd.sock'
+        )
       end
     end
   end

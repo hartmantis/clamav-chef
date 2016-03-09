@@ -38,6 +38,7 @@ describe 'resource_clamav_config::ubuntu::14_04' do
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
           ##############################################
+          LocalSocket /var/run/clamav/clamd.sock
         EOH
         expect(chef_run).to create_file('/etc/clamav/clamd.conf')
           .with(owner: 'clamav', group: 'clamav', content: expected)
