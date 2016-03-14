@@ -15,4 +15,6 @@ group :test do
            path: 'spec/support/cookbooks/resource_clamav_config_test'
   cookbook 'resource_clamav_service_test',
            path: 'spec/support/cookbooks/resource_clamav_service_test'
+  cookbook 'resource_clamav_cron_test',
+           path: 'spec/support/cookbooks/resource_clamav_cron_test'
 end
