@@ -26,7 +26,7 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavCron < Provider::LWRPBase
-      provides :clamav_cron
+      provides :clamav_cron if defined?(provides)
 
       use_inline_resources
 

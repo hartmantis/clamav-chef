@@ -26,7 +26,7 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class Clamav < Provider::LWRPBase
-      provides :clamav
+      provides :clamav if defined?(provides)
 
       use_inline_resources
 
