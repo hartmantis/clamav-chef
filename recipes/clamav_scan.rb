@@ -29,6 +29,7 @@ end
 script_path = node['clamav']['scan']['script']['path']
 min_dirs = node['clamav']['scan']['minimal']['dirs']
 full_dirs = node['clamav']['scan']['full']['dirs']
+cron_env_vars = {"RANDOM_DELAY" => "#{node['clamav']['scan']['random_delay']}"}
 
 cron_d 'clamav_minimal_scan' do
   minute node['clamav']['scan']['minimal']['minute']
@@ -37,6 +38,7 @@ cron_d 'clamav_minimal_scan' do
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
   command "#{script_path} #{min_dirs}"
+  environment cron_env_vars
   only_if { node['clamav']['scan']['minimal']['enable'] }
 end
 
@@ -47,5 +49,6 @@ cron_d 'clamav_full_scan' do
   user node['clamav']['scan']['user']
   mailto node['clamav']['scan']['mailto']
   command "#{script_path} #{full_dirs}"
+  environment cron_env_vars
   only_if { node['clamav']['scan']['full']['enable'] }
 end

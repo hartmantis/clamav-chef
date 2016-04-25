@@ -33,6 +33,7 @@ default['clamav']['group'] = 'clamav'
 default['clamav']['allow_supplementary_groups'] = 'no'
 default['clamav']['bytecode'] = 'yes'
 
+default['clamav']['scan']['random_delay'] = 15
 default['clamav']['scan']['script']['path'] = '/usr/local/bin/clamav-scan.sh'
 default['clamav']['scan']['script']['enable'] = false
 default['clamav']['scan']['minimal']['minute'] = '42'
