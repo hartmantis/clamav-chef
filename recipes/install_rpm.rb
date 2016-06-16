@@ -60,28 +60,6 @@ yum_package 'clamav-devel' do
   only_if { node['clamav']['dev_package'] }
 end
 
-template "/etc/init.d/#{node['clamav']['clamd']['service']}" do
-  source 'clamd.init.rhel.erb'
-  mode '0755'
-  action :create
-  variables(
-    clamd_conf: "#{node['clamav']['conf_dir']}/clamd.conf",
-    clamd_pid: node['clamav']['clamd']['pid_file'],
-    clamd_bin_dir: '/usr/sbin'
-  )
-end
-
-template "/etc/init.d/#{node['clamav']['freshclam']['service']}" do
-  source 'freshclam.init.rhel.erb'
-  mode '0755'
-  action :create
-  variables(
-    freshclam_conf: "#{node['clamav']['conf_dir']}/freshclam.conf",
-    freshclam_pid: node['clamav']['freshclam']['pid_file'],
-    freshclam_bin_dir: '/usr/bin'
-  )
-end
-
 template '/etc/sysconfig/freshclam' do
   owner 'root'
   group 'root'

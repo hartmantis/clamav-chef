@@ -1,7 +1,7 @@
 # Encoding: UTF-8
 #
 # Cookbook Name:: clamav
-# Recipe:: services
+# Recipe:: poise_services
 #
 # Copyright 2012-2016, Jonathan Hartman
 #
@@ -20,34 +20,34 @@
 
 c_service = node['clamav']['clamd']['service']
 c_enabled = node['clamav']['clamd']['enabled']
-service c_service do
-  supports status: true, restart: true
+poise_service c_service do
+  command "/usr/sbin/clamd -c #{node['clamav']['conf_dir']}/clamd.conf"
   action :nothing
 end
 
 f_service = node['clamav']['freshclam']['service']
 f_enabled = node['clamav']['freshclam']['enabled']
-service f_service do
-  supports status: true, restart: true
+poise_service f_service do
+  command "/usr/bin/freshclam -d --config-file=#{node['clamav']['conf_dir']}/freshclam.conf}"
   action :nothing
 end
 
-ruby_block 'dummy service notification block' do
+ruby_block 'dummy poise_service notification block' do
   block do
-    Chef::Log.info('Dispatching service notifications...')
+    Chef::Log.info('Dispatching poise_service notifications...')
   end
   if c_enabled
-    notifies :enable, "service[#{c_service}]"
-    notifies :start, "service[#{c_service}]"
+    notifies :enable, "poise_service[#{c_service}]"
+    notifies :start, "poise_service[#{c_service}]"
   else
-    notifies :stop, "service[#{c_service}]"
-    notifies :disable, "service[#{c_service}]"
+    notifies :stop, "poise_service[#{c_service}]"
+    notifies :disable, "poise_service[#{c_service}]"
   end
   if f_enabled
-    notifies :enable, "service[#{f_service}]"
-    notifies :start, "service[#{f_service}]"
+    notifies :enable, "poise_service[#{f_service}]"
+    notifies :start, "poise_service[#{f_service}]"
   else
-    notifies :stop, "service[#{f_service}]"
-    notifies :disable, "service[#{f_service}]"
+    notifies :stop, "poise_service[#{f_service}]"
+    notifies :disable, "poise_service[#{f_service}]"
   end
 end
