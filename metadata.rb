@@ -6,6 +6,8 @@ maintainer_email  'j@p4nt5.com'
 license           'Apache v2.0'
 description       'Installs/configures ClamAV'
 long_description  'Installs/configures ClamAV'
+source_url        'https://github.com/RoboticCheese/clamav-chef'
+issues_url        'https://github.com/RoboticCheese/clamav-chef/issues'
 version           '1.3.1'
 
 depends           'logrotate', '~> 1.0'
