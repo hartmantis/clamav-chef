@@ -23,8 +23,12 @@ default['clamav']['version'] = nil
 case node['platform_family']
 when 'rhel'
   default['clamav']['conf_dir'] = '/etc'
+  default['clamav']['scan']['cmd_name'] = 'clamdscan'
+  default['clamav']['scan']['email_pkg'] = 'mailx'
 when 'debian'
   default['clamav']['conf_dir'] = '/etc/clamav'
+  default['clamav']['scan']['cmd_name'] = 'clamscan'
+  default['clamav']['scan']['email_pkg'] = 'mailutils'
 end
 default['clamav']['dev_package'] = false
 default['clamav']['database_directory'] = '/var/lib/clamav'
