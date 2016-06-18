@@ -17,12 +17,17 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+package node['clamav']['scan']['email_pkg'] do
+  action :install
+  only_if { node['clamav']['scan']['script']['enable'] }
+end
 
-cookbook_file node['clamav']['scan']['script']['path'] do
-  source 'clamav-scan.sh'
+template node['clamav']['scan']['script']['path'] do
+  mode '0555'
   owner node['clamav']['user']
   group node['clamav']['group']
-  mode '0555'
+  source 'clamav-scan.sh.erb'
+  action :create
   only_if { node['clamav']['scan']['script']['enable'] }
 end
 
