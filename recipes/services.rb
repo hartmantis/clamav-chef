@@ -28,7 +28,7 @@ end
 f_service = node['clamav']['freshclam']['service']
 f_enabled = node['clamav']['freshclam']['enabled']
 poise_service f_service do
-  command "/usr/bin/freshclam -d --config-file=#{node['clamav']['conf_dir']}/freshclam.conf}"
+  command "/usr/bin/freshclam -d --config-file=#{node['clamav']['conf_dir']}/freshclam.conf"
   action :nothing
 end
 
