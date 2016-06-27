@@ -16,6 +16,7 @@ are accessible as attributes.
 Requirements
 ============
 * A RHEL/CentOS/Scientific, Debian/Ubuntu, or compatible OS
+* Chef 11+
 
 Attributes
 ==========
