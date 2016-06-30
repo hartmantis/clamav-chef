@@ -22,6 +22,13 @@ package node['clamav']['scan']['email_pkg'] do
   only_if { node['clamav']['scan']['script']['enable'] }
 end
 
+directory node['clamav']['log_path'] do
+  owner node['clamav']['user']
+  group node['clamav']['group']
+  mode '0755'
+  action :create
+end
+
 template node['clamav']['scan']['script']['path'] do
   mode '0555'
   owner node['clamav']['user']
