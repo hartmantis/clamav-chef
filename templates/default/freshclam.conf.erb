@@ -73,8 +73,15 @@
 # are doing.
 #DatabaseMirror db.local.clamav.net
 #DatabaseMirror db.local.clamav.net
-<% @freshclam["database_mirrors"].each do |dbm| %>
-<%= "DatabaseMirror #{dbm}" %>
+
+<% if node['clamav']['freshclam']['use_private_mirror'] %>
+	<% @freshclam["private_database_mirrors"].each do |dbm| %>
+	<%= "PrivateMirror #{dbm}" %>
+	<% end %>
+<% else %>
+	<% @freshclam["database_mirrors"].each do |dbm| %>
+	<%= "DatabaseMirror #{dbm}" %>
+	<% end %>
 <% end %>
 
 # How many attempts to make before giving up.
