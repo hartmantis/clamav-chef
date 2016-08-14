@@ -70,3 +70,7 @@ default['clamav']['freshclam']['extra_databases'] = []
 # Other
 default['clamav']['freshclam']['rhel_cron_disable'] = true
 default['clamav']['freshclam']['skip_initial_run'] = false
+
+#Private Mirror
+default['clamav']['freshclam']['use_private_mirror'] = false
+default['clamav']['freshclam']['private_database_mirrors'] = []
