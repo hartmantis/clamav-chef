@@ -18,6 +18,10 @@ Requirements
 This cookbook requires a RHEL/CentOS/Scientific, Debian/Ubuntu, or compatible
 OS.
 
+As of v2.0, it requires Chef 12.5+ or Chef 12.x and the
+[compat_resource](https://supermarket.chef.io/cookbooks/compat_resource)
+cookbook.
+
 Usage
 =====
 Either add the default recipe to your run list, or use the included custom
