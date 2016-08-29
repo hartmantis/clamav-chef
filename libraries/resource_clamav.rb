@@ -34,36 +34,32 @@ class Chef
       #
       # Should we enable the clamd service?
       #
-      property :enable_clamd, kind_of: [TrueClass, FalseClass], default: false
+      property :enable_clamd, [TrueClass, FalseClass], default: false
 
       #
       # Should we enable the freshclam service?
       #
-      property :enable_freshclam,
-               kind_of: [TrueClass, FalseClass],
-               default: false
+      property :enable_freshclam, [TrueClass, FalseClass], default: false
 
       #
       # Property for a config hash to pass on to the clamd config.
       #
-      property :clamd_config, kind_of: Hash, default: {}
+      property :clamd_config, Hash, default: {}
 
       #
       # Property for a config hash to pass on to the freshclam config.
       #
-      property :freshclam_config, kind_of: Hash, default: {}
+      property :freshclam_config, Hash, default: {}
 
       #
       # Optionally install a specific version of the ClamAV packages.
       #
-      property :version, kind_of: [NilClass, String], default: nil
+      property :version, [String, nil], default: nil
 
       #
       # Optionally install the dev in addition to base packages.
       #
-      property  :dev,
-                kind_of: [TrueClass, FalseClass],
-                default: false
+      property :dev, [TrueClass, FalseClass], default: false
 
       #
       # Install ClamAV, configure it, and enable or disable the services.

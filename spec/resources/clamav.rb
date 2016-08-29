@@ -14,7 +14,6 @@ shared_context 'resources::clamav' do
     freshclam_config
     version
     dev
-    action
   ).each do |p|
     let(p) { nil }
   end
