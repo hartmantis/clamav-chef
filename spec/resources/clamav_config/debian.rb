@@ -3,7 +3,7 @@
 
 require_relative '../clamav_config'
 
-describe 'resources::clamav_config::debian' do
+shared_context 'resources::clamav_config::debian' do
   include_context 'resources::clamav_config'
 
   let(:config_dir) { '/etc/clamav' }

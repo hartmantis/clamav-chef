@@ -38,7 +38,7 @@ class Chef
       # The service must be one of the recognized services: 'clamd' or
       # 'freshclam'.
       #
-      property :service,
+      property :service_name,
                String,
                name_property: true,
                equal_to: %w(clamd freshclam)
@@ -46,10 +46,7 @@ class Chef
       #
       # Allow the user to override the path of the config dir (at their peril).
       #
-      property :path, String, default: lazy {
-        Chef::Log.warn("ABOUT TO RETURN PATH: #{clamav_conf_dir}")
-        clamav_conf_dir
-      }
+      property :path, String, default: lazy { clamav_conf_dir }
 
       #
       # A hash of config values.
@@ -66,11 +63,13 @@ class Chef
           group clamav_group
           recursive true
         end
-        file ::File.join(new_resource.path, "#{new_resource.service}.conf") do
+        file ::File.join(new_resource.path,
+                         "#{new_resource.service_name}.conf") do
           owner clamav_user
           group clamav_group
           content ClamavCookbook::Helpers::Config.new(
-            send("#{new_resource.service}_config").merge(new_resource.config.to_h)
+            send("#{new_resource.service_name}_config")
+              .merge(new_resource.config.to_h)
           ).to_s
         end
       end
@@ -79,7 +78,8 @@ class Chef
       # Delete the config file.
       #
       action :delete do
-        file ::File.join(new_resource.path, "#{new_resource.service}.conf") do
+        file ::File.join(new_resource.path,
+                         "#{new_resource.service_name}.conf") do
           action :delete
         end
         directory new_resource.path do

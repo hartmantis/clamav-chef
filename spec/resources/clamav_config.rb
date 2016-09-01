@@ -7,10 +7,12 @@ shared_context 'resources::clamav_config' do
   include_context 'resources'
 
   let(:resource) { 'clamav_config' }
-  %i(service path config).each do |p|
+  %i(service_name path config).each do |p|
     let(p) { nil }
   end
-  let(:properties) { { service: service, path: path, config: config } }
+  let(:properties) do
+    { service_name: service_name, path: path, config: config }
+  end
 
   let(:config_dir) { nil }
   let(:user) { nil }
@@ -29,7 +31,7 @@ shared_context 'resources::clamav_config' do
 
         it 'creates the config file' do
           expect(chef_run).to create_file(
-            "#{path || config_dir}/#{service || name}.conf"
+            "#{path || config_dir}/#{service_name || name}.conf"
           )
         end
       end
@@ -41,8 +43,8 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
-        context 'an overridden service property' do
-          let(:service) { 'freshclam' }
+        context 'an overridden service_name property' do
+          let(:service_name) { 'freshclam' }
 
           it_behaves_like 'any property set'
         end
@@ -70,8 +72,8 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
-        context 'an overridden service property' do
-          let(:service) { 'clamd' }
+        context 'an overridden service_name property' do
+          let(:service_name) { 'clamd' }
 
           it_behaves_like 'any property set'
         end
@@ -100,7 +102,7 @@ shared_context 'resources::clamav_config' do
       shared_examples_for 'any property set' do
         it 'deletes the config file' do
           expect(chef_run).to delete_file(
-            "#{path || config_dir}/#{service || name}.conf"
+            "#{path || config_dir}/#{service_name || name}.conf"
           )
         end
 
@@ -121,8 +123,8 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
-        context 'an overridden service property' do
-          let(:service) { 'freshclam' }
+        context 'an overridden service_name property' do
+          let(:service_name) { 'freshclam' }
 
           it_behaves_like 'any property set'
         end
@@ -141,8 +143,8 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
-        context 'an overridden service property' do
-          let(:service) { 'clamd' }
+        context 'an overridden service_name property' do
+          let(:service_name) { 'clamd' }
 
           it_behaves_like 'any property set'
         end
