@@ -18,25 +18,48 @@
 # limitations under the License.
 #
 
-require 'chef/resource/lwrp_base'
+require 'chef/resource'
+require_relative 'helpers_defaults'
 
 class Chef
   class Resource
     # A Chef resource for managing the ClamAV services.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
-    class ClamavService < Resource::LWRPBase
-      self.resource_name = :clamav_service
-      actions Chef::Resource::Service.new('_', nil).allowed_actions
-      default_action :nothing
+    class ClamavService < Resource
+      include ClamavCookbook::Helpers::Defaults
+
+      provides :clamav_service
 
       #
-      # The name must be one of the recognized services: 'clamd' or 'freshclam'
+      # The service must be one of the recognized services: 'clamd' or
+      # 'freshclam'.
       #
-      attribute :name,
-                kind_of: String,
-                required: true,
+      property :service_name,
+                String,
+                name_property: true,
                 equal_to: %w(clamd freshclam)
+
+      #
+      # Iterate over every action available for a regular service resource and
+      # pass the declared action on to one.
+      #
+      Resource::Service.allowed_actions.each do |a|
+        action a  do
+          if a == :start && new_resource.service_name == 'clamd'
+            execute 'Ensure virus definitions exist so clamd can start' do
+              command 'freshclam'
+              creates ::File.join(clamav_data_dir, 'main.cvd')
+            end
+          end
+          service send("#{new_resource.service_name}_service_name") do
+            supports(status: true, restart: true)
+            action a
+          end
+        end
+      end
+
+      default_action :nothing
     end
   end
 end
