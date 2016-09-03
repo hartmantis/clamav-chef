@@ -11,7 +11,6 @@ version           '1.3.1'
 depends           'logrotate', '~> 1.0'
 depends           'yum', '~> 3.0'
 depends           'yum-epel', '~> 0.2'
-depends           'apt', '~> 3.0'
 depends           'cron', '~> 1.2'
 
 supports          'ubuntu'

@@ -18,10 +18,6 @@ describe 'resource_clamav_app::ubuntu::14_04' do
     let(:action) { :default }
 
     shared_examples_for 'any attribute set' do
-      it 'ensures the APT cache is up to date' do
-        expect(chef_run).to include_recipe('apt')
-      end
-
       %w(clamav clamav-daemon clamav-freshclam).each do |p|
         it "installs the #{p} package" do
           expect(chef_run).to install_package(p).with(version: version)
@@ -66,10 +62,6 @@ describe 'resource_clamav_app::ubuntu::14_04' do
     let(:action) { :upgrade }
 
     shared_examples_for 'any attribute set' do
-      it 'ensures the APT cache is up to date' do
-        expect(chef_run).to include_recipe('apt')
-      end
-
       %w(clamav clamav-daemon clamav-freshclam).each do |p|
         it "upgrades the #{p} package" do
           expect(chef_run).to upgrade_package(p).with(version: version)
