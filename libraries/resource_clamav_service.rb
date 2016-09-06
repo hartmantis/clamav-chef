@@ -36,9 +36,9 @@ class Chef
       # 'freshclam'.
       #
       property :service_name,
-                String,
-                name_property: true,
-                equal_to: %w(clamd freshclam)
+               String,
+               name_property: true,
+               equal_to: %w(clamd freshclam)
 
       #
       # Iterate over every action available for a regular service resource and

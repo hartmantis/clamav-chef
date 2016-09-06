@@ -98,7 +98,6 @@ shared_context 'resources::clamav_config' do
     context 'the :delete action' do
       let(:action) { :delete }
 
-
       shared_examples_for 'any property set' do
         it 'deletes the config file' do
           expect(chef_run).to delete_file(
@@ -118,7 +117,7 @@ shared_context 'resources::clamav_config' do
 
       context 'a clamd resource' do
         let(:name) { 'clamd' }
-        
+
         context 'all default properties' do
           it_behaves_like 'any property set'
         end
@@ -138,7 +137,7 @@ shared_context 'resources::clamav_config' do
 
       context 'a freshclam resource' do
         let(:name) { 'freshclam' }
-        
+
         context 'all default properties' do
           it_behaves_like 'any property set'
         end

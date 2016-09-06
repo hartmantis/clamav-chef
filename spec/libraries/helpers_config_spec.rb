@@ -90,6 +90,35 @@ describe ClamavCookbook::Helpers::Config do
     end
   end
 
+  describe '.parse_line' do
+    let(:input) { nil }
+    let(:res) { described_class.parse_line(input) }
+
+    context 'a string value' do
+      let(:input) { 'Testing stuff' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, 'stuff'])
+      end
+    end
+
+    context 'a true value' do
+      let(:input) { 'Testing true' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, true])
+      end
+    end
+
+    context 'a false value' do
+      let(:input) { 'Testing false' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, false])
+      end
+    end
+  end
+
   describe '.initialize' do
     context 'a nil input config' do
       let(:input_conf) { nil }
