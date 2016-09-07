@@ -18,9 +18,13 @@
 # limitations under the License.
 #
 
-default['clamav']['version'] = nil
-default['clamav']['dev'] = false
-default['clamav']['clamd']['config'] = nil
-default['clamav']['clamd']['enabled'] = false
-default['clamav']['freshclam']['config'] = nil
-default['clamav']['freshclam']['enabled'] = false
+default['clamav'].tap do |c|
+  c['version'] = nil
+  c['dev'] = false
+
+  c['clamd']['config'] = nil
+  c['clamd']['enabled'] = false
+
+  c['freshclam']['config'] = nil
+  c['freshclam']['enabled'] = false
+end
