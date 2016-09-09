@@ -18,16 +18,19 @@
 # limitations under the License.
 #
 
-require 'chef/resource/lwrp_base'
+require 'chef/resource'
+require_relative 'helpers_defaults'
 
 class Chef
   class Resource
     # A Chef resource for groups of ClamAV packages.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
-    class ClamavApp < Resource::LWRPBase
-      self.resource_name = :clamav_app
-      actions :install, :remove, :upgrade
+    class ClamavApp < Resource
+      include ClamavCookbook::Helpers::Defaults
+
+      provides :clamav_app
+
       default_action :install
 
       #
@@ -36,14 +39,55 @@ class Chef
       # Different distros use vastly different version strings in their
       # packages, so type checking is about the only validation we can do.
       #
-      attribute :version, kind_of: [NilClass, String], default: nil
+      property :version, String, default: 'latest'
 
       #
       # Optionally install the dev in addition to base packages.
       #
-      attribute :dev,
-                kind_of: [TrueClass, FalseClass],
-                default: false
+      property :dev, [TrueClass, FalseClass], default: false
+
+      #
+      # Install the ClamAV packages.
+      #
+      action :install do
+        base_packages.each do |p|
+          package p do
+            version new_resource.version unless new_resource.version == 'latest'
+          end
+        end
+        new_resource.dev && dev_packages.each do |p|
+          package p do
+            version new_resource.version unless new_resource.version == 'latest'
+          end
+        end
+      end
+
+      #
+      # Upgrade the ClamAV packages.
+      #
+      action :upgrade do
+        base_packages.each do |p|
+          package p do
+            version new_resource.version unless new_resource.version == 'latest'
+            action :upgrade
+          end
+        end
+        new_resource.dev && dev_packages.each do |p|
+          package p do
+            version new_resource.version unless new_resource.version == 'latest'
+            action :upgrade
+          end
+        end
+      end
+
+      #
+      # Remove the ClamAV packages
+      #
+      action :remove do
+        (dev_packages + base_packages).each do |p|
+          package(p) { action :purge }
+        end
+      end
     end
   end
 end
