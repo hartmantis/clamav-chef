@@ -18,19 +18,18 @@
 # limitations under the License.
 #
 
-case node['platform_family']
-when 'rhel'
-  include_recipe "#{cookbook_name}::install_rpm"
-when 'debian'
-  include_recipe "#{cookbook_name}::install_deb"
-else
-  raise(Chef::Exceptions::UnsupportedAction,
-        "Cookbook does not support #{node['platform']} platform")
-end
+version = node['clamav']['version']
+dev = node['clamav']['dev']
+clamd_config = node['clamav']['clamd']['config']
+freshclam_config = node['clamav']['freshclam']['config']
+enable_clamd = node['clamav']['clamd']['enabled']
+enable_freshclam = node['clamav']['freshclam']['enabled']
 
-include_recipe "#{cookbook_name}::users"
-include_recipe "#{cookbook_name}::logging"
-include_recipe "#{cookbook_name}::freshclam"
-include_recipe "#{cookbook_name}::clamd"
-include_recipe "#{cookbook_name}::services"
-include_recipe "#{cookbook_name}::clamav_scan"
+clamav 'default' do
+  version version unless version.nil?
+  dev dev unless dev.nil?
+  clamd_config clamd_config unless clamd_config.nil?
+  freshclam_config freshclam_config unless freshclam_config.nil?
+  enable_clamd enable_clamd unless enable_clamd.nil?
+  enable_freshclam enable_freshclam unless enable_freshclam.nil?
+end

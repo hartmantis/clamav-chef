@@ -1,1 +1,0 @@
-../../../default/serverspec/localhost/users_spec.rb

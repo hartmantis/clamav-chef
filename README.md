@@ -10,100 +10,189 @@ clamav Cookbook
 [codeclimate]: https://codeclimate.com/github/RoboticCheese/clamav-chef
 [coveralls]: https://coveralls.io/r/RoboticCheese/clamav-chef
 
-A cookbook for installing and configuring ClamAV. Components to be installed/enabled
-are accessible as attributes.
+A cookbook for installing and configuring ClamAV.
 
 Requirements
 ============
-* A RHEL/CentOS/Scientific, Debian/Ubuntu, or compatible OS
 
-Attributes
-==========
-Pretty much everything offered as options for ClamAV is configurable. Some
-attributes that one might commonly want to override:
+This cookbook requires a RHEL/CentOS/Scientific, Debian/Ubuntu, or compatible
+OS.
 
-    default["clamav"]["clamd"]["enabled"] = false
-    default["clamav"]["freshclam"]["enabled"] = false
-
-Whether or not the ClamAV daemons should be running
-
-    default["clamav"]["version"] = "0.97.6<VARIES_BY_OS>"
-
-The version of the ClamAV packages to install
-
-    default["clamav"]["dev_package"] = false
-
-Whether to install the appropriate ClamAV development package
-
-    default["clamav"]["clamd"]["log_file"] = "/var/log/clamav/clamd.log"
-    default["clamav"]["clamd"]["logrotate_frequency"] = "daily"
-    default["clamav"]["clamd"]["logrotate_rotations"] = 7 
-    default["clamav"]["clamd"]["log_file_unlock"] = "no"
-    default["clamav"]["clamd"]["log_file_max_size"] = "1M"
-    default["clamav"]["clamd"]["log_time"] = "no"
-    default["clamav"]["clamd"]["log_clean"] = "no"
-    default["clamav"]["clamd"]["log_syslog"] = "no"
-    default["clamav"]["clamd"]["log_facility"] = nil 
-    default["clamav"]["clamd"]["log_verbose"] = "no"
-    default["clamav"]["freshclam"]["update_log_file"] = "/var/log/clamav/freshclam.log"
-    default["clamav"]["freshclam"]["logrotate_frequency"] = "daily"
-    default["clamav"]["freshclam"]["logrotate_rotations"] = 7
-    default["clamav"]["freshclam"]["log_file_max_size"] = "1M"
-    default["clamav"]["freshclam"]["log_time"] = "no"
-    default["clamav"]["freshclam"]["log_verbose"] = "no"
-    default["clamav"]["freshclam"]["log_syslog"] = "no"
-    default["clamav"]["freshclam"]["log_facility"] = nil 
-
-Log file/syslog facility logging options
-
-    default['clamav']['scan']['script']['enable'] = false
-    default['clamav']['scan']['minimal']['enable'] = false
-    default['clamav']['scan']['full']['enable'] = false
-
-Optionally enable a daily minimum virus scan and/or a weekly virus scan of the
-full filesystem.
-
-ClamAV has many other options. See the attribute files and ClamAV
-[documentation](http://www.clamav.net/doc/latest/html/) for details.
+As of v2.0, it requires Chef 12.5+ or Chef 12.x and the
+[compat_resource](https://supermarket.chef.io/cookbooks/compat_resource)
+cookbook.
 
 Usage
 =====
-Nothing special. Override the default attributes as you see fit and go to town!
+Either add the default recipe to your run list, or use the included custom
+resources in a recipe of your own.
 
-Development
-=====
-Feel free to fork this project and submit any changes via pull request.
+Recipes
+=======
 
-Testing
-=====
-This cookbook implements several suites of syntax, style, unit, integration and
-acceptance tests, utilizing a number of tools:
+***default***
 
-* [Vagrant](http://vagrantup.com/) and
-[VirtualBox](https://www.virtualbox.org/) for creating virtual environments
-* [Berkshelf](http://berkshelf.com/) for retrieving cookbook dependencies
-* [Rubocop](https://github.com/bbatsov/rubocop) for Ruby lint tests
-* [FoodCritic](http://www.foodcritic.io) for Chef lint tests
-* [ChefSpec](https://github.com/sethvargo/chefspec) for the cookbook unit tests
-* [Serverspec](http://serverspec.org) for post-converge integration tests
-* [Cucumber](http://cukes.info/) for high-level acceptance tests
-* [Test Kitchen](http://kitchen.ci) to tie all the tests together
+Performs an attribute-driven (see below) installation and configuration of
+ClamAV.
 
+Attributes
+==========
 
-To run the entire suite of tests, simple:
+***default***
 
-    rake
+A recipe-based install offers several attributes that can be overridden and
+passed into the various resources.
+
+You can choose to install a specific version of ClamAV instead of the latest.
+
+    default['clamav']['version'] = nil
+
+The development libraries can be installed as well, but are not by default.
+
+    default['clamav']['dev'] = false
+
+A configuration hash can be provided for the `clamd.conf` and `freshclam.conf`
+that will be generated.
+
+    default['clamav']['clamd']['config'] = nil
+    default['clamav']['freshclam']['config'] = nil
+
+Configuration attributes are set with ClamAV property names in camel-case
+format, for example:
+
+    default['clamav"]['clamd']['log_file'] = '/var/log/clamav/clamd.log'
+    default['clamav']['clamd']['scan_p_e'] = false
+
+See the ClamAV [documentation](http://www.clamav.net/doc/latest/html/) for
+other valid settings.
+
+The two ClamAV daemons are disabled by default.
+
+    default['clamav']['clamd']['enabled'] = false
+    default['clamav']['freshclam']['enabled'] = false
+
+Resources
+=========
+
+***clamav***
+
+A parent resource that wraps both installation and configuration.
+
+Syntax:
+
+    clamav 'default' do
+      enable_clamd false
+      enable_freshclam false
+      clamd_config {}
+      freshclam_config {}
+      version '0.9.8'
+      dev true
+      action :create
+    end
+
+Actions:
+
+| Action    | Description                  |
+|-----------|------------------------------|
+| `:create` | Install and configure ClamAV |
+| `:remove` | Uninstall ClamAV             |
+
+Properties:
+
+| Property         | Default   | Description                             |
+|------------------|-----------|-----------------------------------------|
+| enable_clamd     | `false`   | Whether to enable the clamd daemon      |
+| enable_freshclam | `false`   | Whether to enable the freshclam daemon  |
+| clamd_config     | `{}`      | A camel-cased clamd.conf config         |
+| freshclam_config | `{}`      | A camel-cased freshclam.conf config     |
+| version          | `nil`     | A specific version of ClamAV to install |
+| dev              | `false`   | Whether to install the dev libraries    |
+| action           | `:create` | Action(s) to perform                    |
+
+***clamav_app***
+
+A resource for managing installation of the ClamAV packages.
+
+Syntax:
+
+    clamav_app 'default' do
+      version '0.9.8'
+      dev true
+      action :install
+    end
+
+Actions:
+
+| Action     | Description                   |
+|------------|-------------------------------|
+| `:install` | Install the ClamAV packages   |
+| `:upgrade` | Upgrade the ClamAV packages   |
+| `:remove`  | Uninstall the ClamAV packages |
+
+Properties:
+
+| Property         | Default    | Description                             |
+|------------------|------------|-----------------------------------------|
+| version          | `nil`      | A specific version of ClamAV to install |
+| dev              | `false`    | Whether to install the dev libraries    |
+| action           | `:install` | Action(s) to perform                    |
+
+***clamav_config***
+
+A resource for managing the clamd.conf and freshclam.conf files.
+
+Syntax:
+
+    clamav_config 'clamd' do
+      path '/etc/clamav/clamd.conf'
+      config {}
+      action :create
+    end
+
+Actions:
+
+| Action    | Description            |
+|-----------|------------------------|
+| `:create` | Render the config file |
+| `:remove` | Delete the config file |
+
+Properties:
+
+| Property | Default   | Description                             |
+|----------|-----------|-----------------------------------------|
+| path     | nil       | A custom path to store the file at |
+| config   | `{}`      | A camel-cased clamd.conf config         |
+| action   | `:create` | Action(s) to perform                    |
+
+***clamav_service***
+
+A resource for managing the clamd and freshclam daemons.
+
+Syntax:
+
+    clamav_service 'clamd' do
+      action %i(enable start)
+    end
+
+Actions:
+
+| Action     | Description                          |
+|------------|--------------------------------------|
+| `:enable`  | Set the service to start on boot     |
+| `:disable` | Set the service to not start on boot |
+| `:start`   | Start the service                    |
+| `:stop`    | Stop the service                     |
+| `:restart` | Restart the service                  |
 
 Contributing
 ============
 
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Add appropriate unit and/or integration tests
-4. Ensure all tests pass (`rake`)
-5. Commit your changes (`git commit -am 'Add some feature'`)
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request
+3. Add tests for the new feature; ensure they pass (`rake`)
+4. Commit your changes (`git commit -am 'Add some feature'`)
+5. Push to the branch (`git push origin my-new-feature`)
+6. Create a new Pull Request
 
 License & Authors
 =================
