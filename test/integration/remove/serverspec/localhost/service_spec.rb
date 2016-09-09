@@ -1,6 +1,7 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 
-require '../spec_helper'
+require_relative '../spec_helper'
 
 describe 'clamav::remove::service' do
   %w(clamav-daemon clamav-freshclam).each do |s|
