@@ -1,4 +1,5 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 
 # Ensure rsyslog is installed and running, regardless of whether the build
 # environment is a Vagrant box or a Docker container with no init system.
