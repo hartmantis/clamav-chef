@@ -19,29 +19,52 @@
 # limitations under the License.
 #
 
-require 'chef/resource/lwrp_base'
+require 'chef/resource'
 
 class Chef
   class Resource
     # A Chef resource for creating a ClamAV scan cron job.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
-    class ClamavCron < Resource::LWRPBase
-      self.resource_name = :clamav_cron
-      actions :create, :delete
+    class ClamavCron < Resource
+      provides :clamav_cron
+
       default_action :create
 
       #
-      # Attributes for the underlying cron job definition.
+      # Properties for the underlying cron job definition.
       #
-      [:minute, :hour, :day, :month, :weekday].each do |a|
-        attribute a, kind_of: [Fixnum, String], required: true
+      %i(minute hour day month weekday).each do |p|
+        property p, [Fixnum, String], required: true
       end
 
       #
-      # A list of filesystem paths to scan
+      # A filesystem path or array of paths to scan.
       #
-      attribute :paths, kind_of: [Array, String], default: %w(/)
+      property :paths, [Array, String], default: %w(/)
+
+      #
+      # Create the cron job.
+      #
+      action :create do
+        cron_d "clamav-#{new_resource.name}" do
+          minute new_resource.minute
+          hour new_resource.hour
+          day new_resource.day
+          month new_resource.month
+          weekday new_resource.weekday
+          command "clamscan #{new_resource.paths.join(' ')}"
+        end
+      end
+
+      #
+      # Delete the cron job.
+      #
+      action :delete do
+        cron_d "clamav-#{new_resource.name}" do
+          action :delete
+        end
+      end
     end
   end
 end
