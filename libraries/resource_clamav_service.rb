@@ -1,4 +1,5 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_service
@@ -36,9 +37,9 @@ class Chef
       # 'freshclam'.
       #
       property :service_name,
-                String,
-                name_property: true,
-                equal_to: %w(clamd freshclam)
+               String,
+               name_property: true,
+               equal_to: %w(clamd freshclam)
 
       #
       # Iterate over every action available for a regular service resource and

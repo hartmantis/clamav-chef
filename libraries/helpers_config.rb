@@ -1,4 +1,5 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: helpers_config
@@ -65,13 +66,26 @@ module ClamavCookbook
         #
         def from_s(conf)
           parsed = conf.lines.map(&:strip).each_with_object({}) do |line, hsh|
-            k, v = line.split
-            k = convert_to_snake_case(k).to_sym
-            v = true if v == 'true'
-            v = false if v == 'false'
+            k, v = parse_line(line)
             hsh[k] = hsh[k] ? Array(hsh[k]) + Array(v) : v
           end
           Config.new(parsed)
+        end
+
+        #
+        # Parse a single line of a config, converting the strings "true" and
+        # "false" into their boolean equivalents.
+        #
+        # @param line [String] a line from a ClamAV config
+        #
+        # @return [Array] a key and value
+        #
+        def parse_line(line)
+          k, v = line.split
+          k = convert_to_snake_case(k).to_sym
+          v = true if v == 'true'
+          v = false if v == 'false'
+          [k, v]
         end
       end
 

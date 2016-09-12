@@ -1,4 +1,5 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 
 require_relative '../spec_helper'
 require_relative '../../libraries/helpers_config'
@@ -86,6 +87,35 @@ describe ClamavCookbook::Helpers::Config do
           database_mirror: %w(mirror1 mirror2 mirror3)
         }
         expect(config.instance_variable_get(:@config)).to eq(expected)
+      end
+    end
+  end
+
+  describe '.parse_line' do
+    let(:input) { nil }
+    let(:res) { described_class.parse_line(input) }
+
+    context 'a string value' do
+      let(:input) { 'Testing stuff' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, 'stuff'])
+      end
+    end
+
+    context 'a true value' do
+      let(:input) { 'Testing true' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, true])
+      end
+    end
+
+    context 'a false value' do
+      let(:input) { 'Testing false' }
+
+      it 'returns the expected result' do
+        expect(res).to eq([:testing, false])
       end
     end
   end

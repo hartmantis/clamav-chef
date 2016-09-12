@@ -1,11 +1,12 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 
 source 'https://rubygems.org'
 
 group :test do
   gem 'rake'
   gem 'rubocop'
-  gem 'foodcritic', '~> 6.0'
+  gem 'foodcritic'
   gem 'rspec'
   gem 'chefspec'
   gem 'simplecov'
@@ -27,6 +28,6 @@ group :deploy do
 end
 
 group :production do
-  gem 'chef', '>= 11'
+  gem 'chef', '>= 12.5'
   gem 'berkshelf'
 end

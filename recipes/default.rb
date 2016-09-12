@@ -1,4 +1,5 @@
-# Encoding: UTF-8
+# encoding: utf-8
+# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Recipe:: default
@@ -18,18 +19,17 @@
 # limitations under the License.
 #
 
-version = node['clamav']['version']
-dev = node['clamav']['dev']
-clamd_config = node['clamav']['clamd']['config']
-freshclam_config = node['clamav']['freshclam']['config']
-enable_clamd = node['clamav']['clamd']['enabled']
-enable_freshclam = node['clamav']['freshclam']['enabled']
+attrs = node['clamav']
 
 clamav 'default' do
-  version version unless version.nil?
-  dev dev unless dev.nil?
-  clamd_config clamd_config unless clamd_config.nil?
-  freshclam_config freshclam_config unless freshclam_config.nil?
-  enable_clamd enable_clamd unless enable_clamd.nil?
-  enable_freshclam enable_freshclam unless enable_freshclam.nil?
+  version attrs['version'] unless attrs['version'].nil?
+  dev attrs['dev'] unless attrs['dev'].nil?
+  clamd_config attrs['clamd']['config'] unless attrs['clamd']['config'].nil?
+  unless attrs['freshclam']['config'].nil?
+    freshclam_config attrs['freshclam']['config']
+  end
+  enable_clamd attrs['clamd']['enabled'] unless attrs['clamd']['enabled'].nil?
+  unless attrs['freshclam']['enabled'].nil?
+    enable_freshclam attrs['freshclam']['enabled']
+  end
 end

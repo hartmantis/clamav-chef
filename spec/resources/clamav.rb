@@ -6,7 +6,7 @@ require_relative '../resources'
 shared_context 'resources::clamav' do
   include_context 'resources'
 
-  let(:resource) { 'clamav'}
+  let(:resource) { 'clamav' }
   %i(
     enable_clamd
     enable_freshclam
