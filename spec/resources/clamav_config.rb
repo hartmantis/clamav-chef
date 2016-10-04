@@ -56,11 +56,49 @@ shared_context 'resources::clamav_config' do
         end
 
         context 'an overridden config property' do
-          let(:config) { { test: 'test' } }
+          let(:config) do
+            { max_threads: 42, read_timeout: 200, scan_s_w_f: true }
+          end
 
-          it 'does something' do
-            pending
-            expect(true).to eq(false)
+          it 'renders the expected config file' do
+            expected = <<-EOH.gsub(/^ +/, '').strip
+              ##############################################
+              # This file generated automatically by Chef. #
+              # Any local changes will be overwritten.     #
+              ##############################################
+              LocalSocket /var/run/clamav/clamd.sock
+              MaxThreads 42
+              ReadTimeout 200
+              ScanSWF true
+            EOH
+            expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
+              .with(content: expected)
+          end
+        end
+
+        context 'an overridden config property plus some custom ones' do
+          let(:config) do
+            { max_threads: 42, read_timeout: 200, scan_s_w_f: true }
+          end
+          let(:properties) do
+            super().merge(self_check: 3600, scan_on_access: true)
+          end
+
+          it 'renders the expected config file' do
+            expected = <<-EOH.gsub(/^ +/, '').strip
+              ##############################################
+              # This file generated automatically by Chef. #
+              # Any local changes will be overwritten.     #
+              ##############################################
+              LocalSocket /var/run/clamav/clamd.sock
+              MaxThreads 42
+              ReadTimeout 200
+              ScanOnAccess true
+              ScanSWF true
+              SelfCheck 3600
+            EOH
+            expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
+              .with(content: expected)
           end
         end
       end
@@ -85,11 +123,51 @@ shared_context 'resources::clamav_config' do
         end
 
         context 'an overridden config property' do
-          let(:config) { { test: 'test' } }
+          let(:config) do
+            { database_owner: 'clamav', max_attempts: 5 }
+          end
 
-          it 'does something' do
-            pending
-            expect(true).to eq(false)
+          it 'renders the expected config file' do
+            expected = <<-EOH.gsub(/^ +/, '').strip
+              ##############################################
+              # This file generated automatically by Chef. #
+              # Any local changes will be overwritten.     #
+              ##############################################
+              DatabaseMirror db.local.clamav.net
+              DatabaseMirror database.clamav.net
+              DatabaseOwner clamav
+              MaxAttempts 5
+            EOH
+            expect(chef_run).to create_file(
+              "#{path || config_dir}/freshclam.conf"
+            ).with(content: expected)
+          end
+        end
+
+        context 'an overridden config property plus some custom ones' do
+          let(:config) do
+            { database_owner: 'clamav', max_attempts: 5 }
+          end
+          let(:properties) do
+            super().merge(log_syslog: true, log_facility: 'LOG_LOCAL6')
+          end
+
+          it 'renders the expected config file' do
+            expected = <<-EOH.gsub(/^ +/, '').strip
+              ##############################################
+              # This file generated automatically by Chef. #
+              # Any local changes will be overwritten.     #
+              ##############################################
+              DatabaseMirror db.local.clamav.net
+              DatabaseMirror database.clamav.net
+              DatabaseOwner clamav
+              LogFacility LOG_LOCAL6
+              LogSyslog true
+              MaxAttempts 5
+            EOH
+            expect(chef_run).to create_file(
+              "#{path || config_dir}/freshclam.conf"
+            ).with(content: expected)
           end
         end
       end

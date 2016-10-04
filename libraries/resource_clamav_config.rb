@@ -51,7 +51,35 @@ class Chef
       #
       # A hash of config values.
       #
-      property :config, [Hash, nil], default: nil
+      property :config,
+               Hash,
+               default: {},
+               coerce: proc { |val|
+                 val.each_with_object({}) { |(k, v), hsh| hsh[k.to_sym] = v }
+               }
+
+      #
+      # Allow individual properties to be fed in and merged with the config
+      # hash, e.g.
+      #
+      # clamav_config 'clamd' do
+      #   max_queue 100
+      #   pid_file '/var/run/clamav/clamd.pid'
+      # end
+      #
+      # (see Chef::Resource#method_missing)
+      #
+      def method_missing(method_symbol, *args, &block)
+        super
+      rescue NoMethodError
+        raise if !block.nil? || args.length > 1
+        case args.length
+        when 1
+          config(config.merge(method_symbol => args[0]))
+        when 0
+          config[method_symbol]
+        end
+      end
 
       #
       # Build a config file out of the provided hash and write it out to the
@@ -88,4 +116,6 @@ class Chef
       end
     end
   end
-end
+end unless defined?(Chef::Resource::ClamavConfig)
+# Don't let this class be reloaded or strange things happen to the custom
+# properties we've loaded in via `method_missing`.

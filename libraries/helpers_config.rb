@@ -113,7 +113,7 @@ module ClamavCookbook
                   '# This file generated automatically by Chef. #',
                   '# Any local changes will be overwritten.     #',
                   '##############################################']
-        body = @config.map do |k, vs|
+        body = @config.sort.to_h.map do |k, vs|
           Array(vs).map do |v|
             "#{convert_to_class_name(k.to_s)} #{v}"
           end
