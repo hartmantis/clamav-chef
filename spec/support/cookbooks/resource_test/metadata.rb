@@ -1,7 +1,7 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-name 'clamav_resource_test'
+name 'resource_test'
 maintainer 'Jonathan Hartman'
 maintainer_email 'j@p4nt5.com'
 license 'apache2'

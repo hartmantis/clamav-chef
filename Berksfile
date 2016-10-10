@@ -5,7 +5,6 @@ source 'https://supermarket.chef.io'
 
 metadata
 
-group :test do
-  cookbook 'clamav_resource_test',
-           path: 'spec/support/cookbooks/clamav_resource_test'
+group :unit do
+  cookbook 'resource_test', path: 'spec/support/cookbooks/resource_test'
 end

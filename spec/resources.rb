@@ -12,14 +12,14 @@ shared_context 'resources' do
     ) do |node|
       %i(resource name action).each do |p|
         next if send(p).nil?
-        node.default['clamav_resource_test'][p] = send(p)
+        node.default['resource_test'][p] = send(p)
       end
       properties.each do |k, v|
         next if v.nil?
-        node.default['clamav_resource_test']['properties'][k] = v
+        node.default['resource_test']['properties'][k] = v
       end
     end
   end
-  let(:converge) { runner.converge('clamav_resource_test') }
+  let(:converge) { runner.converge('resource_test') }
   let(:chef_run) { converge }
 end
