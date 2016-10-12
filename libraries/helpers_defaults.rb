@@ -36,7 +36,11 @@ module ClamavCookbook
         when 'debian'
           'clamav-daemon'
         when 'rhel'
-          'clamd'
+          if node['platform_version'].to_i >= 7
+            'clamd@server.service'
+          else
+            'clamd'
+          end
         end
       end
 
@@ -104,7 +108,11 @@ module ClamavCookbook
         when 'debian'
           'clamav'
         when 'rhel'
-          'clam'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -118,7 +126,11 @@ module ClamavCookbook
         when 'debian'
           'clamav'
         when 'rhen'
-          'clam'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -132,10 +144,10 @@ module ClamavCookbook
         when 'debian'
           %w(clamav clamav-daemon clamav-freshclam)
         when 'rhel'
-          if node['platform_version'].to_i >= 6
-            %w(clamav-server clamav clamav-update)
+          if node['platform_version'].to_i >= 7
+            %w(clamav-server clamav clamav-update clamav-server-systemd clamav-scanner clamav-scanner-systemd)
           else
-            %(clamav clamav-db clamd)
+            %w(clamav clamav-db clamd clamav-server-sysvinit clamav-scanner clamav-scanner-sysvinit)
           end
         end
       end
