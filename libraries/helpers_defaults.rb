@@ -147,7 +147,7 @@ module ClamavCookbook
           if node['platform_version'].to_i >= 7
             %w(clamav-server clamav clamav-update clamav-server-systemd clamav-scanner clamav-scanner-systemd)
           else
-            %w(clamav clamav-db clamd clamav-server-sysvinit clamav-scanner clamav-scanner-sysvinit)
+            %w(clamav clamav-db clamd clamav-server-sysvinit clamav-scanner)
           end
         end
       end
