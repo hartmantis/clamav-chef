@@ -35,6 +35,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav-daemon'
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            'clamd@server.service'
+          else
+            'clamd'
+          end
         end
       end
 
@@ -75,7 +81,7 @@ module ClamavCookbook
       #
       def clamav_data_dir
         case node['platform_family']
-        when 'debian'
+        when 'debian', 'rhel'
           '/var/lib/clamav'
         end
       end
@@ -87,7 +93,7 @@ module ClamavCookbook
       #
       def clamav_conf_dir
         case node['platform_family']
-        when 'debian'
+        when 'debian', 'rhel'
           '/etc/clamav'
         end
       end
@@ -101,6 +107,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav'
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -113,6 +125,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav'
+        when 'rhen'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -125,6 +143,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           %w(clamav clamav-daemon clamav-freshclam)
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            %w(clamav-server clamav clamav-update clamav-server-systemd clamav-scanner clamav-scanner-systemd)
+          else
+            %w(clamav clamav-db clamd clamav-server-sysvinit clamav-scanner)
+          end
         end
       end
 
@@ -137,6 +161,8 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           %w(libclamav-dev)
+        when 'rhel'
+          %w(clamav-devel)
         end
       end
     end

@@ -4,7 +4,7 @@ branches:
   only:
     - master
 
-sudo: required
+sudo: false
 
 services:
   - docker
