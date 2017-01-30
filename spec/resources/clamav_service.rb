@@ -7,8 +7,13 @@ shared_context 'resources::clamav_service' do
   include_context 'resources'
 
   let(:resource) { 'clamav_service' }
-  %i(service_name).each { |p| let(p) { nil } }
-  let(:properties) { { service_name: service_name } }
+  %i(service_name platform_service_name).each { |p| let(p) { nil } }
+  let(:properties) do
+    {
+      service_name: service_name,
+      platform_service_name: platform_service_name
+    }
+  end
 
   let(:data_dir) { nil }
   let(:clamd_service) { nil }
@@ -34,6 +39,12 @@ shared_context 'resources::clamav_service' do
 
           it_behaves_like 'any property set'
         end
+
+        context 'an overridden platform_service_name property' do
+          let(:platform_service_name) { 'clamclamclam' }
+
+          it_behaves_like 'any property set'
+        end
       end
 
       context 'a freshclam resource' do
@@ -45,6 +56,12 @@ shared_context 'resources::clamav_service' do
 
         context 'an overridden service_name property' do
           let(:service_name) { 'clamd' }
+
+          it_behaves_like 'any property set'
+        end
+
+        context 'an overridden platform_service_name property' do
+          let(:platform_service_name) { 'clamclamclam' }
 
           it_behaves_like 'any property set'
         end
@@ -66,9 +83,9 @@ shared_context 'resources::clamav_service' do
           end
 
           it 'passes the action on to a regular service resource' do
-            expect(chef_run).to send(
-              "#{a}_service", send("#{service_name || name}_service")
-            ).with(supports: { status: true, restart: true })
+            svc = platform_service_name || send("#{service_name || name}_service")
+            expect(chef_run).to send("#{a}_service", svc)
+              .with(supports: { status: true, restart: true })
           end
         end
 
@@ -84,10 +101,16 @@ shared_context 'resources::clamav_service' do
 
             it_behaves_like 'any property set'
           end
+
+          context 'an overridden platform_service_name property' do
+            let(:platform_service_name) { 'clamclamclam' }
+
+            it_behaves_like 'any property set'
+          end
         end
 
         context 'a freshclam resource' do
-          let(:name) { 'clamd' }
+          let(:name) { 'freshclam' }
 
           context 'all default properties' do
             it_behaves_like 'any property set'
@@ -95,6 +118,12 @@ shared_context 'resources::clamav_service' do
 
           context 'an overridden service_name property' do
             let(:service_name) { 'clamd' }
+
+            it_behaves_like 'any property set'
+          end
+
+          context 'an overridden platform_service_name property' do
+            let(:platform_service_name) { 'clamclamclam' }
 
             it_behaves_like 'any property set'
           end

@@ -20,7 +20,6 @@
 #
 
 require 'chef/resource'
-require_relative 'helpers_defaults'
 
 class Chef
   class Resource
@@ -28,10 +27,6 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavService < Resource
-      include ClamavCookbook::Helpers::Defaults
-
-      provides :clamav_service
-
       #
       # The service must be one of the recognized services: 'clamd' or
       # 'freshclam'.
@@ -42,6 +37,17 @@ class Chef
                equal_to: %w(clamd freshclam)
 
       #
+      # The 'clamd' or 'freshclam' service then gets translated into whatever
+      # name the specific platform's init system uses.
+      #
+      property :platform_service_name,
+               String,
+               required: true,
+               default: lazy { |r|
+                 r.class.send("#{r.service_name}_service_name")
+               }
+
+      #
       # Iterate over every action available for a regular service resource and
       # pass the declared action on to one.
       #
@@ -50,10 +56,10 @@ class Chef
           if a == :start && new_resource.service_name == 'clamd'
             execute 'Ensure virus definitions exist so clamd can start' do
               command 'freshclam'
-              creates ::File.join(clamav_data_dir, 'main.cvd')
+              creates '/var/lib/clamav/main.cvd'
             end
           end
-          service send("#{new_resource.service_name}_service_name") do
+          service new_resource.platform_service_name do
             supports(status: true, restart: true)
             action a
           end
