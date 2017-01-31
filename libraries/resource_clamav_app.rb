@@ -20,7 +20,6 @@
 #
 
 require 'chef/resource'
-require_relative 'helpers_defaults'
 
 class Chef
   class Resource
@@ -28,10 +27,6 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavApp < Resource
-      include ClamavCookbook::Helpers::Defaults
-
-      provides :clamav_app
-
       default_action :install
 
       #
@@ -51,12 +46,12 @@ class Chef
       # Install the ClamAV packages.
       #
       action :install do
-        base_packages.each do |p|
+        new_resource.class.base_packages.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
           end
         end
-        new_resource.dev && dev_packages.each do |p|
+        new_resource.dev && new_resource.class.dev_packages.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
           end
@@ -67,13 +62,13 @@ class Chef
       # Upgrade the ClamAV packages.
       #
       action :upgrade do
-        base_packages.each do |p|
+        new_resource.class.base_packages.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
             action :upgrade
           end
         end
-        new_resource.dev && dev_packages.each do |p|
+        new_resource.dev && new_resource.class.dev_packages.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
             action :upgrade
@@ -85,7 +80,9 @@ class Chef
       # Remove the ClamAV packages
       #
       action :remove do
-        (dev_packages + base_packages).each do |p|
+        (
+          new_resource.class.dev_packages + new_resource.class.base_packages
+        ).each do |p|
           package(p) { action :purge }
         end
       end
