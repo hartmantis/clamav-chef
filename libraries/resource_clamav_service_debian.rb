@@ -29,14 +29,10 @@ class Chef
     class ClamavServiceDebian < ClamavService
       provides :clamav_service, platform_family: 'debian'
 
-      class << self
-        {
-          clamd_service_name: 'clamav-daemon',
-          freshclam_service_name: 'clamav-freshclam'
-        }.each do |k, v|
-          define_method(k) { v }
-        end
-      end
+      DEFAULTS ||= {
+        clamd_service_name: 'clamav-daemon',
+        freshclam_service_name: 'clamav-freshclam'
+      }
     end
   end
 end

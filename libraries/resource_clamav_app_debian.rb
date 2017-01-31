@@ -29,14 +29,10 @@ class Chef
     class ClamavAppDebian < ClamavApp
       provides :clamav_app, platform_family: 'debian'
 
-      class << self
-        {
-          base_packages: %w(clamav clamav-daemon clamav-freshclam),
-          dev_packages: %w(libclamav-dev)
-        }.each do |k, v|
-          define_method(k) { v }
-        end
-      end
+      DEFAULTS ||= {
+        base_packages: %w(clamav clamav-daemon clamav-freshclam),
+        dev_packages: %w(libclamav-dev)
+      }
     end
   end
 end

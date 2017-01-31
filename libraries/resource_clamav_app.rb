@@ -46,12 +46,11 @@ class Chef
       # Install the ClamAV packages.
       #
       action :install do
-        new_resource.class.base_packages.each do |p|
-          package p do
-            version new_resource.version unless new_resource.version == 'latest'
-          end
+        pkgs = new_resource.class::DEFAULTS[:base_packages]
+        if new_resource.dev
+          pkgs += new_resource.class::DEFAULTS[:dev_packages]
         end
-        new_resource.dev && new_resource.class.dev_packages.each do |p|
+        pkgs.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
           end
@@ -62,13 +61,11 @@ class Chef
       # Upgrade the ClamAV packages.
       #
       action :upgrade do
-        new_resource.class.base_packages.each do |p|
-          package p do
-            version new_resource.version unless new_resource.version == 'latest'
-            action :upgrade
-          end
+        pkgs = new_resource.class::DEFAULTS[:base_packages]
+        if new_resource.dev
+          pkgs += new_resource.class::DEFAULTS[:dev_packages]
         end
-        new_resource.dev && new_resource.class.dev_packages.each do |p|
+        pkgs.each do |p|
           package p do
             version new_resource.version unless new_resource.version == 'latest'
             action :upgrade
@@ -80,11 +77,9 @@ class Chef
       # Remove the ClamAV packages
       #
       action :remove do
-        (
-          new_resource.class.dev_packages + new_resource.class.base_packages
-        ).each do |p|
-          package(p) { action :purge }
-        end
+        pkgs = new_resource.class::DEFAULTS[:dev_packages] + \
+              new_resource.class::DEFAULTS[:base_packages]
+        pkgs.each { |p| package(p) { action :purge } }
       end
     end
   end

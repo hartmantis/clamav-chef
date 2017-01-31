@@ -44,7 +44,7 @@ class Chef
                String,
                required: true,
                default: lazy { |r|
-                 r.class.send("#{r.service_name}_service_name")
+                 r.class::DEFAULTS["#{r.service_name}_service_name".to_sym]
                }
 
       #
