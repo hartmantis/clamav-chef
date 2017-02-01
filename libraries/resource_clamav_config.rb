@@ -20,7 +20,6 @@
 #
 
 require 'chef/resource'
-require_relative 'helpers_defaults'
 
 class Chef
   class Resource
@@ -28,10 +27,6 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavConfig < Resource
-      include ClamavCookbook::Helpers::Defaults
-
-      provides :clamav_config
-
       default_action :create
 
       #
@@ -46,14 +41,27 @@ class Chef
       #
       # Allow the user to override the path of the config dir (at their peril).
       #
-      property :path, String, default: lazy { clamav_conf_dir }
+      property :path,
+               String,
+               default: lazy { |r| r.class::DEFAULTS[:conf_dir] }
+      #
+      # The name of the ClamAV user.
+      #
+      property :user, String, default: lazy { |r| r.class::DEFAULTS[:user] }
+
+      #
+      # The name of the ClamAV group.
+      #
+      property :group, String, default: lazy { |r| r.class::DEFAULTS[:group] }
 
       #
       # A hash of config values.
       #
       property :config,
                Hash,
-               default: {},
+               default: lazy { |r|
+                 r.class::DEFAULTS["#{r.service_name}_config".to_sym]
+               },
                coerce: proc { |val|
                  val.each_with_object({}) { |(k, v), hsh| hsh[k.to_sym] = v }
                }
@@ -87,18 +95,15 @@ class Chef
       #
       action :create do
         directory new_resource.path do
-          owner clamav_user
-          group clamav_group
+          owner new_resource.user
+          group new_resource.group
           recursive true
         end
         file ::File.join(new_resource.path,
                          "#{new_resource.service_name}.conf") do
-          owner clamav_user
-          group clamav_group
-          content ClamavCookbook::Helpers::Config.new(
-            send("#{new_resource.service_name}_config")
-              .merge(new_resource.config.to_h)
-          ).to_s
+          owner new_resource.user
+          group new_resource.group
+          content ClamavCookbook::Helpers::Config.new(new_resource.config).to_s
         end
       end
 
@@ -110,7 +115,7 @@ class Chef
                          "#{new_resource.service_name}.conf") do
           action :delete
         end
-        directory new_resource.path do
+        directory(new_resource.path) do
           action :delete
         end
       end

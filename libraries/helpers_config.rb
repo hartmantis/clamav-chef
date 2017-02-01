@@ -44,6 +44,7 @@ module ClamavCookbook
 
       class << self
         include Chef::Mixin::ConvertToClassName
+
         #
         # Read in an already-existing ClamAV config file and generate a Config
         # object based on it.

@@ -7,32 +7,41 @@ shared_context 'resources::clamav_config' do
   include_context 'resources'
 
   let(:resource) { 'clamav_config' }
-  %i(service_name path config).each do |p|
+  %i(service_name path user group config).each do |p|
     let(p) { nil }
   end
   let(:properties) do
-    { service_name: service_name, path: path, config: config }
+    {
+      service_name: service_name,
+      path: path,
+      user: user,
+      group: group,
+      config: config
+    }
   end
 
-  let(:config_dir) { nil }
-  let(:user) { nil }
-  let(:group) { nil }
+  let(:defaults) { nil }
 
   shared_examples_for 'any platform' do
-    context 'the default action (:create)' do
+    context 'the :create action' do
       shared_examples_for 'any property set' do
         it 'creates the config directory' do
-          expect(chef_run).to create_directory(path || config_dir).with(
-            owner: user,
-            group: group,
+          expect(chef_run).to create_directory(path || defaults[:conf_dir]).with(
+            owner: user || defaults[:user],
+            group: group || defaults[:group],
             recursive: true
           )
         end
 
         it 'creates the config file' do
+          props = {
+            owner: user || defaults[:user],
+            group: group || defaults[:group]
+          }
           expect(chef_run).to create_file(
-            "#{path || config_dir}/#{service_name || name}.conf"
-          )
+            "#{path || defaults[:conf_dir]}/#{service_name || name}.conf"
+          ).with(owner: user || defaults[:user],
+                 group: group || defaults[:group])
         end
       end
 
@@ -55,6 +64,18 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
+        context 'an overridden user property' do
+          let(:user) { 'mememe' }
+
+          it_behaves_like 'any property set'
+        end
+
+        context 'an overridden group property' do
+          let(:group) { 'youyouyou' }
+
+          it_behaves_like 'any property set'
+        end
+
         context 'an overridden config property' do
           let(:config) do
             { max_threads: 42, read_timeout: 200, scan_s_w_f: true }
@@ -66,12 +87,11 @@ shared_context 'resources::clamav_config' do
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
               ##############################################
-              LocalSocket /var/run/clamav/clamd.sock
               MaxThreads 42
               ReadTimeout 200
               ScanSWF true
             EOH
-            expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
+            expect(chef_run).to create_file("#{path || defaults[:conf_dir]}/clamd.conf")
               .with(content: expected)
           end
         end
@@ -90,14 +110,13 @@ shared_context 'resources::clamav_config' do
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
               ##############################################
-              LocalSocket /var/run/clamav/clamd.sock
               MaxThreads 42
               ReadTimeout 200
               ScanOnAccess true
               ScanSWF true
               SelfCheck 3600
             EOH
-            expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
+            expect(chef_run).to create_file("#{path || defaults[:conf_dir]}/clamd.conf")
               .with(content: expected)
           end
         end
@@ -122,6 +141,18 @@ shared_context 'resources::clamav_config' do
           it_behaves_like 'any property set'
         end
 
+        context 'an overridden user property' do
+          let(:user) { 'mememe' }
+
+          it_behaves_like 'any property set'
+        end
+
+        context 'an overridden group property' do
+          let(:group) { 'youyouyou' }
+
+          it_behaves_like 'any property set'
+        end
+
         context 'an overridden config property' do
           let(:config) do
             { database_owner: 'clamav', max_attempts: 5 }
@@ -133,13 +164,11 @@ shared_context 'resources::clamav_config' do
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
               ##############################################
-              DatabaseMirror db.local.clamav.net
-              DatabaseMirror database.clamav.net
               DatabaseOwner clamav
               MaxAttempts 5
             EOH
             expect(chef_run).to create_file(
-              "#{path || config_dir}/freshclam.conf"
+              "#{path || defaults[:conf_dir]}/freshclam.conf"
             ).with(content: expected)
           end
         end
@@ -158,15 +187,13 @@ shared_context 'resources::clamav_config' do
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
               ##############################################
-              DatabaseMirror db.local.clamav.net
-              DatabaseMirror database.clamav.net
               DatabaseOwner clamav
               LogFacility LOG_LOCAL6
               LogSyslog true
               MaxAttempts 5
             EOH
             expect(chef_run).to create_file(
-              "#{path || config_dir}/freshclam.conf"
+              "#{path || defaults[:conf_dir]}/freshclam.conf"
             ).with(content: expected)
           end
         end
@@ -179,12 +206,12 @@ shared_context 'resources::clamav_config' do
       shared_examples_for 'any property set' do
         it 'deletes the config file' do
           expect(chef_run).to delete_file(
-            "#{path || config_dir}/#{service_name || name}.conf"
+            "#{path || defaults[:conf_dir]}/#{service_name || name}.conf"
           )
         end
 
         it 'deletes the config directory' do
-          expect(chef_run).to delete_directory(path || config_dir)
+          expect(chef_run).to delete_directory(path || defaults[:conf_dir])
         end
 
         it 'deletes the config directory conditionally' do
