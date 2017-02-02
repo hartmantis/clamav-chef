@@ -66,7 +66,7 @@ class Chef
       #
       action :create do
         clamav_app new_resource.name do
-          version new_resource.version
+          version new_resource.version unless new_resource.version.nil?
           dev new_resource.dev
         end
         clamav_config 'clamd' do
