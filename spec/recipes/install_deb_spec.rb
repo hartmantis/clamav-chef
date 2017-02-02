@@ -10,7 +10,7 @@ describe 'clamav::install_deb' do
   let(:platform) { { platform: 'ubuntu', version: '12.04' } }
   let(:runner) do
     ChefSpec::SoloRunner.new(platform) do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }

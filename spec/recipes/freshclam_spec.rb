@@ -10,7 +10,7 @@ describe 'clamav::freshclam' do
   let(:attributes) { {} }
   let(:runner) do
     ChefSpec::SoloRunner.new(platform) do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }
@@ -125,60 +125,68 @@ describe 'clamav::freshclam' do
   {
     Ubuntu: {
       platform: 'ubuntu',
-      version: '12.04',
+      versions: %w(12.04 14.10 16.04),
       conf: '/etc/clamav/freshclam.conf',
       service: 'service[clamav-freshclam]'
     },
     CentOS: {
       platform: 'centos',
-      version: '6.4',
+      versions: %w(6.4),
       conf: '/etc/freshclam.conf',
       service: 'service[freshclam]'
     }
   }.each do |k, v|
-    context "a #{k} node" do
-      let(:platform) { { platform: v[:platform], version: v[:version] } }
-      let(:conf) { v[:conf] }
-      let(:service) { v[:service] }
-
-      context 'an entirely default node' do
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node that needs to run freshclam'
-        it_behaves_like 'a node with the freshclam service disabled'
-        it_behaves_like 'a node with the clamd service disabled'
+    v[:versions].each do |version|
+      before do
+        Fauxhai.mock(platform: v[:platform], version: version) do |node|
+          node['languages']['ruby']['version'] = '2.3.1'
+        end
       end
 
-      context 'a node with the freshclam service enabled' do
-        let(:attributes) { { clamav: { freshclam: { enabled: true } } } }
+      context "a #{k} v.#{version} node" do
+        let(:platform) { { platform: v[:platform], version: version } }
+        let(:conf) { v[:conf] }
+        let(:service) { v[:service] }
 
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node that needs to run freshclam'
-        it_behaves_like 'a node with the freshclam service enabled'
-        it_behaves_like 'a node with the clamd service disabled'
-      end
-
-      context 'a node with the clamd service enabled' do
-        let(:attributes) { { clamav: { clamd: { enabled: true } } } }
-
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node that needs to run freshclam'
-        it_behaves_like 'a node with the freshclam service disabled'
-        it_behaves_like 'a node with the clamd service enabled'
-      end
-
-      context 'a node with the initial freshclam run disabled' do
-        let(:attributes) do
-          { clamav: { freshclam: { skip_initial_run: true } } }
+        context 'an entirely default node' do
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node that needs to run freshclam'
+          it_behaves_like 'a node with the freshclam service disabled'
+          it_behaves_like 'a node with the clamd service disabled'
         end
 
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node that does not need to run freshclam'
-        it_behaves_like 'a node with the freshclam service disabled'
-        it_behaves_like 'a node with the clamd service disabled'
+        context 'a node with the freshclam service enabled' do
+          let(:attributes) { { clamav: { freshclam: { enabled: true } } } }
+
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node that needs to run freshclam'
+          it_behaves_like 'a node with the freshclam service enabled'
+          it_behaves_like 'a node with the clamd service disabled'
+        end
+
+        context 'a node with the clamd service enabled' do
+          let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node that needs to run freshclam'
+          it_behaves_like 'a node with the freshclam service disabled'
+          it_behaves_like 'a node with the clamd service enabled'
+        end
+
+        context 'a node with the initial freshclam run disabled' do
+          let(:attributes) do
+            { clamav: { freshclam: { skip_initial_run: true } } }
+          end
+
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node that does not need to run freshclam'
+          it_behaves_like 'a node with the freshclam service disabled'
+          it_behaves_like 'a node with the clamd service disabled'
+        end
       end
     end
   end

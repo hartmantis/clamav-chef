@@ -9,7 +9,7 @@ describe 'clamav::logging' do
   let(:attributes) { {} }
   let(:runner) do
     ChefSpec::SoloRunner.new do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }
@@ -60,7 +60,7 @@ describe 'clamav::logging' do
       )
     end
 
-    context 'a node set to log to syslog instead of files' do
+    context 'a node.override to log to syslog instead of files' do
       let(:attributes) do
         {
           clamav: {

@@ -1,6 +1,14 @@
 ClamAV Cookbook CHANGELOG
 =========================
 
+v1.3.1 (2017-02-02)
+-------------------
+* Open dependencies to allow newer cookbooks to be pulled in
+* Upodated rubocop settings and fixed any robocop errors
+* Fixed all Foodcritic issues
+* Fixed all spec tests that were failing
+* Added Ubunto v14 and v16 to spec tests
+
 v1.3.0 (2016-02-05)
 -------------------
 * Remove the additional Ubuntu repo; it was shut down 2016/01/30

@@ -9,7 +9,7 @@ describe 'clamav::clamd' do
   let(:attributes) { {} }
   let(:runner) do
     ChefSpec::SoloRunner.new(platform) do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }
@@ -136,34 +136,42 @@ describe 'clamav::clamd' do
   {
     Ubuntu: {
       platform: 'ubuntu',
-      version: '12.04',
+      versions: %w(12.04 14.10 16.04),
       conf: '/etc/clamav/clamd.conf',
       service: 'service[clamav-daemon]'
     },
     CentOS: {
       platform: 'centos',
-      version: '6.4',
+      versions: %w(6.4),
       conf: '/etc/clamd.conf',
       service: 'service[clamd]'
     }
   }.each do |k, v|
-    context "a #{k} node" do
-      let(:platform) { { platform: v[:platform], version: v[:version] } }
-      let(:conf) { v[:conf] }
-      let(:service) { v[:service] }
-
-      context 'an entirely default node' do
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node with the clamd service disabled'
+    v[:versions].each do |version|
+      before do
+        Fauxhai.mock(platform: v[:platform], version: version) do |node|
+          node['languages']['ruby']['version'] = '2.3.1'
+        end
       end
 
-      context 'a node with the clamd service enabled' do
-        let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+      context "a #{k} v.#{version} node" do
+        let(:platform) { { platform: v[:platform], version: version } }
+        let(:conf) { v[:conf] }
+        let(:service) { v[:service] }
 
-        it_behaves_like 'any node'
-        it_behaves_like 'a node with all default attributes'
-        it_behaves_like 'a node with the clamd service enabled'
+        context 'an entirely default node' do
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node with the clamd service disabled'
+        end
+
+        context 'a node with the clamd service enabled' do
+          let(:attributes) { { clamav: { clamd: { enabled: true } } } }
+
+          it_behaves_like 'any node'
+          it_behaves_like 'a node with all default attributes'
+          it_behaves_like 'a node with the clamd service enabled'
+        end
       end
     end
   end

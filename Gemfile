@@ -3,23 +3,23 @@
 source 'https://rubygems.org'
 
 group :test do
-  gem 'rake'
-  gem 'rubocop'
-  gem 'foodcritic', '~> 6.0'
-  gem 'rspec'
   gem 'chefspec'
-  gem 'simplecov'
-  gem 'simplecov-console'
   gem 'coveralls'
   gem 'fauxhai'
-  gem 'test-kitchen'
-  gem 'kitchen-vagrant'
+  gem 'foodcritic', '~> 6.0'
   gem 'kitchen-docker'
+  gem 'kitchen-vagrant'
+  gem 'rake'
+  gem 'rspec'
+  gem 'rubocop'
+  gem 'simplecov'
+  gem 'simplecov-console'
+  gem 'test-kitchen'
 end
 
 group :integration do
-  gem 'serverspec'
   gem 'cucumber'
+  gem 'serverspec'
 end
 
 group :deploy do
@@ -27,6 +27,6 @@ group :deploy do
 end
 
 group :production do
-  gem 'chef', '>= 11'
   gem 'berkshelf'
+  gem 'chef', '>= 11'
 end

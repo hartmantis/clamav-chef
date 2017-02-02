@@ -7,7 +7,7 @@ describe 'clamav::clamav_scan' do
   let(:attributes) { {} }
   let(:runner) do
     ChefSpec::SoloRunner.new do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }

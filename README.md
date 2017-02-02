@@ -37,13 +37,13 @@ Whether to install the appropriate ClamAV development package
 
     default["clamav"]["clamd"]["log_file"] = "/var/log/clamav/clamd.log"
     default["clamav"]["clamd"]["logrotate_frequency"] = "daily"
-    default["clamav"]["clamd"]["logrotate_rotations"] = 7 
+    default["clamav"]["clamd"]["logrotate_rotations"] = 7
     default["clamav"]["clamd"]["log_file_unlock"] = "no"
     default["clamav"]["clamd"]["log_file_max_size"] = "1M"
     default["clamav"]["clamd"]["log_time"] = "no"
     default["clamav"]["clamd"]["log_clean"] = "no"
     default["clamav"]["clamd"]["log_syslog"] = "no"
-    default["clamav"]["clamd"]["log_facility"] = nil 
+    default["clamav"]["clamd"]["log_facility"] = nil
     default["clamav"]["clamd"]["log_verbose"] = "no"
     default["clamav"]["freshclam"]["update_log_file"] = "/var/log/clamav/freshclam.log"
     default["clamav"]["freshclam"]["logrotate_frequency"] = "daily"
@@ -52,7 +52,7 @@ Whether to install the appropriate ClamAV development package
     default["clamav"]["freshclam"]["log_time"] = "no"
     default["clamav"]["freshclam"]["log_verbose"] = "no"
     default["clamav"]["freshclam"]["log_syslog"] = "no"
-    default["clamav"]["freshclam"]["log_facility"] = nil 
+    default["clamav"]["freshclam"]["log_facility"] = nil
 
 Log file/syslog facility logging options
 
@@ -100,16 +100,17 @@ Contributing
 1. Fork it
 2. Create your feature branch (`git checkout -b my-new-feature`)
 3. Add appropriate unit and/or integration tests
-4. Ensure all tests pass (`rake`)
-5. Commit your changes (`git commit -am 'Add some feature'`)
-6. Push to the branch (`git push origin my-new-feature`)
-7. Create new Pull Request
+4. Run `berks install` or `berks update`
+5. Ensure all tests pass (`rake`)
+6. Commit your changes (`git commit -am 'Add some feature'`)
+7. Push to the branch (`git push origin my-new-feature`)
+8. Create new Pull Request
 
 License & Authors
 =================
 - Author: Jonathan Hartman <j@p4nt5.com>
 
-Copyright 2012-2016, Jonathan Hartman
+Copyright 2012-2017, Jonathan Hartman
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

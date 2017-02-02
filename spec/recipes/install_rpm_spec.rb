@@ -12,7 +12,7 @@ describe 'clamav::install_rpm' do
   let(:platform) { { platform: 'centos', version: '6.4' } }
   let(:runner) do
     ChefSpec::SoloRunner.new(platform) do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end
   end
   let(:chef_run) { runner.converge(described_recipe) }

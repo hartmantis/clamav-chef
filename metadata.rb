@@ -6,15 +6,14 @@ maintainer_email  'j@p4nt5.com'
 license           'Apache v2.0'
 description       'Installs/configures ClamAV'
 long_description  'Installs/configures ClamAV'
-version           '1.3.0'
+source_url        'https://github.com/RoboticCheese/clamav-chef/issues'
+issues_url        'https://github.com/RoboticCheese/clamav-chef/issues'
+version           '1.3.1'
 
-depends           'logrotate', '~> 1.0'
-depends           'yum', '~> 3.0'
-depends           'yum-epel', '~> 0.2'
-depends           'apt', '~> 2.1'
-# Note that a breaking bug was introduced in 1.3.10 and fixed in 1.3.12, but
-# we really don't want a ">=" cookbook dep situation here
-depends           'cron', '~> 1.2'
+depends           'apt'
+depends           'logrotate', '>= 1.0'
+depends           'yum', '>= 3.0'
+depends           'yum-epel', '>= 0.2'
 
 supports          'ubuntu'
 supports          'debian'

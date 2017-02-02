@@ -16,7 +16,7 @@ When(/^I manually scan a (\w+) file$/) do |file_type|
   end
   @f.rewind
   @f.close
-  File.chmod(0777, @f)
+  File.chmod(0o777, @f)
   @res = `clamscan #{@f.path}`
   @f.unlink
 end

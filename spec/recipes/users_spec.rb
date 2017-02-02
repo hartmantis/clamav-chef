@@ -8,7 +8,7 @@ describe 'clamav::users' do
   let(:attributes) { {} }
   let(:chef_run) do
     ChefSpec::SoloRunner.new do |node|
-      attributes.each { |k, v| node.set[k] = v }
+      attributes.each { |k, v| node.override[k] = v }
     end.converge(described_recipe)
   end
 
