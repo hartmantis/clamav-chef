@@ -83,9 +83,9 @@ class Chef
         raise if !block.nil? || args.length > 1
         case args.length
         when 1
-          config(config.merge(method_symbol => args[0]))
+          config[method_symbol] = args[0]
         when 0
-          config[method_symbol]
+          config[method_symbol] || raise
         end
       end
 
@@ -121,6 +121,4 @@ class Chef
       end
     end
   end
-end unless defined?(Chef::Resource::ClamavConfig)
-# Don't let this class be reloaded or strange things happen to the custom
-# properties we've loaded in via `method_missing`.
+end
