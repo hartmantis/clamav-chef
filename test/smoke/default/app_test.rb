@@ -8,6 +8,6 @@ pkgs = case os[:family]
 
 pkgs.each do |p|
   describe package(p) do
-    it { should be_installed }
+    it { should_not be_installed }
   end
 end

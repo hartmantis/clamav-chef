@@ -3,7 +3,7 @@
 
 case os[:family]
 when 'debian'
-  describe file('/etc/clamav/clamd.conf) do
+  describe file('/etc/clamav/clamd.conf') do
     its(:content) do
       expected = <<-EOH.gsub(/^ +/, '').strip
         ##############################################

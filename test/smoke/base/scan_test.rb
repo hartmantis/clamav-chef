@@ -14,7 +14,7 @@ end
 describe command('clamscan /tmp/clamtest_infected') do
   its(:exit_status) { should eq(1) }
   its(:stdout) do
-    should match(%r{/tmp/clamtest_infected: Eicar-Test-Signature FOUND$})
+    should match(%r{/tmp/clamtest_infected: Win\.Test\.EICAR_NDB-1 FOUND$})
   end
   its(:stdout) { should match(/^Infected files: 1$/) }
 end
