@@ -35,7 +35,7 @@ class Chef
       # Different distros use vastly different version strings in their
       # packages, so type checking is about the only validation we can do.
       #
-      property :version, String, default: 'latest'
+      property :version, String
 
       #
       # Optionally install the dev in addition to base packages.
@@ -52,7 +52,7 @@ class Chef
         end
         pkgs.each do |p|
           package p do
-            version new_resource.version unless new_resource.version == 'latest'
+            version new_resource.version unless new_resource.version.nil?
           end
         end
       end
@@ -67,7 +67,7 @@ class Chef
         end
         pkgs.each do |p|
           package p do
-            version new_resource.version unless new_resource.version == 'latest'
+            version new_resource.version unless new_resource.version.nil?
             action :upgrade
           end
         end
