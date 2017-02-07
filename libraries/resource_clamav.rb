@@ -32,24 +32,24 @@ class Chef
       default_action :create
 
       #
-      # Should we enable the clamd service?
-      #
-      property :enable_clamd, [TrueClass, FalseClass], default: false
-
-      #
       # Should we enable the freshclam service?
       #
       property :enable_freshclam, [TrueClass, FalseClass], default: false
 
       #
-      # Property for a config hash to pass on to the clamd config.
+      # Should we enable the clamd service?
       #
-      property :clamd_config, Hash, default: {}
+      property :enable_clamd, [TrueClass, FalseClass], default: false
 
       #
       # Property for a config hash to pass on to the freshclam config.
       #
       property :freshclam_config, Hash, default: {}
+
+      #
+      # Property for a config hash to pass on to the clamd config.
+      #
+      property :clamd_config, Hash, default: {}
 
       #
       # Optionally install a specific version of the ClamAV packages.
@@ -69,27 +69,27 @@ class Chef
           version new_resource.version unless new_resource.version.nil?
           dev new_resource.dev
         end
-        clamav_config 'clamd' do
-          config new_resource.clamd_config
-          if new_resource.enable_clamd
-            notifies :restart, 'clamav_service[clamd]'
-          end
-        end
         clamav_config 'freshclam' do
-          config new_resource.freshclam_config
+          new_resource.freshclam_config.each { |k, v| send(k, v) }
           if new_resource.enable_freshclam
             notifies :restart, 'clamav_service[freshclam]'
           end
         end
-        clamav_service 'clamd' do
-          action(if new_resource.enable_clamd
+        clamav_config 'clamd' do
+          new_resource.clamd_config.each { |k, v| send(k, v) }
+          if new_resource.enable_clamd
+            notifies :restart, 'clamav_service[clamd]'
+          end
+        end
+        clamav_service 'freshclam' do
+          action(if new_resource.enable_freshclam
                    %i(enable start)
                  else
                    %i(stop disable)
                  end)
         end
-        clamav_service 'freshclam' do
-          action(if new_resource.enable_freshclam
+        clamav_service 'clamd' do
+          action(if new_resource.enable_clamd
                    %i(enable start)
                  else
                    %i(stop disable)
