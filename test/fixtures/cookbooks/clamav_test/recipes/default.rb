@@ -3,6 +3,9 @@
 
 apt_update 'periodic'
 
+# Delete the policy file that blocks postinst scripts on Docker containers.
+file('/usr/sbin/policy-rc.d') { action :delete }
+
 # Ensure rsyslog is installed and running so we can smoke test ClamAV logging
 # configs.
 package 'rsyslog'
@@ -10,15 +13,14 @@ service 'rsyslog' do
   action %i(enable start)
 end
 
-# Speed up Travis builds by dropping in some shared .cvd files instead of
-# downloading them from the DB server on each test platform.
-if ::File.exist?(::File.expand_path('../../files/main.cvd', __FILE__))
-  directory '/var/lib/clamav' do
-    recursive true
-  end
-
-  %w(main.cvd daily.cvd bytecode.cvd).each do |f|
-    cookbook_file ::File.join('/var/lib/clamav', f)
+# Speed up the build by circumventing the initial freshclam run and pulling in
+# main.cvd, either as a cookbook_file or remote_file resource.
+directory('/var/lib/clamav') { recursive true }
+if File.exist?(::File.expand_path('../../files/main.cvd', __FILE__))
+  cookbook_file '/var/lib/clamav/main.cvd'
+else
+  remote_file '/var/lib/clamav/main.cvd' do
+    source 'http://database.clamav.net/main.cvd'
   end
 end
 
