@@ -29,6 +29,7 @@ shared_context 'resources::clamav_config' do
           expect(chef_run).to create_directory(path || defaults[:conf_dir]).with(
             owner: user || defaults[:user],
             group: group || defaults[:group],
+            mode: '0644',
             recursive: true
           )
         end

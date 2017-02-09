@@ -73,19 +73,22 @@ shared_context 'resources::clamav_service' do
         let(:action) { a }
 
         shared_examples_for 'any property set' do
-          it 'runs freshclam if it needs to' do
-            if a == :start && (service_name || name) == 'clamd'
-              expect(chef_run).to run_execute(
-                'Ensure virus definitions exist so clamd can start'
-              ).with(command: 'freshclam',
-                     creates: "#{data_dir}/main.cvd")
-            end
-          end
-
           it 'passes the action on to a regular service resource' do
             svc = platform_service_name || send("#{service_name || name}_service")
             expect(chef_run).to send("#{a}_service", svc)
               .with(supports: { status: true, restart: true })
+          end
+
+          it 'waits for freshclam if it needs to' do
+            if a == :start && (service_name || name) == 'freshclam'
+              expect(chef_run).to run_ruby_block(
+                'Wait for freshclam to do its initial update'
+              ).with(retries: 12, retry_delay: 10)
+            else
+              expect(chef_run).to_not run_ruby_block(
+                'Wait for freshclam to do its initial update'
+              )
+            end
           end
         end
 
