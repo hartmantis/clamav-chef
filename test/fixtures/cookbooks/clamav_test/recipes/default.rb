@@ -14,14 +14,17 @@ service 'rsyslog' do
 end
 
 # Speed up the build by circumventing the initial freshclam run and pulling in
-# main.cvd, either as a cookbook_file or remote_file resource.
+# main.cvd and daily.cvd, either as a cookbook_file or remote_file resource.
 directory('/var/lib/clamav') { recursive true }
-if File.exist?(::File.expand_path('../../files/main.cvd', __FILE__))
-  cookbook_file '/var/lib/clamav/main.cvd'
-else
-  remote_file '/var/lib/clamav/main.cvd' do
-    source 'http://database.clamav.net/main.cvd'
-  end
+clamav_update 'prep' do
+  source(if File.exist?(File.expand_path('../../files/main.cvd', __FILE__))
+           File.expand_path('../../files/main.cvd', __FILE__)
+         else
+           :direct
+         end)
 end
+# The intentionally delete the bytecode.cvd so we still put the cookbook's
+# wait logic through its paces.
+file('/var/lib/clamav/bytecode.cvd') { action :delete }
 
 include_recipe 'clamav'

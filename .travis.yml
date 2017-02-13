@@ -28,6 +28,8 @@ install:
 before_script:
   - mkdir -p $CVD_PATH
   - "[ -e $CVD_PATH/main.cvd ] || wget -P $CVD_PATH http://database.clamav.net/main.cvd"
+  - "[ -e $CVD_PATH/daily.cvd ] || wget -P $CVD_PATH http://database.clamav.net/daily.cvd"
+  - "[ -e $CVD_PATH/bytecode.cvd ] || wget -P $CVD_PATH http://database.clamav.net/bytecode.cvd"
 
 script:
   - chef exec rake && chef exec kitchen test $SUITE-$PLATFORM
