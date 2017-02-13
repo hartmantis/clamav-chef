@@ -65,35 +65,41 @@ class Chef
       # Install ClamAV, configure it, and enable or disable the services.
       #
       action :create do
-        clamav_app new_resource.name do
-          version new_resource.version unless new_resource.version.nil?
-          dev new_resource.dev
-        end
-        clamav_config 'freshclam' do
-          new_resource.freshclam_config.each { |k, v| send(k, v) }
-          if new_resource.enable_freshclam
-            notifies :restart, 'clamav_service[freshclam]'
+        with_run_context :parent do
+          clamav_app new_resource.name do
+            version new_resource.version unless new_resource.version.nil?
+            dev new_resource.dev
           end
-        end
-        clamav_config 'clamd' do
-          new_resource.clamd_config.each { |k, v| send(k, v) }
-          if new_resource.enable_clamd
-            notifies :restart, 'clamav_service[clamd]'
+
+          clamav_config 'freshclam' do
+            new_resource.freshclam_config.each { |k, v| send(k, v) }
+            if new_resource.enable_freshclam
+              notifies :restart, 'clamav_service[freshclam]'
+            end
           end
-        end
-        clamav_service 'freshclam' do
-          action(if new_resource.enable_freshclam
-                   %i(enable start)
-                 else
-                   %i(stop disable)
-                 end)
-        end
-        clamav_service 'clamd' do
-          action(if new_resource.enable_clamd
-                   %i(enable start)
-                 else
-                   %i(stop disable)
-                 end)
+
+          clamav_config 'clamd' do
+            new_resource.clamd_config.each { |k, v| send(k, v) }
+            if new_resource.enable_clamd
+              notifies :restart, 'clamav_service[clamd]'
+            end
+          end
+
+          clamav_service 'freshclam' do
+            action(if new_resource.enable_freshclam
+                     %i(enable start)
+                   else
+                     %i(stop disable)
+                   end)
+          end
+
+          clamav_service 'clamd' do
+            action(if new_resource.enable_clamd
+                     %i(enable start)
+                   else
+                     %i(stop disable)
+                   end)
+          end
         end
       end
 
@@ -102,11 +108,13 @@ class Chef
       # packages.
       #
       action :remove do
-        clamav_service('clamd') { action %i(stop disable) }
-        clamav_service('freshclam') { action %i(stop disable) }
-        clamav_config('clamd') { action :delete }
-        clamav_config('freshclam') { action :delete }
-        clamav_app(new_resource.name) { action :remove }
+        with_run_context :parent do
+          clamav_service('clamd') { action %i(stop disable) }
+          clamav_service('freshclam') { action %i(stop disable) }
+          clamav_config('clamd') { action :delete }
+          clamav_config('freshclam') { action :delete }
+          clamav_app(new_resource.name) { action :remove }
+        end
       end
     end
   end
