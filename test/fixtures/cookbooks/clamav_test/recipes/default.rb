@@ -10,7 +10,7 @@ file('/usr/sbin/policy-rc.d') { action :delete }
 # configs.
 package 'rsyslog'
 service 'rsyslog' do
-  action %i(enable start)
+  action %i[enable start]
 end
 
 # Speed up the build by circumventing the initial freshclam run and pulling in

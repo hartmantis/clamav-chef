@@ -3,7 +3,7 @@
 
 case os[:family]
 when 'debian'
-  %w(/etc/clamav/clamd.conf /etc/clamav/freshclam.conf).each do |f|
+  %w[/etc/clamav/clamd.conf /etc/clamav/freshclam.conf].each do |f|
     describe file(f) do
       it { should exist }
       its(:owner) { should eq('clamav') }

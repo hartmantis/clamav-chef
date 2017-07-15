@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_app_debian
@@ -30,9 +31,9 @@ class Chef
       provides :clamav_app, platform_family: 'debian'
 
       DEFAULTS ||= {
-        base_packages: %w(clamav clamav-daemon clamav-freshclam),
-        dev_packages: %w(libclamav-dev)
-      }
+        base_packages: %w[clamav clamav-daemon clamav-freshclam],
+        dev_packages: %w[libclamav-dev]
+      }.freeze
     end
   end
 end

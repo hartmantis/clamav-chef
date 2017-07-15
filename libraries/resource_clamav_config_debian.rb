@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_config_debian
@@ -36,8 +37,9 @@ class Chef
     # FixStaleSocket true # The ClamAV default
     # LocalSocketGroup clamav # The ClamAV default
     # LocalSocketMode 666 # The ClamAV default
-    # # TemporaryDirectory is not set to its default /tmp here to make overriding
-    # # the default with environment variables TMPDIR/TMP/TEMP possible
+    # # TemporaryDirectory is not set to its default /tmp here to make
+    # # overriding the default with environment variables TMPDIR/TMP/TEMP
+    # # possible
     # User clamav
     # AllowSupplementaryGroups false # The ClamAV default
     # ScanMail true # The ClamAV default
@@ -124,7 +126,7 @@ class Chef
     #
     # # Automatically created by the clamav-freshclam postinst
     # # Comments will get lost when you reconfigure the clamav-freshclam package
-    # 
+    #
     # DatabaseOwner clamav
     # UpdateLogFile /var/log/clamav/freshclam.log
     # LogVerbose false # The ClamAV default
@@ -180,7 +182,7 @@ class Chef
         freshclam_config: {
           checks: 24,
           connect_timeout: 30,
-          database_mirror: %w(db.local.clamav.net database.clamav.net),
+          database_mirror: %w[db.local.clamav.net database.clamav.net],
           database_owner: 'clamav',
           log_file_max_size: 0,
           log_rotate: true,
@@ -189,7 +191,7 @@ class Chef
           notify_clamd: '/etc/clamav/clamd.conf',
           update_log_file: '/var/log/clamav/freshclam.log'
         }
-      }
+      }.freeze
     end
   end
 end

@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_config
@@ -36,7 +37,7 @@ class Chef
       property :service_name,
                String,
                name_property: true,
-               equal_to: %w(clamd freshclam)
+               equal_to: %w[clamd freshclam]
 
       #
       # Allow the user to override the path of the config dir (at their peril).
@@ -80,13 +81,17 @@ class Chef
       def method_missing(method_symbol, *args, &block)
         super
       rescue NoMethodError
-        raise if !block.nil? || args.length > 1
-        case args.length
-        when 1
-          config[method_symbol] = args[0]
-        when 0
-          config[method_symbol] || raise
-        end
+        raise if !block.nil? || args.length != 1
+        config[method_symbol] = args[0]
+      end
+
+      #
+      # The property calls in method_missing do all the work for this.
+      #
+      # (see Object#respond_to_missing?)
+      #
+      def respond_to_missing?(method_symbol, include_private = false)
+        super
       end
 
       #

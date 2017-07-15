@@ -3,7 +3,7 @@
 
 pkgs = case os[:family]
        when 'debian'
-         %w(clamav clamav-daemon clamav-freshclam)
+         %w[clamav clamav-daemon clamav-freshclam]
        end
 
 pkgs.each do |p|

@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_update
@@ -62,7 +63,7 @@ class Chef
         when :freshclam
           execute 'freshclam'
         else
-          %w(main.cvd daily.cvd bytecode.cvd).each do |f|
+          %w[main.cvd daily.cvd bytecode.cvd].each do |f|
             remote_file ::File.join('/var/lib/clamav', f) do
               source ::File.join(new_resource.source, f)
             end

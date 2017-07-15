@@ -27,7 +27,7 @@ shared_context 'resources::clamav::debian' do
       freshclam_config: {
         checks: 24,
         connect_timeout: 30,
-        database_mirror: %w(db.local.clamav.net database.clamav.net),
+        database_mirror: %w[db.local.clamav.net database.clamav.net],
         database_owner: 'clamav',
         log_file_max_size: 0,
         log_rotate: true,

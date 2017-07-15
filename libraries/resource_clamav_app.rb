@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_app
@@ -47,9 +48,7 @@ class Chef
       #
       action :install do
         pkgs = new_resource.class::DEFAULTS[:base_packages]
-        if new_resource.dev
-          pkgs += new_resource.class::DEFAULTS[:dev_packages]
-        end
+        pkgs += new_resource.class::DEFAULTS[:dev_packages] if new_resource.dev
         pkgs.each do |p|
           package p do
             version new_resource.version unless new_resource.version.nil?
@@ -62,9 +61,7 @@ class Chef
       #
       action :upgrade do
         pkgs = new_resource.class::DEFAULTS[:base_packages]
-        if new_resource.dev
-          pkgs += new_resource.class::DEFAULTS[:dev_packages]
-        end
+        pkgs += new_resource.class::DEFAULTS[:dev_packages] if new_resource.dev
         pkgs.each do |p|
           package p do
             version new_resource.version unless new_resource.version.nil?
@@ -78,7 +75,7 @@ class Chef
       #
       action :remove do
         pkgs = new_resource.class::DEFAULTS[:dev_packages] + \
-              new_resource.class::DEFAULTS[:base_packages]
+               new_resource.class::DEFAULTS[:base_packages]
         pkgs.each { |p| package(p) { action :purge } }
       end
     end

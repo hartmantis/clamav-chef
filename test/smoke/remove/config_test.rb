@@ -3,7 +3,7 @@
 
 files = case os[:family]
         when 'debian'
-          %w(/etc/clamav/clamd.conf /etc/clamav/freshclam.conf)
+          %w[/etc/clamav/clamd.conf /etc/clamav/freshclam.conf]
         end
 
 files.each do |f|

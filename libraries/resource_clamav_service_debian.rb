@@ -1,5 +1,6 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_service_debian
@@ -32,7 +33,7 @@ class Chef
       DEFAULTS ||= {
         clamd_service_name: 'clamav-daemon',
         freshclam_service_name: 'clamav-freshclam'
-      }
+      }.freeze
     end
   end
 end

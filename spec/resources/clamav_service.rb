@@ -7,7 +7,7 @@ shared_context 'resources::clamav_service' do
   include_context 'resources'
 
   let(:resource) { 'clamav_service' }
-  %i(service_name platform_service_name wait_for_freshclam).each do |p|
+  %i[service_name platform_service_name wait_for_freshclam].each do |p|
     let(p) { nil }
   end
   let(:properties) do
@@ -27,7 +27,7 @@ shared_context 'resources::clamav_service' do
   before do
     allow(File).to receive(:exist?).and_call_original
     allow(File).to receive(:exist?).with('/var/lib/clamav/main.cvd')
-      .and_return(main_cvd_exist?)
+                                   .and_return(main_cvd_exist?)
   end
 
   shared_examples_for 'any platform' do
@@ -79,13 +79,14 @@ shared_context 'resources::clamav_service' do
       end
     end
 
-    %i(enable disable start stop).each do |a|
+    %i[enable disable start stop].each do |a|
       context "the :#{a} action" do
         let(:action) { a }
 
         shared_examples_for 'any property set' do
           it 'passes the action on to a regular service resource' do
-            svc = platform_service_name || send("#{service_name || name}_service")
+            svc = platform_service_name || \
+                  send("#{service_name || name}_service")
             expect(chef_run).to send("#{a}_service", svc)
               .with(supports: { status: true, restart: true })
           end

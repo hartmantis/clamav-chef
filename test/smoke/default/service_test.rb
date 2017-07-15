@@ -3,7 +3,7 @@
 
 case os[:family]
 when 'debian'
-  %w(clamav-daemon clamav-freshclam).each do |s|
+  %w[clamav-daemon clamav-freshclam].each do |s|
     describe service(s) do
       it { should_not be_enabled }
       it { should_not be_running }

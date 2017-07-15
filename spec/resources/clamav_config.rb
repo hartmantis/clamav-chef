@@ -7,7 +7,7 @@ shared_context 'resources::clamav_config' do
   include_context 'resources'
 
   let(:resource) { 'clamav_config' }
-  %i(service_name path user group config).each do |p|
+  %i[service_name path user group config].each do |p|
     let(p) { nil }
   end
   let(:properties) do
@@ -26,7 +26,9 @@ shared_context 'resources::clamav_config' do
     context 'the :create action' do
       shared_examples_for 'any property set' do
         it 'creates the config directory' do
-          expect(chef_run).to create_directory(path || defaults[:conf_dir]).with(
+          expect(chef_run).to create_directory(
+            path || defaults[:conf_dir]
+          ).with(
             owner: user || defaults[:user],
             group: group || defaults[:group],
             mode: '0644',
@@ -35,10 +37,6 @@ shared_context 'resources::clamav_config' do
         end
 
         it 'creates the config file' do
-          props = {
-            owner: user || defaults[:user],
-            group: group || defaults[:group]
-          }
           expect(chef_run).to create_file(
             "#{path || defaults[:conf_dir]}/#{service_name || name}.conf"
           ).with(owner: user || defaults[:user],
@@ -92,8 +90,9 @@ shared_context 'resources::clamav_config' do
               ReadTimeout 200
               ScanSWF true
             EOH
-            expect(chef_run).to create_file("#{path || defaults[:conf_dir]}/clamd.conf")
-              .with(content: expected)
+            expect(chef_run).to create_file(
+              "#{path || defaults[:conf_dir]}/clamd.conf"
+            ).with(content: expected)
           end
         end
 
@@ -117,8 +116,9 @@ shared_context 'resources::clamav_config' do
               ScanSWF true
               SelfCheck 3600
             EOH
-            expect(chef_run).to create_file("#{path || defaults[:conf_dir]}/clamd.conf")
-              .with(content: expected)
+            expect(chef_run).to create_file(
+              "#{path || defaults[:conf_dir]}/clamd.conf"
+            ).with(content: expected)
           end
         end
       end

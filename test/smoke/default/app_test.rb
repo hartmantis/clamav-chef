@@ -3,7 +3,7 @@
 
 pkgs = case os[:family]
        when 'debian'
-         %w(libclamav-dev)
+         %w[libclamav-dev]
        end
 
 pkgs.each do |p|

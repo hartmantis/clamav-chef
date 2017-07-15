@@ -4,8 +4,8 @@
 require_relative '../spec_helper'
 
 describe 'clamav::remove::service' do
-  %w(clamav-daemon clamav-freshclam).each do |s|
-    describe service(s), if: %w(ubuntu debian).include?(os[:family]) do
+  %w[clamav-daemon clamav-freshclam].each do |s|
+    describe service(s), if: %w[ubuntu debian].include?(os[:family]) do
       it 'is not enabled' do
         expect(subject).to_not be_enabled
       end

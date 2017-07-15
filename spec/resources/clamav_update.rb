@@ -7,7 +7,7 @@ shared_context 'resources::clamav_update' do
   include_context 'resources'
 
   let(:resource) { 'clamav_update' }
-  %i(source).each { |p| let(p) { nil } }
+  %i[source].each { |p| let(p) { nil } }
   let(:properties) { { source: source } }
   let(:name) { 'default' }
 
@@ -32,7 +32,7 @@ shared_context 'resources::clamav_update' do
 
         it_behaves_like 'any property set'
 
-        %w(main.cvd daily.cvd bytecode.cvd).each do |f|
+        %w[main.cvd daily.cvd bytecode.cvd].each do |f|
           it "downloads #{f} from database.clamav.net" do
             expect(chef_run).to create_remote_file("/var/lib/clamav/#{f}")
               .with(source: "http://database.clamav.net/#{f}")
@@ -45,7 +45,7 @@ shared_context 'resources::clamav_update' do
 
         it_behaves_like 'any property set'
 
-        %w(main.cvd daily.cvd bytecode.cvd).each do |f|
+        %w[main.cvd daily.cvd bytecode.cvd].each do |f|
           it "downloads #{f} from the custom source" do
             expect(chef_run).to create_remote_file("/var/lib/clamav/#{f}")
               .with(source: "file:///tmp/cache/#{f}")
