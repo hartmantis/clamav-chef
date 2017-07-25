@@ -1,10 +1,11 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: helpers_config
 #
-# Copyright 2012-2016, Jonathan Hartman
+# Copyright 2012-2017, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -44,6 +45,7 @@ module ClamavCookbook
 
       class << self
         include Chef::Mixin::ConvertToClassName
+
         #
         # Read in an already-existing ClamAV config file and generate a Config
         # object based on it.

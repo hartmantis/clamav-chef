@@ -1,5 +1,0 @@
-source 'https://rubygems.org'
-
-# TODO: The cucumber driver doesn't install Cucumber unless it's listed here
-gem 'cucumber'
-gem 'rspec'

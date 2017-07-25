@@ -1,10 +1,11 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_config
 #
-# Copyright 2012-2016, Jonathan Hartman
+# Copyright 2012-2017, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@
 #
 
 require 'chef/resource'
-require_relative 'helpers_defaults'
 
 class Chef
   class Resource
@@ -28,10 +28,6 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavConfig < Resource
-      include ClamavCookbook::Helpers::Defaults
-
-      provides :clamav_config
-
       default_action :create
 
       #
@@ -41,19 +37,32 @@ class Chef
       property :service_name,
                String,
                name_property: true,
-               equal_to: %w(clamd freshclam)
+               equal_to: %w[clamd freshclam]
 
       #
       # Allow the user to override the path of the config dir (at their peril).
       #
-      property :path, String, default: lazy { clamav_conf_dir }
+      property :path,
+               String,
+               default: lazy { |r| r.class::DEFAULTS[:conf_dir] }
+      #
+      # The name of the ClamAV user.
+      #
+      property :user, String, default: lazy { |r| r.class::DEFAULTS[:user] }
+
+      #
+      # The name of the ClamAV group.
+      #
+      property :group, String, default: lazy { |r| r.class::DEFAULTS[:group] }
 
       #
       # A hash of config values.
       #
       property :config,
                Hash,
-               default: {},
+               default: lazy { |r|
+                 r.class::DEFAULTS["#{r.service_name}_config".to_sym]
+               },
                coerce: proc { |val|
                  val.each_with_object({}) { |(k, v), hsh| hsh[k.to_sym] = v }
                }
@@ -72,13 +81,17 @@ class Chef
       def method_missing(method_symbol, *args, &block)
         super
       rescue NoMethodError
-        raise if !block.nil? || args.length > 1
-        case args.length
-        when 1
-          config(config.merge(method_symbol => args[0]))
-        when 0
-          config[method_symbol]
-        end
+        raise if !block.nil? || args.length != 1
+        config[method_symbol] = args[0]
+      end
+
+      #
+      # The property calls in method_missing do all the work for this.
+      #
+      # (see Object#respond_to_missing?)
+      #
+      def respond_to_missing?(method_symbol, include_private = false)
+        super
       end
 
       #
@@ -87,18 +100,15 @@ class Chef
       #
       action :create do
         directory new_resource.path do
-          owner clamav_user
-          group clamav_group
+          owner new_resource.user
+          group new_resource.group
           recursive true
         end
         file ::File.join(new_resource.path,
                          "#{new_resource.service_name}.conf") do
-          owner clamav_user
-          group clamav_group
-          content ClamavCookbook::Helpers::Config.new(
-            send("#{new_resource.service_name}_config")
-              .merge(new_resource.config.to_h)
-          ).to_s
+          owner new_resource.user
+          group new_resource.group
+          content ClamavCookbook::Helpers::Config.new(new_resource.config).to_s
         end
       end
 
@@ -110,12 +120,10 @@ class Chef
                          "#{new_resource.service_name}.conf") do
           action :delete
         end
-        directory new_resource.path do
+        directory(new_resource.path) do
           action :delete
         end
       end
     end
   end
-end unless defined?(Chef::Resource::ClamavConfig)
-# Don't let this class be reloaded or strange things happen to the custom
-# properties we've loaded in via `method_missing`.
+end

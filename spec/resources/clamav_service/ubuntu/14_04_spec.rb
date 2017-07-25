@@ -1,13 +1,12 @@
 # encoding: utf-8
 # frozen_string_literal: true
 
-require_relative '../debian'
+require_relative '../ubuntu'
 
 describe 'resources::clamav_service::ubuntu::14_04' do
-  include_context 'resources::clamav_service::debian'
+  include_context 'resources::clamav_service::ubuntu'
 
-  let(:platform) { 'ubuntu' }
   let(:platform_version) { '14.04' }
 
-  it_behaves_like 'any Debian platform'
+  it_behaves_like 'any Ubuntu platform'
 end

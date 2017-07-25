@@ -1,10 +1,11 @@
 # encoding: utf-8
 # frozen_string_literal: true
+
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_app
 #
-# Copyright 2012-2016, Jonathan Hartman
+# Copyright 2012-2017, Jonathan Hartman
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,7 +21,6 @@
 #
 
 require 'chef/resource'
-require_relative 'helpers_defaults'
 
 class Chef
   class Resource
@@ -28,10 +28,6 @@ class Chef
     #
     # @author Jonathan Hartman <j@p4nt5.com>
     class ClamavApp < Resource
-      include ClamavCookbook::Helpers::Defaults
-
-      provides :clamav_app
-
       default_action :install
 
       #
@@ -40,7 +36,7 @@ class Chef
       # Different distros use vastly different version strings in their
       # packages, so type checking is about the only validation we can do.
       #
-      property :version, String, default: 'latest'
+      property :version, String
 
       #
       # Optionally install the dev in addition to base packages.
@@ -51,14 +47,11 @@ class Chef
       # Install the ClamAV packages.
       #
       action :install do
-        base_packages.each do |p|
+        pkgs = new_resource.class::DEFAULTS[:base_packages]
+        pkgs += new_resource.class::DEFAULTS[:dev_packages] if new_resource.dev
+        pkgs.each do |p|
           package p do
-            version new_resource.version unless new_resource.version == 'latest'
-          end
-        end
-        new_resource.dev && dev_packages.each do |p|
-          package p do
-            version new_resource.version unless new_resource.version == 'latest'
+            version new_resource.version unless new_resource.version.nil?
           end
         end
       end
@@ -67,15 +60,11 @@ class Chef
       # Upgrade the ClamAV packages.
       #
       action :upgrade do
-        base_packages.each do |p|
+        pkgs = new_resource.class::DEFAULTS[:base_packages]
+        pkgs += new_resource.class::DEFAULTS[:dev_packages] if new_resource.dev
+        pkgs.each do |p|
           package p do
-            version new_resource.version unless new_resource.version == 'latest'
-            action :upgrade
-          end
-        end
-        new_resource.dev && dev_packages.each do |p|
-          package p do
-            version new_resource.version unless new_resource.version == 'latest'
+            version new_resource.version unless new_resource.version.nil?
             action :upgrade
           end
         end
@@ -85,9 +74,9 @@ class Chef
       # Remove the ClamAV packages
       #
       action :remove do
-        (dev_packages + base_packages).each do |p|
-          package(p) { action :purge }
-        end
+        pkgs = new_resource.class::DEFAULTS[:dev_packages] + \
+               new_resource.class::DEFAULTS[:base_packages]
+        pkgs.each { |p| package(p) { action :purge } }
       end
     end
   end

@@ -5,22 +5,22 @@ require_relative '../spec_helper'
 
 describe 'clamav::default' do
   let(:version) { nil }
-  %w(
+  %w[
     version
     dev
     clamd_config
     freshclam_config
     clamd_enabled
     freshclam_enabled
-  ).each { |a| let(a) { nil } }
+  ].each { |a| let(a) { nil } }
   let(:platform) { { platform: 'ubuntu', version: '14.04' } }
   let(:runner) do
     ChefSpec::ServerRunner.new(platform) do |node|
-      %w(version dev).each do |a|
+      %w[version dev].each do |a|
         node.normal['clamav'][a] = send(a) unless send(a).nil?
       end
-      %w(config enabled).each do |a|
-        %w(clamd freshclam).each do |s|
+      %w[config enabled].each do |a|
+        %w[clamd freshclam].each do |s|
           unless send("#{s}_#{a}").nil?
             node.normal['clamav'][s][a] = send("#{s}_#{a}")
           end

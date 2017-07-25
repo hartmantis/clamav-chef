@@ -14,18 +14,22 @@ cache:
     - test/fixtures/cookbooks/clamav_test/files
 
 env:
-  - CVD_PATH=test/fixtures/cookbooks/clamav_test/files
+  global:
+    - CVD_PATH=test/fixtures/cookbooks/clamav_test/files
+  matrix:
+    - SUITE=default PLATFORM=ubuntu
+    - SUITE=enabled PLATFORM=ubuntu
+    - SUITE=remove PLATFORM=ubuntu
 
 install:
   - curl -L https://www.chef.io/chef/install.sh | sudo bash -s -- -P chefdk
-  - chef exec bundle install --without=development integration
+  - chef exec bundle install --without=development
 
 before_script:
   - mkdir -p $CVD_PATH
   - "[ -e $CVD_PATH/main.cvd ] || wget -P $CVD_PATH http://database.clamav.net/main.cvd"
   - "[ -e $CVD_PATH/daily.cvd ] || wget -P $CVD_PATH http://database.clamav.net/daily.cvd"
   - "[ -e $CVD_PATH/bytecode.cvd ] || wget -P $CVD_PATH http://database.clamav.net/bytecode.cvd"
-  - cp .kitchen.travis.yml .kitchen.local.yml
 
 script:
-  - chef exec rake && chef exec kitchen test
+  - chef exec rake && chef exec kitchen test $SUITE-$PLATFORM

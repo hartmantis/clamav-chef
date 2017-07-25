@@ -7,14 +7,14 @@ shared_context 'resources::clamav' do
   include_context 'resources'
 
   let(:resource) { 'clamav' }
-  %i(
+  %i[
     enable_clamd
     enable_freshclam
     clamd_config
     freshclam_config
     version
     dev
-  ).each do |p|
+  ].each do |p|
     let(p) { nil }
   end
   let(:properties) do
@@ -41,21 +41,10 @@ shared_context 'resources::clamav' do
             .with(version: version, dev: dev || false)
         end
 
-        it 'configures clamd' do
-          expect(chef_run).to create_clamav_config('clamd')
-            .with(config: Mash.new(clamd_config))
-          if enable_clamd
-            expect(chef_run.clamav_config('clamd'))
-              .to notify('clamav_service[clamd]').to(:restart)
-          else
-            expect(chef_run.clamav_config('clamd'))
-              .to_not notify('clamav_service[clamd]').to(:restart)
-          end
-        end
-
         it 'configures freshclam' do
           expect(chef_run).to create_clamav_config('freshclam')
-            .with(config: Mash.new(freshclam_config))
+            .with(config: defaults[:freshclam_config]
+                          .merge(freshclam_config.to_h))
           if enable_freshclam
             expect(chef_run.clamav_config('freshclam'))
               .to notify('clamav_service[freshclam]').to(:restart)
@@ -65,13 +54,15 @@ shared_context 'resources::clamav' do
           end
         end
 
-        it 'manages the clamd service' do
+        it 'configures clamd' do
+          expect(chef_run).to create_clamav_config('clamd')
+            .with(config: defaults[:clamd_config].merge(clamd_config.to_h))
           if enable_clamd
-            expect(chef_run).to start_clamav_service('clamd')
-            expect(chef_run).to enable_clamav_service('clamd')
+            expect(chef_run.clamav_config('clamd'))
+              .to notify('clamav_service[clamd]').to(:restart)
           else
-            expect(chef_run).to stop_clamav_service('clamd')
-            expect(chef_run).to disable_clamav_service('clamd')
+            expect(chef_run.clamav_config('clamd'))
+              .to_not notify('clamav_service[clamd]').to(:restart)
           end
         end
 
@@ -82,6 +73,16 @@ shared_context 'resources::clamav' do
           else
             expect(chef_run).to stop_clamav_service('freshclam')
             expect(chef_run).to disable_clamav_service('freshclam')
+          end
+        end
+
+        it 'manages the clamd service' do
+          if enable_clamd
+            expect(chef_run).to start_clamav_service('clamd')
+            expect(chef_run).to enable_clamav_service('clamd')
+          else
+            expect(chef_run).to stop_clamav_service('clamd')
+            expect(chef_run).to disable_clamav_service('clamd')
           end
         end
       end
@@ -103,13 +104,13 @@ shared_context 'resources::clamav' do
       end
 
       context 'an overridden clamd config attribute' do
-        let(:clamd_config) { { test: 'abcd' } }
+        let(:clamd_config) { { testopolis: 'abcd' } }
 
         it_behaves_like 'any attribute set'
       end
 
       context 'an overridden freshclam config attribute' do
-        let(:freshclam_config) { { test: 'abcd' } }
+        let(:freshclam_config) { { testopolis: 'abcd' } }
 
         it_behaves_like 'any attribute set'
       end

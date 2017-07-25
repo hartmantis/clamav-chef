@@ -84,7 +84,7 @@ describe ClamavCookbook::Helpers::Config do
         expected = {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          database_mirror: %w[mirror1 mirror2 mirror3]
         }
         expect(config.instance_variable_get(:@config)).to eq(expected)
       end
@@ -150,7 +150,7 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          database_mirror: %w[mirror1 mirror2 mirror3]
         }
       end
 
@@ -210,7 +210,7 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          database_mirror: %w[mirror1 mirror2 mirror3]
         }
       end
 
