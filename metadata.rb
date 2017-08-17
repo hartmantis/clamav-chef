@@ -8,7 +8,7 @@ license 'Apache v2.0'
 description 'Installs/configures ClamAV'
 long_description 'Installs/configures ClamAV'
 version '1.3.1'
-chef_version '>= 12'
+chef_version '>= 12' if respond_to?(:chef_version)
 
 source_url 'https://github.com/roboticcheese/clamav-chef'
 issues_url 'https://github.com/roboticcheese/clamav-chef/issues'
