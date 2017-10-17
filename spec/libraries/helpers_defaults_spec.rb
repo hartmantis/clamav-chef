@@ -60,7 +60,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.freshclam_config).to eq(
-          database_mirror: %w(db.local.clamav.net database.clamav.net)
+          DatabaseMirror: %w(db.local.clamav.net database.clamav.net)
         )
       end
     end
@@ -70,7 +70,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.freshclam_config).to eq(
-          database_mirror: %w(db.local.clamav.net database.clamav.net)
+          DatabaseMirror: %w(db.local.clamav.net database.clamav.net)
         )
       end
     end
@@ -82,7 +82,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.clamd_config).to eq(
-          local_socket: '/var/run/clamav/clamd.sock'
+          LocalSocket: '/var/run/clamav/clamd.sock'
         )
       end
     end
@@ -92,7 +92,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.clamd_config).to eq(
-          local_socket: '/var/run/clamav/clamd.sock'
+          LocalSocket: '/var/run/clamav/clamd.sock'
         )
       end
     end
