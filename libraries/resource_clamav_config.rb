@@ -81,6 +81,16 @@ class Chef
         end
       end
 
+      def config_file(resource_path, service_name)
+        if service_name == 'clamd' &&
+           node['platform_family'] == 'rhel' &&
+           node['platform_version'].to_i >= 7
+          ::File.join(resource_path, 'scan.conf')
+        else
+          ::File.join(resource_path, "#{service_name}.conf")
+        end
+      end
+
       #
       # Build a config file out of the provided hash and write it out to the
       # proper path.
@@ -91,8 +101,8 @@ class Chef
           group clamav_group
           recursive true
         end
-        file ::File.join(new_resource.path,
-                         "#{new_resource.service_name}.conf") do
+
+        file config_file(new_resource.path, new_resource.service_name) do
           owner clamav_user
           group clamav_group
           content ClamavCookbook::Helpers::Config.new(
@@ -106,8 +116,7 @@ class Chef
       # Delete the config file.
       #
       action :delete do
-        file ::File.join(new_resource.path,
-                         "#{new_resource.service_name}.conf") do
+        file config_file(new_resource.path, new_resource.service_name) do
           action :delete
         end
         directory new_resource.path do

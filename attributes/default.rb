@@ -20,7 +20,7 @@
 #
 
 default['clamav'].tap do |c|
-  c['version'] = nil
+  c['version'] = 'latest'
   c['dev'] = false
 
   c['clamd']['config'] = nil
