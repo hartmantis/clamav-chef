@@ -19,6 +19,8 @@
 # limitations under the License.
 #
 
+package 'epel-release' if node['platform_family'] == 'rhel'
+
 attrs = node['clamav']
 
 clamav 'default' do

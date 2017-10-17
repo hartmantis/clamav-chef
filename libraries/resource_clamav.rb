@@ -94,6 +94,7 @@ class Chef
                  else
                    %i(stop disable)
                  end)
+          not_if { node['platform_family'] == 'rhel' }
         end
       end
 
