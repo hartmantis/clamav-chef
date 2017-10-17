@@ -62,7 +62,7 @@ describe ClamavCookbook::Helpers::Config do
       it_behaves_like 'any input'
 
       it 'generates a populated Config object' do
-        expected = { local_socket: '/tmp/sock', scan_p_e: true }
+        expected = { LocalSocket: '/tmp/sock', scan_p_e: true }
         expect(config.instance_variable_get(:@config)).to eq(expected)
       end
     end
@@ -84,7 +84,7 @@ describe ClamavCookbook::Helpers::Config do
         expected = {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w(mirror1 mirror2 mirror3)
         }
         expect(config.instance_variable_get(:@config)).to eq(expected)
       end
@@ -138,7 +138,7 @@ describe ClamavCookbook::Helpers::Config do
     end
 
     context 'a populated input config' do
-      let(:input_conf) { { local_socket: '/tmp/sock', scan_p_e: true } }
+      let(:input_conf) { { LocalSocket: '/tmp/sock', scan_p_e: true } }
 
       it 'saves the input config in an instance variable' do
         expect(config.instance_variable_get(:@config)).to eq(input_conf)
@@ -150,7 +150,7 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w(mirror1 mirror2 mirror3)
         }
       end
 
@@ -190,7 +190,7 @@ describe ClamavCookbook::Helpers::Config do
     end
 
     context 'a populated input config' do
-      let(:input_conf) { { local_socket: '/tmp/sock', scan_p_e: true } }
+      let(:input_conf) { { LocalSocket: '/tmp/sock', scan_p_e: true } }
 
       it 'returns the expected config file body' do
         expected = <<-EOH.gsub(/^ {10}/, '').strip
@@ -210,7 +210,7 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w(mirror1 mirror2 mirror3)
         }
       end
 

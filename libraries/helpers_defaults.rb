@@ -62,7 +62,7 @@ module ClamavCookbook
       # @return [Hash] a barebones freshclam config
       #
       def freshclam_config
-        { database_mirror: %w(db.local.clamav.net database.clamav.net) }
+        { DatabaseMirror: %w(db.local.clamav.net database.clamav.net) }
       end
 
       #
@@ -72,9 +72,9 @@ module ClamavCookbook
       #
       def clamd_config
         if node['platform_family'] == 'rhel' && node['platform_version'].to_i >= 7
-          { local_socket: '/var/run/clamd.scan/clamd.sock' }
+          { LocalSocket: '/var/run/clamd.scan/clamd.sock' }
         else
-          { local_socket: '/var/run/clamav/clamd.ctl' }
+          { LocalSocket: '/var/run/clamav/clamd.ctl' }
         end
       end
 
