@@ -20,11 +20,15 @@
 require 'chef/resource'
 require_relative 'helpers_defaults'
 
+# rubocop:disable Style/MultilineIfModifier
 class Chef
   class Resource
     # A Chef resource for ClamAV config files.
     #
     # @author Jonathan Hartman <j@p4nt5.com>
+    #
+    # false positive from rubocop?
+    # rubocop:disable Style/Documentation
     class ClamavConfig < Resource
       include ClamavCookbook::Helpers::Defaults
 
@@ -77,6 +81,10 @@ class Chef
         when 0
           config[method_symbol]
         end
+      end
+
+      def respond_to_missing?
+        super
       end
 
       def config_file(resource_path, service_name)
