@@ -144,7 +144,6 @@ module ClamavCookbook
       #
       # @return [Array<String>] a list of base packages
       #
-      # rubocop:disable Metrics/MethodLength
       def base_packages
         case node['platform_family']
         when 'debian' then %w[clamav clamav-daemon clamav-freshclam]
