@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require_relative '../resources'
 
@@ -7,7 +5,7 @@ shared_context 'resources::clamav_app' do
   include_context 'resources'
 
   let(:resource) { 'clamav_app' }
-  %i(version dev).each { |p| let(p) { nil } }
+  %i[version dev].each { |p| let(p) { nil } }
   let(:properties) { { version: version, dev: dev } }
   let(:name) { 'default' }
 

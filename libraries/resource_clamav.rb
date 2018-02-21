@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav
@@ -83,16 +81,16 @@ class Chef
         end
         clamav_service 'clamd' do
           action(if new_resource.enable_clamd
-                   %i(enable start)
+                   %i[enable start]
                  else
-                   %i(stop disable)
+                   %i[stop disable]
                  end)
         end
         clamav_service 'freshclam' do
           action(if new_resource.enable_freshclam
-                   %i(enable start)
+                   %i[enable start]
                  else
-                   %i(stop disable)
+                   %i[stop disable]
                  end)
           not_if { node['platform_family'] == 'rhel' }
         end
@@ -103,8 +101,8 @@ class Chef
       # packages.
       #
       action :remove do
-        clamav_service('clamd') { action %i(stop disable) }
-        clamav_service('freshclam') { action %i(stop disable) }
+        clamav_service('clamd') { action %i[stop disable] }
+        clamav_service('freshclam') { action %i[stop disable] }
         clamav_config('clamd') { action :delete }
         clamav_config('freshclam') { action :delete }
         clamav_app(new_resource.name) { action :remove }

@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require_relative '../resources'
 
@@ -7,7 +5,7 @@ shared_context 'resources::clamav_config' do
   include_context 'resources'
 
   let(:resource) { 'clamav_config' }
-  %i(service_name path config).each do |p|
+  %i[service_name path config].each do |p|
     let(p) { nil }
   end
   let(:properties) do
@@ -61,7 +59,7 @@ shared_context 'resources::clamav_config' do
           end
 
           it 'renders the expected config file' do
-            expected = <<-EOH.gsub(/^ +/, '').strip
+            expected = <<-CONTENTS.gsub(/^ +/, '').strip
               ##############################################
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
@@ -70,7 +68,7 @@ shared_context 'resources::clamav_config' do
               MaxThreads 42
               ReadTimeout 200
               ScanSWF true
-            EOH
+            CONTENTS
             expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
               .with(content: expected)
           end
@@ -85,7 +83,7 @@ shared_context 'resources::clamav_config' do
           end
 
           it 'renders the expected config file' do
-            expected = <<-EOH.gsub(/^ +/, '').strip
+            expected = <<-CONTENTS.gsub(/^ +/, '').strip
               ##############################################
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
@@ -96,7 +94,7 @@ shared_context 'resources::clamav_config' do
               ScanOnAccess true
               ScanSWF true
               SelfCheck 3600
-            EOH
+            CONTENTS
             expect(chef_run).to create_file("#{path || config_dir}/clamd.conf")
               .with(content: expected)
           end
@@ -128,7 +126,7 @@ shared_context 'resources::clamav_config' do
           end
 
           it 'renders the expected config file' do
-            expected = <<-EOH.gsub(/^ +/, '').strip
+            expected = <<-CONTENTS.gsub(/^ +/, '').strip
               ##############################################
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
@@ -137,7 +135,7 @@ shared_context 'resources::clamav_config' do
               DatabaseMirror database.clamav.net
               DatabaseOwner clamav
               MaxAttempts 5
-            EOH
+            CONTENTS
             expect(chef_run).to create_file(
               "#{path || config_dir}/freshclam.conf"
             ).with(content: expected)
@@ -153,7 +151,7 @@ shared_context 'resources::clamav_config' do
           end
 
           it 'renders the expected config file' do
-            expected = <<-EOH.gsub(/^ +/, '').strip
+            expected = <<-CONTENTS.gsub(/^ +/, '').strip
               ##############################################
               # This file generated automatically by Chef. #
               # Any local changes will be overwritten.     #
@@ -164,7 +162,7 @@ shared_context 'resources::clamav_config' do
               LogFacility LOG_LOCAL6
               LogSyslog true
               MaxAttempts 5
-            EOH
+            CONTENTS
             expect(chef_run).to create_file(
               "#{path || config_dir}/freshclam.conf"
             ).with(content: expected)

@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: helpers_config
@@ -115,7 +113,7 @@ module ClamavCookbook
                   '##############################################']
         body = @config.sort.to_h.map do |k, vs|
           Array(vs).map do |v|
-            "#{k.to_s} #{v}"
+            "#{k} #{v}"
           end
         end.flatten
         (header + body).join("\n")

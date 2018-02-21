@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require_relative '../resources'
 
@@ -7,14 +5,14 @@ shared_context 'resources::clamav' do
   include_context 'resources'
 
   let(:resource) { 'clamav' }
-  %i(
+  %i[
     enable_clamd
     enable_freshclam
     clamd_config
     freshclam_config
     version
     dev
-  ).each do |p|
+  ].each do |p|
     let(p) { nil }
   end
   let(:properties) do
