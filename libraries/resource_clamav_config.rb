@@ -83,7 +83,7 @@ unless defined?(Chef::Resource::ClamavConfig)
           end
         end
 
-        def respond_to_missing?
+        def respond_to_missing?(symbol, include_all)
           super
         end
 
