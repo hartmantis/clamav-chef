@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require 'tempfile'
 
@@ -17,7 +15,7 @@ When(/^I manually scan a (\w+) file$/) do |file_type|
   end
   @f.rewind
   @f.close
-  File.chmod('0777', @f)
+  File.chmod(0o0777, @f)
   @res = `clamscan #{@f.path}`
   @f.unlink
 end

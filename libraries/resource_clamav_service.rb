@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_service
@@ -39,19 +37,27 @@ class Chef
       property :service_name,
                String,
                name_property: true,
-               equal_to: %w(clamd freshclam)
+               equal_to: %w[clamd freshclam]
+
+      def update_definitions_file
+        definitions_file = ::File.join(clamav_data_dir, 'main.cvd')
+
+        if !::File.exist?(definitions_file) ||
+           (Time.now - 24 * 60 * 60) > ::File.stat(definitions_file).mtime
+          execute 'Ensure virus definitions exist so clamd can start' do
+            command 'freshclam'
+          end
+        end
+      end
 
       #
       # Iterate over every action available for a regular service resource and
       # pass the declared action on to one.
       #
       Resource::Service.allowed_actions.each do |a|
-        action a  do
+        action a do
           if a == :start && new_resource.service_name == 'clamd'
-            execute 'Ensure virus definitions exist so clamd can start' do
-              command 'freshclam'
-              creates ::File.join(clamav_data_dir, 'main.cvd')
-            end
+            update_definitions_file
           end
           service send("#{new_resource.service_name}_service_name") do
             supports(status: true, restart: true)

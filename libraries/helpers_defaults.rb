@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: helpers_defaults
@@ -35,6 +33,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav-daemon'
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            'clamd@scan.service'
+          else
+            'clamd'
+          end
         end
       end
 
@@ -56,7 +60,7 @@ module ClamavCookbook
       # @return [Hash] a barebones freshclam config
       #
       def freshclam_config
-        { database_mirror: %w(db.local.clamav.net database.clamav.net) }
+        { DatabaseMirror: %w[db.local.clamav.net database.clamav.net] }
       end
 
       #
@@ -65,7 +69,12 @@ module ClamavCookbook
       # @return [Hash] a barebones clamd config
       #
       def clamd_config
-        { local_socket: '/var/run/clamav/clamd.sock' }
+        if node['platform_family'] == 'rhel' &&
+           node['platform_version'].to_i >= 7
+          { LocalSocket: '/var/run/clamd.scan/clamd.sock' }
+        else
+          { LocalSocket: '/var/run/clamav/clamd.ctl' }
+        end
       end
 
       #
@@ -75,7 +84,7 @@ module ClamavCookbook
       #
       def clamav_data_dir
         case node['platform_family']
-        when 'debian'
+        when 'debian', 'rhel'
           '/var/lib/clamav'
         end
       end
@@ -89,6 +98,8 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           '/etc/clamav'
+        when 'rhel'
+          '/etc/clamd.d'
         end
       end
 
@@ -101,6 +112,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav'
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -113,6 +130,12 @@ module ClamavCookbook
         case node['platform_family']
         when 'debian'
           'clamav'
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            'root'
+          else
+            'clam'
+          end
         end
       end
 
@@ -123,8 +146,14 @@ module ClamavCookbook
       #
       def base_packages
         case node['platform_family']
-        when 'debian'
-          %w(clamav clamav-daemon clamav-freshclam)
+        when 'debian' then %w[clamav clamav-daemon clamav-freshclam]
+        when 'rhel'
+          if node['platform_version'].to_i >= 7
+            %w[clamav clamav-scanner clamav-update
+               clamav-server clamav-server-systemd]
+          else
+            %w[clamav clamd]
+          end
         end
       end
 
@@ -136,7 +165,9 @@ module ClamavCookbook
       def dev_packages
         case node['platform_family']
         when 'debian'
-          %w(libclamav-dev)
+          %w[libclamav-dev]
+        when 'rhel'
+          %w[clamav-devel]
         end
       end
     end

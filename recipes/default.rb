@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Recipe:: default
@@ -18,6 +16,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+
+package 'epel-release' if node['platform_family'] == 'rhel'
 
 attrs = node['clamav']
 

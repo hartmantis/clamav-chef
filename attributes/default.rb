@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Attributes:: default
@@ -20,7 +18,7 @@
 #
 
 default['clamav'].tap do |c|
-  c['version'] = nil
+  c['version'] = 'latest'
   c['dev'] = false
 
   c['clamd']['config'] = nil

@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 name 'clamav_test'
 maintainer 'Jonathan Hartman'

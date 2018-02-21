@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_cron
@@ -34,14 +32,14 @@ class Chef
       #
       # Properties for the underlying cron job definition.
       #
-      %i(minute hour day month weekday).each do |p|
-        property p, [Fixnum, String], required: true
+      %i[minute hour day month weekday].each do |p|
+        property p, [Integer, String], required: true
       end
 
       #
       # A filesystem path or array of paths to scan.
       #
-      property :paths, [Array, String], default: %w(/)
+      property :paths, [Array, String], default: %w[/]
 
       #
       # Create the cron job.
