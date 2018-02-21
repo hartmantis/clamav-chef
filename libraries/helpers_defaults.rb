@@ -69,7 +69,8 @@ module ClamavCookbook
       # @return [Hash] a barebones clamd config
       #
       def clamd_config
-        if node['platform_family'] == 'rhel' && node['platform_version'].to_i >= 7
+        if node['platform_family'] == 'rhel' &&
+           node['platform_version'].to_i >= 7
           { LocalSocket: '/var/run/clamd.scan/clamd.sock' }
         else
           { LocalSocket: '/var/run/clamav/clamd.ctl' }
@@ -145,11 +146,11 @@ module ClamavCookbook
       #
       def base_packages
         case node['platform_family']
-        when 'debian'
-          %w[clamav clamav-daemon clamav-freshclam]
+        when 'debian' then %w[clamav clamav-daemon clamav-freshclam]
         when 'rhel'
           if node['platform_version'].to_i >= 7
-            %w[clamav clamav-server clamav-scanner clamav-update clamav-server-systemd clamav-server-systemd]
+            %w[clamav clamav-scanner clamav-update
+               clamav-server clamav-server-systemd]
           else
             %w[clamav clamd]
           end
