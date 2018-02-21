@@ -144,20 +144,13 @@ module ClamavCookbook
       #
       # @return [Array<String>] a list of base packages
       #
-      # rubocop:disable Metrics/MethodLength
       def base_packages
         case node['platform_family']
-        when 'debian'
-          %w[clamav clamav-daemon clamav-freshclam]
+        when 'debian' then %w[clamav clamav-daemon clamav-freshclam]
         when 'rhel'
           if node['platform_version'].to_i >= 7
-            %w[
-              clamav
-              clamav-server
-              clamav-server-systemd
-              clamav-scanner
-              clamav-update
-            ]
+            %w[clamav clamav-scanner clamav-update
+               clamav-server clamav-server-systemd]
           else
             %w[clamav clamd]
           end
