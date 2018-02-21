@@ -1,11 +1,8 @@
-# encoding: utf-8
-# frozen_string_literal: true
-
 # Ensure rsyslog is installed and running, regardless of whether the build
 # environment is a Vagrant box or a Docker container with no init system.
 package 'rsyslog'
 file '/etc/rsyslog.conf' do
-  content <<-EOH.gsub(/^ {4}/, '')
+  content <<-CONTENTS.gsub(/^ {4}/, '')
     $ModLoad imuxsock
     $WorkDirectory /var/lib/rsyslog
     $ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
@@ -17,7 +14,7 @@ file '/etc/rsyslog.conf' do
     *.emerg :omusrmsg:*
     uucp,news.crit /var/log/spooler
     local7.* /var/log/boot.log
-  EOH
+  CONTENTS
   only_if do
     node['platform_family'] == 'rhel' && \
       node['platform_version'].to_i >= 7 && \
@@ -37,7 +34,7 @@ if ::File.exist?(::File.expand_path('../../files/main.cvd', __FILE__))
     recursive true
   end
 
-  %w(main.cvd daily.cvd bytecode.cvd).each do |f|
+  %w[main.cvd daily.cvd bytecode.cvd].each do |f|
     cookbook_file ::File.join(node['clamav']['database_directory'], f)
   end
 end

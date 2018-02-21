@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_config
@@ -41,7 +39,7 @@ class Chef
       property :service_name,
                String,
                name_property: true,
-               equal_to: %w(clamd freshclam)
+               equal_to: %w[clamd freshclam]
 
       #
       # Allow the user to override the path of the config dir (at their peril).

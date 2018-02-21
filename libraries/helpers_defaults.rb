@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: helpers_defaults
@@ -62,7 +60,7 @@ module ClamavCookbook
       # @return [Hash] a barebones freshclam config
       #
       def freshclam_config
-        { DatabaseMirror: %w(db.local.clamav.net database.clamav.net) }
+        { DatabaseMirror: %w[db.local.clamav.net database.clamav.net] }
       end
 
       #
@@ -148,12 +146,12 @@ module ClamavCookbook
       def base_packages
         case node['platform_family']
         when 'debian'
-          %w(clamav clamav-daemon clamav-freshclam)
+          %w[clamav clamav-daemon clamav-freshclam]
         when 'rhel'
           if node['platform_version'].to_i >= 7
-            %w(clamav clamav-server clamav-scanner clamav-update clamav-server-systemd clamav-server-systemd)
+            %w[clamav clamav-server clamav-scanner clamav-update clamav-server-systemd clamav-server-systemd]
           else
-            %w(clamav clamd)
+            %w[clamav clamd]
           end
         end
       end
@@ -166,9 +164,9 @@ module ClamavCookbook
       def dev_packages
         case node['platform_family']
         when 'debian'
-          %w(libclamav-dev)
+          %w[libclamav-dev]
         when 'rhel'
-          %w(clamav-devel)
+          %w[clamav-devel]
         end
       end
     end

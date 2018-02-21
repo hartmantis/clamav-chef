@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: resource_clamav_service
@@ -39,13 +37,13 @@ class Chef
       property :service_name,
                String,
                name_property: true,
-               equal_to: %w(clamd freshclam)
+               equal_to: %w[clamd freshclam]
 
       def update_definitions_file
         definitions_file = ::File.join(clamav_data_dir, 'main.cvd')
 
         if !::File.exist?(definitions_file) ||
-           (Time.now - 24*60*60) > ::File.stat(definitions_file).mtime
+           (Time.now - 24 * 60 * 60) > ::File.stat(definitions_file).mtime
           execute 'Ensure virus definitions exist so clamd can start' do
             command 'freshclam'
           end
