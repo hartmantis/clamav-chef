@@ -35,7 +35,7 @@ class Chef
       # Properties for the underlying cron job definition.
       #
       %i(minute hour day month weekday).each do |p|
-        property p, [Fixnum, String], required: true
+        property p, [Integer, String], required: true
       end
 
       #
