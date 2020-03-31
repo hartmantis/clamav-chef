@@ -149,8 +149,16 @@ module ClamavCookbook
         when 'debian' then %w[clamav clamav-daemon clamav-freshclam]
         when 'rhel'
           if node['platform_version'].to_i >= 7
-            %w[clamav clamav-scanner clamav-update
-               clamav-server clamav-server-systemd]
+            %w[
+                clamav
+                clamd
+                clamav-filesystem
+                clamav-lib
+                clamav-data
+                clamav-milter
+                clamav-update
+                clamav-unofficial-sigs
+              ]
           else
             %w[clamav clamd]
           end
