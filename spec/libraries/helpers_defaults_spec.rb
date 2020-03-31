@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require_relative '../spec_helper'
 require_relative '../../libraries/helpers_defaults'
@@ -60,7 +58,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.freshclam_config).to eq(
-          database_mirror: %w(db.local.clamav.net database.clamav.net)
+          DatabaseMirror: %w[db.local.clamav.net database.clamav.net]
         )
       end
     end
@@ -70,7 +68,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.freshclam_config).to eq(
-          database_mirror: %w(db.local.clamav.net database.clamav.net)
+          DatabaseMirror: %w[db.local.clamav.net database.clamav.net]
         )
       end
     end
@@ -82,7 +80,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.clamd_config).to eq(
-          local_socket: '/var/run/clamav/clamd.sock'
+          LocalSocket: '/var/run/clamav/clamd.sock'
         )
       end
     end
@@ -92,7 +90,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct config' do
         expect(test_obj.clamd_config).to eq(
-          local_socket: '/var/run/clamav/clamd.sock'
+          LocalSocket: '/var/run/clamav/clamd.sock'
         )
       end
     end
@@ -176,7 +174,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct package list' do
         expect(test_obj.base_packages).to eq(
-          %w(clamav clamav-daemon clamav-freshclam)
+          %w[clamav clamav-daemon clamav-freshclam]
         )
       end
     end
@@ -186,7 +184,7 @@ describe ClamavCookbook::Helpers::Defaults do
 
       it 'returns the correct package list' do
         expect(test_obj.base_packages).to eq(
-          %w(clamav clamav-daemon clamav-freshclam)
+          %w[clamav clamav-daemon clamav-freshclam]
         )
       end
     end
@@ -197,7 +195,7 @@ describe ClamavCookbook::Helpers::Defaults do
       let(:platform) { { platform: 'ubuntu', version: '14.04' } }
 
       it 'returns the correct package list' do
-        expect(test_obj.dev_packages).to eq(%w(libclamav-dev))
+        expect(test_obj.dev_packages).to eq(%w[libclamav-dev])
       end
     end
 
@@ -205,7 +203,7 @@ describe ClamavCookbook::Helpers::Defaults do
       let(:platform) { { platform: 'debian', version: '8.2' } }
 
       it 'returns the correct package list' do
-        expect(test_obj.dev_packages).to eq(%w(libclamav-dev))
+        expect(test_obj.dev_packages).to eq(%w[libclamav-dev])
       end
     end
   end

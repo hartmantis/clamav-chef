@@ -171,7 +171,7 @@ A resource for managing the clamd and freshclam daemons.
 Syntax:
 
     clamav_service 'clamd' do
-      action %i(enable start)
+      action %i[enable start]
     end
 
 Actions:

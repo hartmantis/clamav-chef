@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 #
 # Cookbook Name:: clamav
 # Library:: matchers
@@ -21,10 +19,10 @@
 
 if defined?(ChefSpec)
   {
-    clamav: %i(create remove),
-    clamav_app: %i(install upgrade remove),
-    clamav_config: %i(create delete),
-    clamav_service: %i(enable disable start stop)
+    clamav: %i[create remove],
+    clamav_app: %i[install upgrade remove],
+    clamav_config: %i[create delete],
+    clamav_service: %i[enable disable start stop]
   }.each do |matcher, actions|
     ChefSpec.define_matcher(matcher)
 

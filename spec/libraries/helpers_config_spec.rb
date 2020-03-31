@@ -1,5 +1,3 @@
-# encoding: utf-8
-# frozen_string_literal: true
 
 require_relative '../spec_helper'
 require_relative '../../libraries/helpers_config'
@@ -62,20 +60,20 @@ describe ClamavCookbook::Helpers::Config do
       it_behaves_like 'any input'
 
       it 'generates a populated Config object' do
-        expected = { local_socket: '/tmp/sock', scan_p_e: true }
+        expected = { LocalSocket: '/tmp/sock', scan_p_e: true }
         expect(config.instance_variable_get(:@config)).to eq(expected)
       end
     end
 
     context 'a populated input with an array attribute' do
       let(:input) do
-        <<-EOH.gsub(/^ {10}/, '')
+        <<-CONTENTS.gsub(/^ {10}/, '')
           FixStaleSocket true
           PidFile /var/run/clamav.pid
           DatabaseMirror mirror1
           DatabaseMirror mirror2
           DatabaseMirror mirror3
-        EOH
+        CONTENTS
       end
 
       it_behaves_like 'any input'
@@ -84,7 +82,7 @@ describe ClamavCookbook::Helpers::Config do
         expected = {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w[mirror1 mirror2 mirror3]
         }
         expect(config.instance_variable_get(:@config)).to eq(expected)
       end
@@ -138,7 +136,7 @@ describe ClamavCookbook::Helpers::Config do
     end
 
     context 'a populated input config' do
-      let(:input_conf) { { local_socket: '/tmp/sock', scan_p_e: true } }
+      let(:input_conf) { { LocalSocket: '/tmp/sock', scan_p_e: true } }
 
       it 'saves the input config in an instance variable' do
         expect(config.instance_variable_get(:@config)).to eq(input_conf)
@@ -150,7 +148,7 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w[mirror1 mirror2 mirror3]
         }
       end
 
@@ -165,12 +163,12 @@ describe ClamavCookbook::Helpers::Config do
       let(:input_conf) { nil }
 
       it 'returns the expected config file body' do
-        expected = <<-EOH.gsub(/^ {10}/, '').strip
+        expected = <<-CONTENTS.gsub(/^ {10}/, '').strip
           ##############################################
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
           ##############################################
-        EOH
+        CONTENTS
         expect(config.to_s).to eq(expected)
       end
     end
@@ -179,28 +177,28 @@ describe ClamavCookbook::Helpers::Config do
       let(:input_conf) { {} }
 
       it 'returns the expected config file body' do
-        expected = <<-EOH.gsub(/^ {10}/, '').strip
+        expected = <<-CONTENTS.gsub(/^ {10}/, '').strip
           ##############################################
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
           ##############################################
-        EOH
+        CONTENTS
         expect(config.to_s).to eq(expected)
       end
     end
 
     context 'a populated input config' do
-      let(:input_conf) { { local_socket: '/tmp/sock', scan_p_e: true } }
+      let(:input_conf) { { LocalSocket: '/tmp/sock', scan_p_e: true } }
 
       it 'returns the expected config file body' do
-        expected = <<-EOH.gsub(/^ {10}/, '').strip
+        expected = <<-CONTENTS.gsub(/^ {10}/, '').strip
           ##############################################
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
           ##############################################
           LocalSocket /tmp/sock
           ScanPE true
-        EOH
+        CONTENTS
         expect(config.to_s).to eq(expected)
       end
     end
@@ -210,12 +208,12 @@ describe ClamavCookbook::Helpers::Config do
         {
           fix_stale_socket: true,
           pid_file: '/var/run/clamav.pid',
-          database_mirror: %w(mirror1 mirror2 mirror3)
+          DatabaseMirror: %w[mirror1 mirror2 mirror3]
         }
       end
 
       it 'returns the expected config file body' do
-        expected = <<-EOH.gsub(/^ {10}/, '').strip
+        expected = <<-CONTENTS.gsub(/^ {10}/, '').strip
           ##############################################
           # This file generated automatically by Chef. #
           # Any local changes will be overwritten.     #
@@ -225,7 +223,7 @@ describe ClamavCookbook::Helpers::Config do
           DatabaseMirror mirror1
           DatabaseMirror mirror2
           DatabaseMirror mirror3
-        EOH
+        CONTENTS
         expect(config.to_s).to eq(expected)
       end
     end

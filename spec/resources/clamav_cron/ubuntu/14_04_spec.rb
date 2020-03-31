@@ -1,7 +1,7 @@
 require_relative '../../../spec_helper'
 
 describe 'resource_clamav_cron::ubuntu::14_04' do
-  %i(
+  %i[
     minute
     hour
     day
@@ -9,14 +9,14 @@ describe 'resource_clamav_cron::ubuntu::14_04' do
     weekday
     paths
     action
-  ).each do |a|
+  ].each do |a|
     let(a) { nil }
   end
   let(:runner) do
     ChefSpec::SoloRunner.new(
       step_into: 'clamav_cron', platform: 'ubuntu', version: '14.04'
     ) do |node|
-      %i(minute hour day month weekday).each do |a|
+      %i[minute hour day month weekday].each do |a|
         node.set['clamav']['cron'][a] = send(a)
       end
       node.set['clamav']['cron']['paths'] = paths unless paths.nil?
@@ -64,7 +64,7 @@ describe 'resource_clamav_cron::ubuntu::14_04' do
       let(:day) { '*' }
       let(:month) { '*' }
       let(:weekday) { '*' }
-      let(:paths) { %w(/var /home /lib) }
+      let(:paths) { %w[/var /home /lib] }
       cached(:chef_run) { converge }
 
       it_behaves_like 'any attribute set'
